@@ -124,8 +124,8 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   return TabBarView(
                     children: [
                       _buildNotificationList(
-                        announcements.where((a) => !a.isRead).toList(),
-                        'No new notifications',
+                        announcements,
+                        'No notifications',
                       ),
                       _buildNotificationList(
                         announcements.where((a) => !a.isRead).toList(),

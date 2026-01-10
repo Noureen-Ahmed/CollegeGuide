@@ -38,6 +38,12 @@ class CustomBottomNavigation extends ConsumerWidget {
       'route': '/navigate',
     },
     {
+      'label': 'Advising',
+      'icon': Icons.chat_bubble_outline,
+      'activeIcon': Icons.chat_bubble,
+      'route': '/advising',
+    },
+    {
       'label': 'Profile',
       'icon': Icons.person_outlined,
       'activeIcon': Icons.person,

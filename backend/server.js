@@ -191,6 +191,35 @@ async function initDatabase() {
       )
     `);
 
+        // Create academic_advising table (links students to advisors)
+        await connection.execute(`
+      CREATE TABLE IF NOT EXISTS academic_advising (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        advisor_email VARCHAR(100) NOT NULL,
+        student_email VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY unique_advising (advisor_email, student_email),
+        INDEX idx_advisor (advisor_email),
+        INDEX idx_student (student_email)
+      )
+    `);
+
+        // Create advising_messages table
+        await connection.execute(`
+      CREATE TABLE IF NOT EXISTS advising_messages (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        sender_email VARCHAR(100) NOT NULL,
+        receiver_email VARCHAR(100), -- Null for broadcast
+        message TEXT NOT NULL,
+        is_broadcast BOOLEAN DEFAULT FALSE,
+        is_read BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_sender (sender_email),
+        INDEX idx_receiver (receiver_email),
+        INDEX idx_broadcast (is_broadcast)
+      )
+    `);
+
         connection.release();
         console.log('✅ Database tables initialized');
     } catch (error) {
@@ -919,6 +948,156 @@ app.post('/api/schedule', async (req, res) => {
     } catch (error) {
         console.error('Create schedule event error:', error);
         res.status(500).json({ error: 'Failed to create event' });
+    }
+});
+
+// ============ ACADEMIC ADVISING ENDPOINTS ============
+
+// Link students to an advisor
+app.post('/api/advising/link', async (req, res) => {
+    try {
+        const { advisorEmail, studentEmails } = req.body;
+        if (!advisorEmail || !Array.isArray(studentEmails)) {
+            return res.status(400).json({ error: 'Invalid data' });
+        }
+
+        const values = studentEmails.map(email => [advisorEmail, email]);
+        if (values.length > 0) {
+            await pool.query(
+                'INSERT IGNORE INTO academic_advising (advisor_email, student_email) VALUES ?',
+                [values]
+            );
+        }
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Link advising error:', error);
+        res.status(500).json({ error: 'Failed to link students' });
+    }
+});
+
+// Get students for an advisor
+app.get('/api/advising/students/:advisorEmail', async (req, res) => {
+    try {
+        const { advisorEmail } = req.params;
+        const [rows] = await pool.execute(`
+            SELECT u.* FROM users u
+            JOIN academic_advising aa ON u.email = aa.student_email
+            WHERE aa.advisor_email = ?
+        `, [advisorEmail]);
+
+        const students = rows.map(formatUser);
+        res.json({ success: true, students });
+    } catch (error) {
+        console.error('Get advising students error:', error);
+        res.status(500).json({ error: 'Failed to get students' });
+    }
+});
+
+// Get advisor for a student
+app.get('/api/advising/advisor/:studentEmail', async (req, res) => {
+    try {
+        const { studentEmail } = req.params;
+        const [rows] = await pool.execute(`
+            SELECT u.* FROM users u
+            JOIN academic_advising aa ON u.email = aa.advisor_email
+            WHERE aa.student_email = ?
+            LIMIT 1
+        `, [studentEmail]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Advisor not found' });
+        }
+
+        res.json({ success: true, advisor: formatUser(rows[0]) });
+    } catch (error) {
+        console.error('Get advisor error:', error);
+        res.status(500).json({ error: 'Failed to get advisor' });
+    }
+});
+
+// Send message
+app.post('/api/advising/messages', async (req, res) => {
+    try {
+        const { senderEmail, receiverEmail, message, isBroadcast } = req.body;
+
+        await pool.execute(`
+            INSERT INTO advising_messages (sender_email, receiver_email, message, is_broadcast)
+            VALUES (?, ?, ?, ?)
+        `, [senderEmail, receiverEmail || null, message, isBroadcast ? 1 : 0]);
+
+        // If it's a broadcast from a doctor, we might want to notify students
+        if (isBroadcast) {
+            const [students] = await pool.execute(
+                'SELECT student_email FROM academic_advising WHERE advisor_email = ?',
+                [senderEmail]
+            );
+
+            for (const student of students) {
+                await pool.execute(`
+                    INSERT INTO notifications (user_email, title, message, type)
+                    VALUES (?, ?, ?, 'advising')
+                `, [student.student_email, 'New message from advisor', message]);
+            }
+        } else if (receiverEmail) {
+            // Notify specific receiver
+            await pool.execute(`
+                INSERT INTO notifications (user_email, title, message, type)
+                VALUES (?, ?, ?, 'advising')
+            `, [receiverEmail, 'New advising message', message]);
+        }
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Send message error:', error);
+        res.status(500).json({ error: 'Failed to send message' });
+    }
+});
+
+// Get messages
+app.get('/api/advising/messages', async (req, res) => {
+    try {
+        const { user1, user2 } = req.query; // For direct chat
+        const { email, broadcast } = req.query; // For student getting broadcasts or doctor getting sent broadcasts
+
+        let query = '';
+        let params = [];
+
+        if (user1 && user2) {
+            // Direct chat between two users
+            query = `
+                SELECT * FROM advising_messages 
+                WHERE (sender_email = ? AND receiver_email = ?) 
+                   OR (sender_email = ? AND receiver_email = ?)
+                ORDER BY created_at ASC
+            `;
+            params = [user1, user2, user2, user1];
+        } else if (email && broadcast === 'true') {
+            // Get broadcasts for a student OR broadcasts sent by a doctor
+            // This is simplified: it gets broadcasts sent by the advisor of the student
+            // or broadcasts sent by the doctor themselves.
+            const [advisorRow] = await pool.execute(
+                'SELECT advisor_email FROM academic_advising WHERE student_email = ?',
+                [email]
+            );
+
+            const advisorEmail = advisorRow.length > 0 ? advisorRow[0].advisor_email : null;
+
+            query = `
+                SELECT * FROM advising_messages 
+                WHERE (is_broadcast = TRUE AND (sender_email = ? OR sender_email = ?))
+                ORDER BY created_at ASC
+            `;
+            params = [email, advisorEmail];
+        }
+
+        if (!query) return res.status(400).json({ error: 'Invalid query parameters' });
+
+        const [rows] = await pool.execute(query, params);
+        res.json({ success: true, messages: rows });
+    } catch (error) {
+        console.error('Get messages error:', error);
+        res.status(500).json({ error: 'Failed to get messages' });
     }
 });
 

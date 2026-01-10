@@ -166,7 +166,7 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                         : const Text('Save Grade'),
                     ),
                   ),
-                  const SizedBox(height: 20), // Extra spacing for comfort
+                  const SizedBox(height: 90), // Extra spacing for comfort
                 ],
               ),
             ),

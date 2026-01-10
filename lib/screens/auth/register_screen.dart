@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../providers/app_session_provider.dart';
+import '../../providers/advising_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -16,10 +19,19 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
+  final studentEmailsController = TextEditingController();
 
   bool obscurePassword = true;
   bool obscureConfirm = true;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(() {
+      setState(() {}); // Rebuild to show/hide advisor section
+    });
+  }
 
   @override
   void dispose() {
@@ -27,6 +39,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     emailController.dispose();
     passwordController.dispose();
     confirmController.dispose();
+    studentEmailsController.dispose();
     super.dispose();
   }
 
@@ -54,6 +67,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           'email': emailController.text.trim(),
           'password': passwordController.text,
         });
+
+        // Link students if advisor
+        if (studentEmailsController.text.isNotEmpty) {
+          final emails = studentEmailsController.text
+              .split(',')
+              .map((e) => e.trim())
+              .where((e) => e.isNotEmpty)
+              .toList();
+          if (emails.isNotEmpty) {
+            ref.read(advisingProvider.notifier).linkStudents(emails);
+          }
+        }
       } else {
         final state = ref.read(appSessionControllerProvider);
         String msg = 'Registration failed';
@@ -191,7 +216,35 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 16),
+
+
+                          // Academic Advisor Section
+                          if (emailController.text.contains('doctor') || 
+                              emailController.text.contains('professor') || 
+                              emailController.text.contains('dr.')) ...[
+                            const Divider(height: 32),
+                            const Text(
+                              'Academic Advising',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1f2c5c),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: studentEmailsController,
+                              decoration: _buildInputDecoration(
+                                'Student Emails (comma separated)',
+                                const Icon(Icons.people_outline, color: Colors.grey),
+                                'student1@gmail.com, student2@gmail.com...',
+                              ),
+                              maxLines: 3,
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                          const SizedBox(height: 8),
 
                           SizedBox(
                             width: double.infinity,
@@ -258,9 +311,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     );
   }
 
-  InputDecoration _buildInputDecoration(String label, [Widget? suffix]) {
+  InputDecoration _buildInputDecoration(String label, [Widget? suffix, String? hintText]) {
     return InputDecoration(
       labelText: label,
+      hintText: hintText,
       filled: true,
       fillColor: const Color(0xFFf9fafb),
       suffixIcon: suffix,

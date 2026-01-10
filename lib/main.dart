@@ -11,6 +11,9 @@ import 'screens/profile_screen.dart';
 import 'screens/course_detail_screen.dart';
 import 'screens/dr_course_details.dart';
 import 'screens/add_content_screen.dart';
+import 'screens/academic_advising_screen.dart';
+import 'screens/advising_chat_screen.dart';
+import 'screens/broadcast_message_screen.dart';
 import 'screens/courses_list_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/auth/login_screen.dart';
@@ -110,7 +113,6 @@ class _StudentDashboardAppState extends ConsumerState<StudentDashboardApp> {
           },
         ),
 
-
         ShellRoute(
           builder: (context, state, child) {
             return GuestDashboardShell(child: child);
@@ -206,6 +208,21 @@ class _StudentDashboardAppState extends ConsumerState<StudentDashboardApp> {
                   maxPoints: extra?['maxPoints'] ?? 100,
                 );
               },
+            ),
+            GoRoute(
+              path: '/advising',
+              builder: (context, state) => const AcademicAdvisingScreen(),
+            ),
+            GoRoute(
+              path: '/advising/chat/:email',
+              builder: (context, state) {
+                final email = state.pathParameters['email']!;
+                return AdvisingChatScreen(otherUserEmail: email);
+              },
+            ),
+            GoRoute(
+              path: '/advising/broadcast',
+              builder: (context, state) => const BroadcastMessageScreen(),
             ),
           ],
         ),

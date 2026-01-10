@@ -108,6 +108,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 80), // Added bottom padding
             ],
           ),
         ),
