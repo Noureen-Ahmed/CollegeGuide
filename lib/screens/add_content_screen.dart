@@ -582,12 +582,17 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             value: _selectedCourseId,
+            isExpanded: true,
             decoration: _roundedFieldDecoration.copyWith(
               hintText: 'Choose a course',
             ),
             items: _courses.map((c) => DropdownMenuItem(
               value: c.id,
-              child: Text('${c.code} - ${c.name}', overflow: TextOverflow.ellipsis),
+              child: Text(
+                '${c.code} - ${c.name}',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             )).toList(),
             onChanged: (v) => setState(() => _selectedCourseId = v),
           ),

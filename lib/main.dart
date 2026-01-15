@@ -33,6 +33,7 @@ import 'screens/guest/guest_home_screen.dart';
 import 'screens/adaptive_dashboard.dart';
 import 'screens/grading_dashboard.dart';
 import 'screens/create_exam_screen.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +42,49 @@ void main() async {
   await StorageService.init();
   await NotificationService.init();
   await NotificationService.requestPermissions();
+  
+  runApp(const ProviderScope(child: PhoneFrameWrapper(child: StudentDashboardApp())));
+}
 
-  runApp(const ProviderScope(child: StudentDashboardApp()));
+/// Wraps the app in a phone frame on web for demo purposes
+class PhoneFrameWrapper extends StatelessWidget {
+  final Widget child;
+  const PhoneFrameWrapper({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    // Only show phone frame on web
+    if (!kIsWeb) return child;
+    
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: const Color(0xFF1a1a2e),
+        body: Center(
+          child: Container(
+            width: 380,
+            height: 800,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(40),
+              border: Border.all(color: Colors.grey.shade800, width: 8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  blurRadius: 30,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class StudentDashboardApp extends ConsumerStatefulWidget {

@@ -805,6 +805,35 @@ class DataService {
       return false;
     }
   }
+
+  /// Get exam conflicts for a course (dates with student exams in other courses)
+  static Future<Map<DateTime, int>> getExamConflicts(String courseId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/courses/$courseId/exam-conflicts'),
+        headers: ApiConfig.authHeaders,
+      );
+      
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final Map<String, dynamic> conflicts = data['conflicts'] ?? {};
+        
+        // Convert string dates to DateTime keys
+        final Map<DateTime, int> result = {};
+        for (final entry in conflicts.entries) {
+          final date = DateTime.tryParse(entry.key);
+          if (date != null) {
+            result[DateTime(date.year, date.month, date.day)] = entry.value as int;
+          }
+        }
+        return result;
+      }
+      return {};
+    } catch (e) {
+      print('[DataService] Get exam conflicts error: $e');
+      return {};
+    }
+  }
   
   // ============ HELPER METHODS ============
   

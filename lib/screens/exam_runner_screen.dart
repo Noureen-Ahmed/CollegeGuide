@@ -338,7 +338,7 @@ class _ExamRunnerScreenState extends ConsumerState<ExamRunnerScreen> {
                   // Answers Input
                   _buildAnswerInput(questions[_currentQuestionIndex]),
                   
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 80), // Extra padding
                   
                   // Attachments removed per user request
                 ],

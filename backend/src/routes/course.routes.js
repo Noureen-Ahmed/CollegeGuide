@@ -17,11 +17,11 @@ const logger = require('../utils/logger');
 const formatCourse = (course, studentId = null) => {
   // Separate tasks into assignments and exams
   const tasks = course.tasks || [];
-  
+
   const assignments = tasks.filter(t => t.taskType === 'ASSIGNMENT' || t.taskType === 'LAB').map(t => {
     // Find submission for this student if studentId is provided
     const submission = studentId && t.submissions ? t.submissions.find(s => s.studentId === studentId) : null;
-    
+
     return {
       id: t.id,
       title: t.title,
@@ -35,7 +35,7 @@ const formatCourse = (course, studentId = null) => {
       status: submission ? submission.status : 'PENDING'
     };
   });
-  
+
   const exams = tasks.filter(t => t.taskType === 'EXAM' || t.taskType === 'QUIZ').map(t => {
     const submission = studentId && t.submissions ? t.submissions.find(s => s.studentId === studentId) : null;
     return {
@@ -167,7 +167,7 @@ router.get('/:id',
             }
           },
           _count: {
-            select: { 
+            select: {
               enrollments: true,
               tasks: true,
               announcements: true
@@ -199,7 +199,7 @@ router.get('/:id/content',
       const { id } = req.params;
 
       const content = await prisma.courseContent.findMany({
-        where: { 
+        where: {
           courseId: id,
           isPublished: true
         },
@@ -292,7 +292,7 @@ router.get('/:id/students',
       }
 
       const enrollments = await prisma.enrollment.findMany({
-        where: { 
+        where: {
           courseId: id,
           status: 'ENROLLED'
         },
@@ -333,6 +333,109 @@ router.get('/:id/students',
   }
 );
 
+// ============ GET EXAM CONFLICTS FOR COURSE (Professor only) ============
+// Returns dates where enrolled students have exams in OTHER courses
+
+router.get('/:id/exam-conflicts',
+  authenticate,
+  requireProfessor,
+  async (req, res, next) => {
+    try {
+      const { id: courseId } = req.params;
+
+      // Verify professor teaches this course
+      const isInstructor = await prisma.courseInstructor.findFirst({
+        where: {
+          courseId: courseId,
+          userId: req.user.id
+        }
+      });
+
+      if (!isInstructor && req.user.role !== 'ADMIN') {
+        throw new ApiError(403, 'You do not teach this course');
+      }
+
+      // Get all enrolled student IDs for this course
+      const enrollments = await prisma.enrollment.findMany({
+        where: {
+          courseId: courseId,
+          status: 'ENROLLED'
+        },
+        select: { userId: true }
+      });
+
+      const studentIds = enrollments.map(e => e.userId);
+
+      if (studentIds.length === 0) {
+        return res.json({ success: true, conflicts: {} });
+      }
+
+      // Find all EXAM tasks in OTHER courses where these students are enrolled
+      const examTasks = await prisma.task.findMany({
+        where: {
+          taskType: 'EXAM',
+          dueDate: { not: null },
+          courseId: { not: courseId }, // Other courses only
+          course: {
+            enrollments: {
+              some: {
+                userId: { in: studentIds },
+                status: 'ENROLLED'
+              }
+            }
+          }
+        },
+        select: {
+          id: true,
+          dueDate: true,
+          course: {
+            select: {
+              enrollments: {
+                where: {
+                  userId: { in: studentIds },
+                  status: 'ENROLLED'
+                },
+                select: { userId: true }
+              }
+            }
+          }
+        }
+      });
+
+      // Group by date and count unique students
+      const conflictsByDate = {};
+      for (const task of examTasks) {
+        if (!task.dueDate) continue;
+
+        // Normalize to date string (YYYY-MM-DD)
+        const dateKey = task.dueDate.toISOString().split('T')[0];
+
+        if (!conflictsByDate[dateKey]) {
+          conflictsByDate[dateKey] = new Set();
+        }
+
+        // Add all students enrolled in this exam's course
+        for (const enrollment of task.course.enrollments) {
+          conflictsByDate[dateKey].add(enrollment.userId);
+        }
+      }
+
+      // Convert sets to counts
+      const conflicts = {};
+      for (const [date, studentSet] of Object.entries(conflictsByDate)) {
+        conflicts[date] = studentSet.size;
+      }
+
+      res.json({
+        success: true,
+        conflicts: conflicts
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 // ============ GET PROFESSOR'S COURSES ============
 
 router.get('/professor/:email',
@@ -366,7 +469,7 @@ router.get('/professor/:email',
               },
               scheduleSlots: true,
               _count: {
-                select: { 
+                select: {
                   enrollments: true,
                   tasks: true,
                   content: true

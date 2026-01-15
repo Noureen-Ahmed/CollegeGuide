@@ -472,6 +472,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
   }) {
     return DropdownButtonFormField<T>(
       value: value,
+      isExpanded: true,
       decoration: InputDecoration(
         labelText: label,
         filled: true,

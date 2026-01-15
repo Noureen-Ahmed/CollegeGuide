@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../services/data_service.dart';
 import '../providers/app_session_provider.dart';
 import '../models/course.dart';
@@ -41,6 +42,9 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
   
   bool _isLoading = false;
   
+  // Exam conflicts: dates where students have exams in other courses
+  Map<DateTime, int> _examConflicts = {};
+  
   @override
   void initState() {
     super.initState();
@@ -67,12 +71,152 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             _selectedCourseId = courses.first.id;
           }
         });
+        // Load conflicts for the selected course
+        if (_selectedCourseId != null) {
+          _loadExamConflicts(_selectedCourseId!);
+        }
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoadingCourses = false);
       }
     }
+  }
+
+  Future<void> _loadExamConflicts(String courseId) async {
+    final conflicts = await DataService.getExamConflicts(courseId);
+    if (mounted) {
+      setState(() => _examConflicts = conflicts);
+    }
+  }
+
+  Future<void> _showExamDatePicker() async {
+    DateTime tempDate = _examDate;
+    
+    await showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          final normalizedTemp = DateTime(tempDate.year, tempDate.month, tempDate.day);
+          final conflictCount = _examConflicts[normalizedTemp];
+          final screenHeight = MediaQuery.of(context).size.height;
+          final screenWidth = MediaQuery.of(context).size.width;
+          
+          return AlertDialog(
+            title: const Text('Select Exam Date', style: TextStyle(color: Color(0xFF002147), fontSize: 16)),
+            contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            content: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: screenWidth * 0.9,
+                maxHeight: screenHeight * 0.6,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TableCalendar(
+                      firstDay: DateTime.now(),
+                      lastDay: DateTime.now().add(const Duration(days: 365)),
+                      focusedDay: tempDate,
+                      selectedDayPredicate: (day) => isSameDay(tempDate, day),
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setDialogState(() {
+                          tempDate = selectedDay;
+                        });
+                      },
+                      calendarStyle: const CalendarStyle(
+                        selectedDecoration: BoxDecoration(
+                          color: Color(0xFF002147),
+                          shape: BoxShape.circle,
+                        ),
+                        todayDecoration: BoxDecoration(
+                          color: Color(0x55002147),
+                          shape: BoxShape.circle,
+                        ),
+                        cellMargin: EdgeInsets.all(2),
+                      ),
+                      rowHeight: 40,
+                      calendarBuilders: CalendarBuilders(
+                        defaultBuilder: (context, day, focusedDay) {
+                          final normalizedDay = DateTime(day.year, day.month, day.day);
+                          if (_examConflicts.containsKey(normalizedDay)) {
+                            return Container(
+                              margin: const EdgeInsets.all(2.0),
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '${day.day}',
+                                style: const TextStyle(color: Colors.white, fontSize: 13),
+                              ),
+                            );
+                          }
+                          return null;
+                        },
+                      ),
+                      headerStyle: const HeaderStyle(
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                        headerPadding: EdgeInsets.symmetric(vertical: 8),
+                        titleTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    if (conflictCount != null && conflictCount > 0)
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.warning_amber_rounded, size: 18, color: Colors.orange),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                '$conflictCount student${conflictCount > 1 ? 's' : ''} have exam in this day',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _examDate = tempDate;
+                  });
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF002147),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -185,15 +329,24 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
         const SizedBox(height: 16),
         DropdownButtonFormField<String>(
           value: _selectedCourseId,
+          isExpanded: true,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.school),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           ),
           items: _courses.map((c) => DropdownMenuItem(
             value: c.id,
-            child: Text('${c.code} - ${c.name}', overflow: TextOverflow.ellipsis),
+            child: Text(
+              '${c.code} - ${c.name}',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           )).toList(),
-          onChanged: (v) => setState(() => _selectedCourseId = v),
+          onChanged: (v) {
+            setState(() => _selectedCourseId = v);
+            if (v != null) _loadExamConflicts(v);
+          },
           validator: (v) => v == null ? 'Please select a course' : null,
         ),
       ],
@@ -228,17 +381,7 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
           children: [
             Expanded(
               child: InkWell(
-                onTap: () async {
-                  final date = await showDatePicker(
-                    context: context,
-                    initialDate: _examDate,
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                  );
-                  if (date != null) {
-                    setState(() => _examDate = date);
-                  }
-                },
+                onTap: () => _showExamDatePicker(),
                 child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: 'Date',

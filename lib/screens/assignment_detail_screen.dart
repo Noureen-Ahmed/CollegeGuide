@@ -406,7 +406,7 @@ class _AssignmentDetailScreenState extends ConsumerState<AssignmentDetailScreen>
                 if (isSubmitted) _buildSubmittedView() else _buildSubmissionForm(),
               ],
               
-              const SizedBox(height: 40),
+              const SizedBox(height: 120), // Extra padding for bottom nav
             ],
           ),
         ),

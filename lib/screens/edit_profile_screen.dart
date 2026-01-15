@@ -446,6 +446,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       value: value,
       items: items,
       onChanged: onChanged,
+      isExpanded: true,
       style: const TextStyle(color: navyColor),
       decoration: InputDecoration(
         labelText: label,

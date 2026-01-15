@@ -106,6 +106,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 120), // Extra padding for bottom nav
             ],
           ),
         ),

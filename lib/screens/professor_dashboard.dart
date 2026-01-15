@@ -291,6 +291,7 @@ class ProfessorDashboard extends ConsumerWidget {
               children: [
                 DropdownButtonFormField<String>(
                   value: selectedCourseId,
+                  isExpanded: true,
                   decoration: const InputDecoration(labelText: 'Course', border: OutlineInputBorder()),
                   items: [
                     const DropdownMenuItem(value: null, child: Text('All courses')),
