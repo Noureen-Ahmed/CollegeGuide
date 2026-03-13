@@ -24,22 +24,24 @@ class ProfessorProfileScreen extends ConsumerWidget {
               _buildSliverHeader(context, user),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // No Academic Stats for Professor (GPA/Level)
                       // Instead, show Course Count or Department info prominently
-                      
-                      _buildDetailRow('Department', user.department ?? 'Faculty'),
+
+                      _buildDetailRow(
+                          'Department', user.department ?? 'Faculty'),
                       const SizedBox(height: 8),
-                      // Professors don't usually have "Program" or "Major" in the same way, 
+                      // Professors don't usually have "Program" or "Major" in the same way,
                       // but if they do, show it. Often it's just Dept.
                       if (user.program != null && user.program!.isNotEmpty) ...[
-                         _buildDetailRow('Specialization', user.program!),
-                         const SizedBox(height: 8),
+                        _buildDetailRow('Specialization', user.program!),
+                        const SizedBox(height: 8),
                       ],
-                      
+
                       const SizedBox(height: 32),
                       _buildSectionHeader('Account Settings'),
                       const SizedBox(height: 12),
@@ -50,7 +52,9 @@ class ProfessorProfileScreen extends ConsumerWidget {
                           subtitle: 'Update your contact logic',
                           onTap: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const EditProfileScreen()),
                           ),
                         ),
                         _buildSettingsTile(
@@ -60,12 +64,12 @@ class ProfessorProfileScreen extends ConsumerWidget {
                           onTap: () => _showChangePasswordDialog(context, ref),
                         ),
                       ]),
-                      
+
                       const SizedBox(height: 32),
                       _buildSectionHeader('System'),
                       const SizedBox(height: 12),
                       _buildListCard([
-                         _buildSettingsTile(
+                        _buildSettingsTile(
                           icon: Icons.notifications_none,
                           title: 'Notifications',
                           subtitle: 'Manage administrative alerts',
@@ -157,11 +161,11 @@ class ProfessorProfileScreen extends ConsumerWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                     color: Colors.white.withOpacity(0.2),
-                     borderRadius: BorderRadius.circular(20)
-                  ),
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20)),
                   child: const Text(
                     'Faculty Member',
                     style: TextStyle(
@@ -233,7 +237,10 @@ class ProfessorProfileScreen extends ConsumerWidget {
       ),
       title: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Color(0xFF1E3A8A)),
+        style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: Color(0xFF1E3A8A)),
       ),
       subtitle: Text(
         subtitle,
@@ -252,17 +259,23 @@ class ProfessorProfileScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-             color: Colors.black.withOpacity(0.03),
-             blurRadius: 10,
-             offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Color(0xFF6B7280), fontWeight: FontWeight.w500)),
-          Text(value, style: const TextStyle(color: Color(0xFF1E3A8A), fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(label,
+              style: const TextStyle(
+                  color: Color(0xFF6B7280), fontWeight: FontWeight.w500)),
+          Text(value,
+              style: const TextStyle(
+                  color: Color(0xFF1E3A8A),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16)),
         ],
       ),
     );
@@ -270,11 +283,11 @@ class ProfessorProfileScreen extends ConsumerWidget {
 
   void _showChangePasswordDialog(BuildContext context, WidgetRef ref) {
     // Re-use logic or copy from ProfileScreen
-    // ... For brevity, implying same logic. 
+    // ... For brevity, implying same logic.
     // Implementing minimal version:
-     final oldController = TextEditingController();
+    final oldController = TextEditingController();
     final newController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -283,17 +296,26 @@ class ProfessorProfileScreen extends ConsumerWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: oldController, decoration: const InputDecoration(labelText: 'Current'), obscureText: true),
-            TextField(controller: newController, decoration: const InputDecoration(labelText: 'New'), obscureText: true),
+            TextField(
+                controller: oldController,
+                decoration: const InputDecoration(labelText: 'Current'),
+                obscureText: true),
+            TextField(
+                controller: newController,
+                decoration: const InputDecoration(labelText: 'New'),
+                obscureText: true),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
-               await ref.read(appSessionControllerProvider.notifier)
+              await ref
+                  .read(appSessionControllerProvider.notifier)
                   .changePassword(oldController.text, newController.text);
-               if(context.mounted) Navigator.pop(context);
+              if (context.mounted) Navigator.pop(context);
             },
             child: const Text('Update'),
           ),
@@ -303,9 +325,10 @@ class ProfessorProfileScreen extends ConsumerWidget {
   }
 
   void _showAboutDialog(BuildContext context) {
-      showDialog(
+    showDialog(
       context: context,
-      builder: (context) => AlertDialog(title: const Text('About'), content: const Text('Faculty Dashboard v2.0')),
+      builder: (context) => const AlertDialog(
+          title: Text('About'), content: Text('Faculty Dashboard v2.0')),
     );
   }
 
@@ -314,16 +337,18 @@ class ProfessorProfileScreen extends ConsumerWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
-             await ref.read(appSessionControllerProvider.notifier).logout();
-             if (context.mounted) context.go('/login');
+          await ref.read(appSessionControllerProvider.notifier).logout();
+          if (context.mounted) context.go('/login');
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           backgroundColor: Colors.red.shade700,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
-        child: const Text('Sign Out', style: TextStyle(fontWeight: FontWeight.bold)),
+        child: const Text('Sign Out',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }

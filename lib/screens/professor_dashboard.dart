@@ -24,7 +24,8 @@ class ProfessorDashboard extends ConsumerWidget {
           slivers: [
             // Header
             SliverToBoxAdapter(
-              child: _buildHeader(context, userAsync.valueOrNull?.name ?? 'Professor'),
+              child: _buildHeader(
+                  context, userAsync.valueOrNull?.name ?? 'Professor'),
             ),
 
             // Quick Stats
@@ -33,19 +34,20 @@ class ProfessorDashboard extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 child: coursesAsync.when(
                   data: (courses) {
-                    final totalStudents = courses.fold<int>(
-                      0, (sum, c) => sum + ((c.stats?['students'] ?? 0) as int)
-                    );
+                    final totalStudents = courses.fold<int>(0,
+                        (sum, c) => sum + ((c.stats?['students'] ?? 0) as int));
                     return Row(
                       children: [
-                        Expanded(child: _StatCard(
+                        Expanded(
+                            child: _StatCard(
                           icon: Icons.menu_book,
                           label: 'Courses',
                           value: courses.length.toString(),
                           color: const Color(0xFF3B82F6),
                         )),
                         const SizedBox(width: 12),
-                        Expanded(child: _StatCard(
+                        Expanded(
+                            child: _StatCard(
                           icon: Icons.people,
                           label: 'Students',
                           value: totalStudents.toString(),
@@ -78,14 +80,16 @@ class ProfessorDashboard extends ConsumerWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Expanded(child: _ActionButton(
+                        Expanded(
+                            child: _ActionButton(
                           icon: Icons.add_circle_outline,
                           label: 'Add Content',
                           color: const Color(0xFF10B981),
                           onTap: () => context.go('/add-content'),
                         )),
                         const SizedBox(width: 12),
-                        Expanded(child: _ActionButton(
+                        Expanded(
+                            child: _ActionButton(
                           icon: Icons.fact_check_outlined,
                           label: 'Create Exam',
                           color: const Color(0xFF8B5CF6),
@@ -151,7 +155,8 @@ class ProfessorDashboard extends ConsumerWidget {
                 ),
               ),
               error: (error, _) => SliverToBoxAdapter(
-                child: _buildError(error.toString(), () => ref.refresh(professorCoursesProvider)),
+                child: _buildError(error.toString(),
+                    () => ref.refresh(professorCoursesProvider)),
               ),
             ),
 
@@ -178,7 +183,8 @@ class ProfessorDashboard extends ConsumerWidget {
             children: [
               Text(
                 'Welcome back,',
-                style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14),
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.7), fontSize: 14),
               ),
               const SizedBox(height: 4),
               Text(
@@ -191,7 +197,8 @@ class ProfessorDashboard extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFDC800).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -203,7 +210,10 @@ class ProfessorDashboard extends ConsumerWidget {
                     SizedBox(width: 4),
                     Text(
                       'Professor',
-                      style: TextStyle(color: Color(0xFFFDC800), fontSize: 12, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Color(0xFFFDC800),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -212,9 +222,13 @@ class ProfessorDashboard extends ConsumerWidget {
           ),
           Row(
             children: [
-              _HeaderButton(icon: Icons.notifications_outlined, onTap: () => context.go('/notifications')),
+              _HeaderButton(
+                  icon: Icons.notifications_outlined,
+                  onTap: () => context.go('/notifications')),
               const SizedBox(width: 12),
-              _HeaderButton(icon: Icons.person_outline, onTap: () => context.go('/profile')),
+              _HeaderButton(
+                  icon: Icons.person_outline,
+                  onTap: () => context.go('/profile')),
             ],
           ),
         ],
@@ -237,7 +251,10 @@ class ProfessorDashboard extends ConsumerWidget {
           const SizedBox(height: 12),
           const Text(
             'No courses assigned',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF374151)),
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF374151)),
           ),
           const SizedBox(height: 4),
           Text(
@@ -262,11 +279,14 @@ class ProfessorDashboard extends ConsumerWidget {
         children: [
           const Icon(Icons.error_outline, size: 40, color: Color(0xFFEF4444)),
           const SizedBox(height: 12),
-          Text(message, style: const TextStyle(color: Color(0xFF991B1B)), textAlign: TextAlign.center),
+          Text(message,
+              style: const TextStyle(color: Color(0xFF991B1B)),
+              textAlign: TextAlign.center),
           const SizedBox(height: 12),
           ElevatedButton(
             onPressed: onRetry,
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFEF4444)),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFEF4444)),
             child: const Text('Retry'),
           ),
         ],
@@ -290,34 +310,44 @@ class ProfessorDashboard extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedCourseId,
+                  initialValue: selectedCourseId,
                   isExpanded: true,
-                  decoration: const InputDecoration(labelText: 'Course', border: OutlineInputBorder()),
+                  decoration: const InputDecoration(
+                      labelText: 'Course', border: OutlineInputBorder()),
                   items: [
-                    const DropdownMenuItem(value: null, child: Text('All courses')),
-                    ...courses.map((c) => DropdownMenuItem(value: c.id, child: Text(c.code))),
+                    const DropdownMenuItem(
+                        value: null, child: Text('All courses')),
+                    ...courses.map((c) =>
+                        DropdownMenuItem(value: c.id, child: Text(c.code))),
                   ],
                   onChanged: (v) => setState(() => selectedCourseId = v),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: titleController,
-                  decoration: const InputDecoration(labelText: 'Title', border: OutlineInputBorder()),
+                  decoration: const InputDecoration(
+                      labelText: 'Title', border: OutlineInputBorder()),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: messageController,
-                  decoration: const InputDecoration(labelText: 'Message', border: OutlineInputBorder()),
+                  decoration: const InputDecoration(
+                      labelText: 'Message', border: OutlineInputBorder()),
                   maxLines: 3,
                 ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Cancel')),
             ElevatedButton(
               onPressed: () async {
-                if (titleController.text.isEmpty || messageController.text.isEmpty) return;
+                if (titleController.text.isEmpty ||
+                    messageController.text.isEmpty) {
+                  return;
+                }
                 final success = await DataService.createAnnouncement(
                   title: titleController.text,
                   message: messageController.text,
@@ -326,12 +356,14 @@ class ProfessorDashboard extends ConsumerWidget {
                 if (ctx.mounted) {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(success ? 'Announcement posted!' : 'Failed to post'),
+                    content: Text(
+                        success ? 'Announcement posted!' : 'Failed to post'),
                     backgroundColor: success ? Colors.green : Colors.red,
                   ));
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF002147)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF002147)),
               child: const Text('Post'),
             ),
           ],
@@ -370,7 +402,11 @@ class _StatCard extends StatelessWidget {
   final String value;
   final Color color;
 
-  const _StatCard({required this.icon, required this.label, required this.value, required this.color});
+  const _StatCard(
+      {required this.icon,
+      required this.label,
+      required this.value,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -385,8 +421,11 @@ class _StatCard extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
-          Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-          Text(label, style: TextStyle(fontSize: 12, color: color.withOpacity(0.8))),
+          Text(value,
+              style: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold, color: color)),
+          Text(label,
+              style: TextStyle(fontSize: 12, color: color.withOpacity(0.8))),
         ],
       ),
     );
@@ -399,7 +438,11 @@ class _ActionButton extends StatelessWidget {
   final Color color;
   final VoidCallback onTap;
 
-  const _ActionButton({required this.icon, required this.label, required this.color, required this.onTap});
+  const _ActionButton(
+      {required this.icon,
+      required this.label,
+      required this.color,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -424,7 +467,11 @@ class _ActionButton extends StatelessWidget {
               child: Icon(icon, color: color, size: 24),
             ),
             const SizedBox(height: 8),
-            Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF374151))),
+            Text(label,
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF374151))),
           ],
         ),
       ),
@@ -437,7 +484,8 @@ class _CourseCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onAddContent;
 
-  const _CourseCard({required this.course, required this.onTap, required this.onAddContent});
+  const _CourseCard(
+      {required this.course, required this.onTap, required this.onAddContent});
 
   @override
   Widget build(BuildContext context) {
@@ -467,8 +515,11 @@ class _CourseCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    course.code.length >= 2 ? course.code.substring(0, 2) : course.code,
-                    style: const TextStyle(color: Color(0xFFFDC800), fontWeight: FontWeight.bold),
+                    course.code.length >= 2
+                        ? course.code.substring(0, 2)
+                        : course.code,
+                    style: const TextStyle(
+                        color: Color(0xFFFDC800), fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -477,15 +528,22 @@ class _CourseCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(course.code, style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
+                    Text(course.code,
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xFF6B7280))),
                     Text(
                       course.name,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF1F2937)),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1F2937)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
-                    Text('$students students', style: const TextStyle(fontSize: 12, color: Color(0xFF9CA3AF))),
+                    Text('$students students',
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xFF9CA3AF))),
                   ],
                 ),
               ),

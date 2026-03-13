@@ -26,6 +26,7 @@ const scheduleRoutes = require('./routes/schedule.routes');
 const adminRoutes = require('./routes/admin.routes');
 const contentRoutes = require('./routes/content.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const umsRoutes = require('./routes/ums.routes');
 
 const app = express();
 
@@ -95,6 +96,7 @@ app.use('/api/schedule', scheduleRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/ums', umsRoutes);
 
 // ============ ERROR HANDLING ============
 

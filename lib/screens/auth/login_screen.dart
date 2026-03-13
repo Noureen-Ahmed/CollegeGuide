@@ -128,7 +128,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      'Login to your account',
+                      'Login with your UMS portal credentials',
                       style: TextStyle(color: Color(0xFFd1d5db)),
                     ),
                   ],
@@ -172,7 +172,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                           TextFormField(
                             controller: emailController,
-                            decoration: _buildInputDecoration('Email'),
+                            decoration: _buildInputDecoration('Student ID or Email'),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.isEmpty) {

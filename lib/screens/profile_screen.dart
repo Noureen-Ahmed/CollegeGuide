@@ -38,9 +38,24 @@ class ProfileScreen extends ConsumerWidget {
                     children: [
                       _buildAcademicStats(context, user),
                       const SizedBox(height: 24),
+                      _buildDetailRow('Student ID', user.studentId ?? 'N/A'),
+                      const SizedBox(height: 8),
+                      _buildDetailRow('Faculty', user.faculty ?? 'N/A'),
+                      const SizedBox(height: 8),
                       _buildDetailRow('Department', user.department ?? 'Undeclared'),
                       const SizedBox(height: 8),
                       _buildDetailRow('Program', user.major ?? 'Undeclared'),
+                      const SizedBox(height: 8),
+                      _buildDetailRow('Phone', user.phone ?? 'N/A'),
+                      const SizedBox(height: 8),
+                      if (user.academicYear != null) ...[
+                        _buildDetailRow('Academic Year', user.academicYear!),
+                        const SizedBox(height: 8),
+                      ],
+                      if (user.semester != null) ...[
+                        _buildDetailRow('Semester', user.semester!),
+                        const SizedBox(height: 8),
+                      ],
                       const SizedBox(height: 32),
                       _buildSectionHeader('General Settings'),
                       const SizedBox(height: 12),
@@ -142,18 +157,27 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  user.name,
+                  user.nameAr ?? user.name,
                   style: const TextStyle(
                     color: Color(0xFFFDC800),
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  user.studentId ?? '',
+                  style: TextStyle(
+                    color: const Color(0xFFFDC800).withOpacity(0.8),
+                    fontSize: 16,
                   ),
                 ),
                 Text(
                   user.email,
                   style: TextStyle(
-                    color: const Color(0xFFFDC800).withOpacity(0.8),
-                    fontSize: 16,
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 13,
                   ),
                 ),
               ],
@@ -458,7 +482,15 @@ class ProfileScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(color: Color(0xFF6B7280), fontWeight: FontWeight.w500)),
-          Text(value, style: const TextStyle(color: Color(0xFF002147), fontWeight: FontWeight.bold, fontSize: 16)),
+          const SizedBox(width: 16),
+          Flexible(
+            child: Text(
+              value,
+              style: const TextStyle(color: Color(0xFF002147), fontWeight: FontWeight.bold, fontSize: 16),
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );

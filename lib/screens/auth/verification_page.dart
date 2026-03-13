@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +9,11 @@ class VerificationPage extends StatefulWidget {
   final String email;
   final String? password;
   final bool isPasswordReset;
-  const VerificationPage({super.key, required this.email, this.password, this.isPasswordReset = false});
+  const VerificationPage(
+      {super.key,
+      required this.email,
+      this.password,
+      this.isPasswordReset = false});
 
   @override
   State<VerificationPage> createState() => _VerificationPageState();
@@ -45,7 +48,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
   Future<void> _sendVerificationCode() async {
     setState(() => _isLoading = true);
-    
+
     try {
       final type = widget.isPasswordReset ? 'PASSWORD_RESET' : 'REGISTRATION';
 
@@ -68,8 +71,12 @@ class _VerificationPageState extends State<VerificationPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(data['message'] ?? (response.statusCode == 200 ? 'Verification code sent!' : 'Failed to send code')),
-            backgroundColor: response.statusCode == 200 ? Colors.green : Colors.red,
+            content: Text(data['message'] ??
+                (response.statusCode == 200
+                    ? 'Verification code sent!'
+                    : 'Failed to send code')),
+            backgroundColor:
+                response.statusCode == 200 ? Colors.green : Colors.red,
           ),
         );
       }
@@ -100,7 +107,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
     try {
       final type = widget.isPasswordReset ? 'password_reset' : 'registration';
-      
+
       final response = await http.post(
         Uri.parse('$_baseUrl/auth/verify'),
         headers: {'Content-Type': 'application/json'},
@@ -123,7 +130,7 @@ class _VerificationPageState extends State<VerificationPage> {
               backgroundColor: Colors.green,
             ),
           );
-          
+
           // Navigate based on flow type
           if (widget.isPasswordReset) {
             context.go('/reset-password', extra: {'email': widget.email});
@@ -139,7 +146,8 @@ class _VerificationPageState extends State<VerificationPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(data['error'] ?? 'Incorrect code. Please try again.'),
+              content:
+                  Text(data['error'] ?? 'Incorrect code. Please try again.'),
               backgroundColor: Colors.red,
             ),
           );
@@ -194,7 +202,7 @@ class _VerificationPageState extends State<VerificationPage> {
           if (value.isEmpty && index > 0) {
             _focusNodes[index - 1].requestFocus();
           }
-          
+
           // Auto-submit if all fields are filled
           final enteredCode = _controllers.map((c) => c.text).join();
           if (enteredCode.length == 4) {
@@ -260,8 +268,8 @@ class _VerificationPageState extends State<VerificationPage> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children:
-                                  List.generate(4, (index) => _buildCodeField(index)),
+                              children: List.generate(
+                                  4, (index) => _buildCodeField(index)),
                             ),
                             const SizedBox(height: 32),
                             SizedBox(
@@ -270,7 +278,8 @@ class _VerificationPageState extends State<VerificationPage> {
                                 onPressed: _verifyCode,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF2563eb),
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -287,7 +296,8 @@ class _VerificationPageState extends State<VerificationPage> {
                             ),
                             const SizedBox(height: 16),
                             TextButton(
-                              onPressed: _isLoading ? null : _sendVerificationCode,
+                              onPressed:
+                                  _isLoading ? null : _sendVerificationCode,
                               child: const Text(
                                 'Resend Code',
                                 style: TextStyle(

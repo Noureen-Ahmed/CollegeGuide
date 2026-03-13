@@ -201,9 +201,23 @@ class AppSessionController extends StateNotifier<AppSessionState> {
       
       final updatedUser = await DataService.updateUser(user);
       if (updatedUser != null) {
-         // Update with server response
-         state = AppSessionAuthenticated(updatedUser);
-         await _saveSession(updatedUser);
+         // The backend standard profile update might omit UMS-specific fields
+         // (like faculty, nameAr, semester, etc.) since they aren't explicitly 
+         // stored in the native DB schema (except as relations or not at all).
+         // So, we merge any missing fields from the optimistic user copy.
+         final mergedUser = updatedUser.copyWith(
+           faculty: updatedUser.faculty ?? user.faculty,
+           nameAr: updatedUser.nameAr ?? user.nameAr,
+           phone: updatedUser.phone ?? user.phone,
+           semester: updatedUser.semester ?? user.semester,
+           academicYear: updatedUser.academicYear ?? user.academicYear,
+           advisorName: updatedUser.advisorName ?? user.advisorName,
+           advisorEmail: updatedUser.advisorEmail ?? user.advisorEmail,
+         );
+
+         // Update with merged response
+         state = AppSessionAuthenticated(mergedUser);
+         await _saveSession(mergedUser);
          return true;
       }
       return false;

@@ -34,10 +34,10 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
     // Initialize points from submission or auto-grade logic
     final questions = widget.task.questions ?? [];
     final answers = widget.submission['answers'] as Map<String, dynamic>? ?? {};
-    
+
     // If already graded, we might not have per-question scores stored (schema limitation phase 1)
     // So we re-calculate or default to max points if correct
-    
+
     for (var q in questions) {
       final qId = q['id'].toString();
       final maxPoints = (q['points'] as num?)?.toDouble() ?? 0.0;
@@ -47,15 +47,17 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
 
       // Default logic: if correct, full points. Else 0.
       // This serves as initial state for the grader
-      if (type != 'TEXT' && correctAnswer != null && studentAnswer == correctAnswer) {
+      if (type != 'TEXT' &&
+          correctAnswer != null &&
+          studentAnswer == correctAnswer) {
         _points[qId] = maxPoints;
       } else {
         _points[qId] = 0.0;
       }
     }
-    
-    // If the submission has a total score that differs significantly from auto-calc, 
-    // it implies manual overrides happened. 
+
+    // If the submission has a total score that differs significantly from auto-calc,
+    // it implies manual overrides happened.
     // ideally we'd store per-question grades in the DB, but for now we simple re-calc.
     _calculateTotal();
   }
@@ -84,7 +86,8 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
               padding: const EdgeInsets.only(right: 16.0),
               child: Text(
                 'Total: ${_totalScore.toStringAsFixed(1)} / ${widget.task.maxPoints}',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
           )
@@ -98,23 +101,26 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
             color: Colors.white,
             child: Row(
               children: [
-                 UserAvatar(
-                   name: student['name'],
-                   avatarUrl: student['avatar'],
-                 ),
-                 const SizedBox(width: 12),
-                 Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                     Text(student['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                     Text(student['email'], style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-                   ],
-                 ),
+                UserAvatar(
+                  name: student['name'],
+                  avatarUrl: student['avatar'],
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(student['name'],
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(student['email'],
+                        style:
+                            TextStyle(color: Colors.grey[600], fontSize: 12)),
+                  ],
+                ),
               ],
             ),
           ),
           const Divider(height: 1),
-          
+
           // Questions List
           Expanded(
             child: ListView.builder(
@@ -125,22 +131,19 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
               },
             ),
           ),
-          
+
           // Footer
           SafeArea(
             top: false,
             child: Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, -2),
-                  )
-                ]
-              ),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                )
+              ]),
               child: Column(
                 children: [
                   TextField(
@@ -157,13 +160,16 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                     child: ElevatedButton(
                       onPressed: _isSaving ? null : _saveGrade,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2E6AFF), 
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16)
-                      ),
-                      child: _isSaving 
-                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white))
-                        : const Text('Save Grade'),
+                          backgroundColor: const Color(0xFF2E6AFF),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16)),
+                      child: _isSaving
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white))
+                          : const Text('Save Grade'),
                     ),
                   ),
                   const SizedBox(height: 90), // Extra spacing for comfort
@@ -183,7 +189,7 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
     final studentAnswer = answers[qId]?.toString() ?? 'No Answer';
     final correctAnswer = question['correctAnswer']?.toString();
     final type = question['type'];
-    
+
     final currentPoints = _points[qId] ?? 0.0;
     final isCorrect = type != 'TEXT' && studentAnswer == correctAnswer;
 
@@ -198,25 +204,31 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Question $index', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                Text('Question $index',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.grey)),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: Colors.blue[50],
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: Text('${maxPoints} pts', style: TextStyle(color: Colors.blue[800], fontSize: 12)),
+                  child: Text('$maxPoints pts',
+                      style: TextStyle(color: Colors.blue[800], fontSize: 12)),
                 )
               ],
             ),
             const SizedBox(height: 8),
-            Text(question['text'] ?? '', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text(question['text'] ?? '',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
             const SizedBox(height: 16),
-            
+
             // Comparison
             Container(
               padding: const EdgeInsets.all(12),
-               decoration: BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.grey[50],
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey[200]!),
@@ -227,14 +239,22 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(width: 80, child: Text('Student:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
+                      const SizedBox(
+                          width: 80,
+                          child: Text('Student:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey))),
                       Expanded(
                         child: Text(
                           studentAnswer,
                           style: TextStyle(
-                            color: isCorrect ? Colors.green[700] : (type == 'TEXT' ? Colors.black : Colors.red[700]), 
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: isCorrect
+                                  ? Colors.green[700]
+                                  : (type == 'TEXT'
+                                      ? Colors.black
+                                      : Colors.red[700]),
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                       if (type != 'TEXT')
@@ -250,21 +270,31 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(width: 80, child: Text('Correct:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
-                        Expanded(child: Text(correctAnswer ?? 'N/A', style: TextStyle(color: Colors.green[700], fontWeight: FontWeight.w500))),
+                        const SizedBox(
+                            width: 80,
+                            child: Text('Correct:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey))),
+                        Expanded(
+                            child: Text(correctAnswer ?? 'N/A',
+                                style: TextStyle(
+                                    color: Colors.green[700],
+                                    fontWeight: FontWeight.w500))),
                       ],
                     )
                   ]
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Grading Control
             Row(
               children: [
-                const Text('Score: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('Score: ',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(
                   width: 80,
                   height: 40,
@@ -274,8 +304,10 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                       border: OutlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(horizontal: 8),
                     ),
-                    controller: TextEditingController(text: currentPoints.toString())
-                      ..selection = TextSelection.collapsed(offset: currentPoints.toString().length),
+                    controller:
+                        TextEditingController(text: currentPoints.toString())
+                          ..selection = TextSelection.collapsed(
+                              offset: currentPoints.toString().length),
                     onChanged: (val) {
                       final newPoints = double.tryParse(val);
                       if (newPoints != null) {
@@ -289,7 +321,9 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
                 ),
                 const Spacer(),
                 if (type == 'TEXT')
-                  const Chip(label: Text('Manual Review'), backgroundColor: Colors.orangeAccent)
+                  const Chip(
+                      label: Text('Manual Review'),
+                      backgroundColor: Colors.orangeAccent)
               ],
             )
           ],
@@ -300,25 +334,27 @@ class _ExamGradingScreenState extends State<ExamGradingScreen> {
 
   Future<void> _saveGrade() async {
     setState(() => _isSaving = true);
-    
+
     try {
       final success = await DataService.gradeSubmission(
-        submissionId: widget.submission['id'], 
-        points: _totalScore,
-        feedback: _feedbackController.text
-      );
-      
+          submissionId: widget.submission['id'],
+          points: _totalScore,
+          feedback: _feedbackController.text);
+
       if (mounted) {
         if (success) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Grading saved successfully')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Grading saved successfully')));
           Navigator.pop(context, true); // Return success
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to save grade')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to save grade')));
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) {

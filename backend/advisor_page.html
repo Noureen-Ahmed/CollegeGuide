@@ -1,0 +1,1304 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths k-webkit k-webkit120 js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths js  js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head><style type="text/css">.swal-icon--error{border-color:#f27474;-webkit-animation:animateErrorIcon .5s;animation:animateErrorIcon .5s}.swal-icon--error__x-mark{position:relative;display:block;-webkit-animation:animateXMark .5s;animation:animateXMark .5s}.swal-icon--error__line{position:absolute;height:5px;width:47px;background-color:#f27474;display:block;top:37px;border-radius:2px}.swal-icon--error__line--left{-webkit-transform:rotate(45deg);transform:rotate(45deg);left:17px}.swal-icon--error__line--right{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);right:16px}@-webkit-keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@-webkit-keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}@keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}.swal-icon--warning{border-color:#f8bb86;-webkit-animation:pulseWarning .75s infinite alternate;animation:pulseWarning .75s infinite alternate}.swal-icon--warning__body{width:5px;height:47px;top:10px;border-radius:2px;margin-left:-2px}.swal-icon--warning__body,.swal-icon--warning__dot{position:absolute;left:50%;background-color:#f8bb86}.swal-icon--warning__dot{width:7px;height:7px;border-radius:50%;margin-left:-4px;bottom:-11px}@-webkit-keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}@keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}.swal-icon--success{border-color:#a5dc86}.swal-icon--success:after,.swal-icon--success:before{content:"";border-radius:50%;position:absolute;width:60px;height:120px;background:#fff;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal-icon--success:before{border-radius:120px 0 0 120px;top:-7px;left:-33px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:60px 60px;transform-origin:60px 60px}.swal-icon--success:after{border-radius:0 120px 120px 0;top:-11px;left:30px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 60px;transform-origin:0 60px;-webkit-animation:rotatePlaceholder 4.25s ease-in;animation:rotatePlaceholder 4.25s ease-in}.swal-icon--success__ring{width:80px;height:80px;border:4px solid hsla(98,55%,69%,.2);border-radius:50%;box-sizing:content-box;position:absolute;left:-4px;top:-4px;z-index:2}.swal-icon--success__hide-corners{width:5px;height:90px;background-color:#fff;padding:1px;position:absolute;left:28px;top:8px;z-index:1;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal-icon--success__line{height:5px;background-color:#a5dc86;display:block;border-radius:2px;position:absolute;z-index:2}.swal-icon--success__line--tip{width:25px;left:14px;top:46px;-webkit-transform:rotate(45deg);transform:rotate(45deg);-webkit-animation:animateSuccessTip .75s;animation:animateSuccessTip .75s}.swal-icon--success__line--long{width:47px;right:8px;top:38px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-animation:animateSuccessLong .75s;animation:animateSuccessLong .75s}@-webkit-keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@-webkit-keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}.swal-icon--info{border-color:#c9dae1}.swal-icon--info:before{width:5px;height:29px;bottom:17px;border-radius:2px;margin-left:-2px}.swal-icon--info:after,.swal-icon--info:before{content:"";position:absolute;left:50%;background-color:#c9dae1}.swal-icon--info:after{width:7px;height:7px;border-radius:50%;margin-left:-3px;top:19px}.swal-icon{width:80px;height:80px;border-width:4px;border-style:solid;border-radius:50%;padding:0;position:relative;box-sizing:content-box;margin:20px auto}.swal-icon:first-child{margin-top:32px}.swal-icon--custom{width:auto;height:auto;max-width:100%;border:none;border-radius:0}.swal-icon img{max-width:100%;max-height:100%}.swal-title{color:rgba(0,0,0,.65);font-weight:600;text-transform:none;position:relative;display:block;padding:13px 16px;font-size:27px;line-height:normal;text-align:center;margin-bottom:0}.swal-title:first-child{margin-top:26px}.swal-title:not(:first-child){padding-bottom:0}.swal-title:not(:last-child){margin-bottom:13px}.swal-text{font-size:16px;position:relative;float:none;line-height:normal;vertical-align:top;text-align:left;display:inline-block;margin:0;padding:0 10px;font-weight:400;color:rgba(0,0,0,.64);max-width:calc(100% - 20px);overflow-wrap:break-word;box-sizing:border-box}.swal-text:first-child{margin-top:45px}.swal-text:last-child{margin-bottom:45px}.swal-footer{text-align:right;padding-top:13px;margin-top:13px;padding:13px 16px;border-radius:inherit;border-top-left-radius:0;border-top-right-radius:0}.swal-button-container{margin:5px;display:inline-block;position:relative}.swal-button{background-color:#7cd1f9;color:#fff;border:none;box-shadow:none;border-radius:5px;font-weight:600;font-size:14px;padding:10px 24px;margin:0;cursor:pointer}.swal-button:not([disabled]):hover{background-color:#78cbf2}.swal-button:active{background-color:#70bce0}.swal-button:focus{outline:none;box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(43,114,165,.29)}.swal-button[disabled]{opacity:.5;cursor:default}.swal-button::-moz-focus-inner{border:0}.swal-button--cancel{color:#555;background-color:#efefef}.swal-button--cancel:not([disabled]):hover{background-color:#e8e8e8}.swal-button--cancel:active{background-color:#d7d7d7}.swal-button--cancel:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(116,136,150,.29)}.swal-button--danger{background-color:#e64942}.swal-button--danger:not([disabled]):hover{background-color:#df4740}.swal-button--danger:active{background-color:#cf423b}.swal-button--danger:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(165,43,43,.29)}.swal-content{padding:0 20px;margin-top:20px;font-size:medium}.swal-content:last-child{margin-bottom:20px}.swal-content__input,.swal-content__textarea{-webkit-appearance:none;background-color:#fff;border:none;font-size:14px;display:block;box-sizing:border-box;width:100%;border:1px solid rgba(0,0,0,.14);padding:10px 13px;border-radius:2px;transition:border-color .2s}.swal-content__input:focus,.swal-content__textarea:focus{outline:none;border-color:#6db8ff}.swal-content__textarea{resize:vertical}.swal-button--loading{color:transparent}.swal-button--loading~.swal-button__loader{opacity:1}.swal-button__loader{position:absolute;height:auto;width:43px;z-index:2;left:50%;top:50%;-webkit-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);text-align:center;pointer-events:none;opacity:0}.swal-button__loader div{display:inline-block;float:none;vertical-align:baseline;width:9px;height:9px;padding:0;border:none;margin:2px;opacity:.4;border-radius:7px;background-color:hsla(0,0%,100%,.9);transition:background .2s;-webkit-animation:swal-loading-anim 1s infinite;animation:swal-loading-anim 1s infinite}.swal-button__loader div:nth-child(3n+2){-webkit-animation-delay:.15s;animation-delay:.15s}.swal-button__loader div:nth-child(3n+3){-webkit-animation-delay:.3s;animation-delay:.3s}@-webkit-keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}@keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}.swal-overlay{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center;font-size:0;overflow-y:auto;background-color:rgba(0,0,0,.4);z-index:10000;pointer-events:none;opacity:0;transition:opacity .3s}.swal-overlay:before{content:" ";display:inline-block;vertical-align:middle;height:100%}.swal-overlay--show-modal{opacity:1;pointer-events:auto}.swal-overlay--show-modal .swal-modal{opacity:1;pointer-events:auto;box-sizing:border-box;-webkit-animation:showSweetAlert .3s;animation:showSweetAlert .3s;will-change:transform}.swal-modal{width:478px;opacity:0;pointer-events:none;background-color:#fff;text-align:center;border-radius:5px;position:static;margin:20px auto;display:inline-block;vertical-align:middle;-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;z-index:10001;transition:opacity .2s,-webkit-transform .3s;transition:transform .3s,opacity .2s;transition:transform .3s,opacity .2s,-webkit-transform .3s}@media (max-width:500px){.swal-modal{width:calc(100% - 20px)}}@-webkit-keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}</style>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:url" content="https://ums.asu.edu.eg/">
+    <meta property="og:image" content="/images/logoums (1).png">
+    <meta property="og:description" content="Digital Management System of Ain Shams University">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="640">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>تسجيل الدخول | منصة الجامعة الذكية </title>
+    
+
+<!-- Normalize CSS -->
+<link rel="stylesheet" href="/assets/css/AR/normalize.css">
+<!-- Main CSS -->
+<link rel="stylesheet" href="/assets/css/AR/main.css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/assets/css/AR/bootstrap.min.css">
+<!-- Animate CSS -->
+<link rel="stylesheet" href="/assets/css/AR/animate.min.css">
+<!-- Font-awesome CSS-->
+<link rel="stylesheet" href="/assets/fontawesome-free-6.1.1-web/css/all.min.css">
+<link rel="stylesheet" href="/assets/fontawesome-free-6.1.1-web/css/fontawesome.min.css">
+<!-- Owl Caousel CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/OwlCarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/vendor/AR/OwlCarousel/owl.theme.default.min.css">
+<!-- Main Menu CSS -->
+<link rel="stylesheet" href="/assets/css/AR/meanmenu.min.css">
+<!-- nivo slider CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/slider/css/nivo-slider.css" type="text/css">
+<link rel="stylesheet" href="/assets/vendor/AR/slider/css/preview.css" type="text/css" media="screen">
+<!-- Datetime Picker Style CSS -->
+<link rel="stylesheet" href="/assets/css/AR/jquery.datetimepicker.css">
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="/assets/css/AR/select2.min.css">
+<!-- Magic popup CSS -->
+<link rel="stylesheet" href="/assets/css/AR/magnific-popup.css">
+<!-- Switch Style CSS -->
+<link rel="stylesheet" href="/assets/css/AR/hover-min.css">
+<!-- ReImageGrid CSS -->
+<link rel="stylesheet" href="/assets/css/AR/reImageGrid.css">
+<!-- Nouislider Style CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/noUiSlider/nouislider.min.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/AR/style.css">
+
+<link href="/Content/fontawesome-all.css" rel="stylesheet">
+<!--Kendo-->
+<link href="/Content/kendo/2018.3.1017/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.mobile.all.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.dataviz.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.dataviz.bootstrap.min.css" rel="stylesheet" type="text/css">
+<!--Kendo custom styles-->
+<style>
+    .k-dropdown .k-state-focused, .k-filebrowser-dropzone, .k-list > .k-state-hover, .k-listbox .k-item:hover:not(.k-state-disabled), .k-mobile-list .k-edit-label.k-check:active, .k-mobile-list .k-item > .k-label:active, .k-mobile-list .k-item > .k-link:active, .k-mobile-list .k-recur-view .k-check:active, .k-pager-wrap .k-link:hover, .k-scheduler .k-scheduler-toolbar ul li.k-state-hover, .k-splitbar-horizontal-hover:hover, .k-splitbar-vertical-hover:hover, .k-state-hover, .k-state-hover:hover {
+        background-color: #0021473d;
+    }
+    .k-list > .k-state-focused.k-state-selected, .k-listview > .k-state-focused.k-state-selected, .k-state-focused.k-state-selected, td.k-state-focused.k-state-selected {
+        box-shadow: inset 0 0 10px 3px #002147;
+    }
+    .k-draghandle.k-state-selected:hover, .k-ghost-splitbar-horizontal, .k-ghost-splitbar-vertical, .k-list > .k-state-highlight, .k-list > .k-state-selected, .k-marquee-color, .k-panel > .k-state-selected, .k-scheduler .k-scheduler-toolbar .k-state-selected, .k-scheduler .k-today.k-state-selected, .k-state-selected, .k-state-selected:link, .k-state-selected:visited, .k-tool.k-state-selected {
+        background-color: #002147;
+        border-color: #002147;
+    }
+    .k-link:link, .k-link:visited, .k-nav-current.k-state-hover .k-link {
+        color: #002147;
+    }
+</style>
+    <link href="/Content/kendo/2018.3.1017/kendo.rtl.min.css" rel="stylesheet" type="text/css">
+<script src="/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="/Scripts/modernizr-2.8.3.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/jszip.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.all.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.dropdownlist.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.aspnetmvc.min.js"></script>
+<script src="/Scripts/modernizr-2.8.3.js"></script>
+<script src="/Scripts/kendo.modernizr.custom.js"></script>
+
+
+    <!-- BEGIN SWEETALERT -->
+    <link href="/assets/SweetAlert/sweetalert2.min.css" rel="stylesheet">
+    <script src="/assets/SweetAlert/sweetalert2.min.js"></script>
+    <script src="/assets/js/modernizr-2.8.3.min.js"></script>
+
+    <script src="/assets/SweetAlert/sweetalert.min.js"></script>
+    <!-- Owl Cauosel JS -->
+    <script src="/assets/vendor/AR/OwlCarousel/owl.carousel.min.js" type="text/javascript"></script>
+</head>
+<!-- Head End -->
+<!-- Body Start -->
+
+<body dir="rtl">
+    <div id="preloader" style="opacity: 6.85388e-06;"></div>
+
+    
+    
+    
+    
+
+
+
+    <style>
+        .ramadan-decor-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 200px;
+            pointer-events: none;
+            /* So it doesn't block clicks on the navbar */
+            z-index: 2147483647 !important;
+            /* Forces layout on top of any sticky navbars */
+            display: flex;
+            justify-content: space-around;
+            overflow-x: hidden;
+            /* Prevent horizontal overflow/scrollbars */
+            /* vertical overflow intentionally allowed so SVGs/glows aren't cut off on mobile */
+        }
+
+
+        .decor-item {
+            position: relative;
+            animation: ramadan-swing alternate ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        /* Varying wire lengths and swing timings for a natural feel */
+        .decor-item:nth-child(1) {
+            height: 60px;
+            animation-duration: 3.5s;
+        }
+
+        .decor-item:nth-child(2) {
+            height: 100px;
+            animation-duration: 4.2s;
+            animation-delay: -1s;
+        }
+
+        .decor-item:nth-child(3) {
+            height: 75px;
+            animation-duration: 3.8s;
+            animation-delay: -2s;
+        }
+
+        .decor-item:nth-child(4) {
+            height: 115px;
+            animation-duration: 4.5s;
+            animation-delay: -1.5s;
+        }
+
+        .decor-item:nth-child(5) {
+            height: 85px;
+            animation-duration: 4.0s;
+            animation-delay: -0.5s;
+        }
+
+        .decor-item:nth-child(6) {
+            height: 105px;
+            animation-duration: 4.3s;
+            animation-delay: -2.5s;
+        }
+
+        .decor-item:nth-child(7) {
+            height: 65px;
+            animation-duration: 3.7s;
+            animation-delay: -1.2s;
+        }
+
+        .decor-item:nth-child(8) {
+            height: 95px;
+            animation-duration: 4.1s;
+            animation-delay: -0.8s;
+        }
+
+        .decor-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1.5px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.8), rgba(255, 215, 0, 0.1));
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+        }
+
+        .decor-icon {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse-glow 2.5s infinite alternate ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+        }
+
+        .crescent {
+            bottom: -40px;
+        }
+
+        @keyframes ramadan-swing {
+            0% {
+                transform: rotate(8deg);
+            }
+
+            100% {
+                transform: rotate(-8deg);
+            }
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.4));
+            }
+        }
+
+        /* Default state: hide the mobile-only SVGs */
+        .show-on-mobile {
+            display: none !important;
+        }
+
+        @media (max-width: 992px) {
+
+            /* Toggle SVGs for item 1 and 5 */
+            .hide-on-mobile {
+                display: none !important;
+            }
+
+            .show-on-mobile {
+                display: inline-block !important;
+            }
+
+            /* On medium screens/tablets, scale down heights and SVGs smoothly */
+            .decor-item:nth-child(2),
+            .decor-item:nth-child(6) {
+                display: none;
+            }
+
+            .decor-icon {
+                /* Use CSS transform scale instead of percentage width because absolute children of 0-width parents collapse */
+                transform: translateX(-50%) scale(0.75) !important;
+                bottom: -25px !important;
+            }
+
+            .crescent,
+            .show-on-mobile {
+                bottom: -30px !important;
+            }
+
+            /* Shorten wires gently for compact screens so they stay within the dark blue header */
+            .decor-item:nth-child(1) {
+                height: 30px;
+            }
+
+            .decor-item:nth-child(3) {
+                height: 40px;
+            }
+
+            .decor-item:nth-child(4) {
+                height: 55px;
+            }
+
+            .decor-item:nth-child(5) {
+                height: 45px;
+            }
+
+            .decor-item:nth-child(7) {
+                height: 35px;
+            }
+
+            .decor-item:nth-child(8) {
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            /* On mobile phones, hide more items to prevent overcrowding the small header */
+            .decor-item:nth-child(4),
+            .decor-item:nth-child(8) {
+                display: none;
+            }
+
+            /* Further shorten wires, but long enough to pass the sticky header border */
+            .decor-item:nth-child(1) {
+                height: 45px;
+            }
+
+            .decor-item:nth-child(3) {
+                height: 50px;
+            }
+
+            .decor-item:nth-child(5) {
+                height: 60px;
+            }
+
+            .decor-item:nth-child(7) {
+                height: 45px;
+            }
+
+            /* Slim down the SVG filter glow size for mobile performance */
+            .decor-icon {
+                filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4));
+            }
+        }
+    </style>
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFF8DC"></stop>
+                <stop offset="50%" stop-color="#FFD700"></stop>
+                <stop offset="100%" stop-color="#B8860B"></stop>
+            </linearGradient>
+            <g id="fanous-svg">
+                <!-- Top Cap -->
+                <path d="M50 5 C55 5 58 8 58 12 C50 12 45 15 45 20 C45 10 50 5 50 5 Z" fill="#FFD700"></path>
+                <path d="M50 15 C35 30 35 40 35 40 L65 40 C65 40 65 30 50 15 Z" fill="url(#goldGrad)"></path>
+                <!-- Main Body -->
+                <polygon points="30,45 70,45 80,105 20,105" fill="url(#goldGrad)"></polygon>
+                <polygon points="34,49 66,49 74,100 26,100" fill="rgba(255,255,255,0.15)" stroke="#FFD700" stroke-width="2"></polygon>
+                <line x1="34" y1="49" x2="74" y2="100" stroke="#FFD700" stroke-width="2"></line>
+                <line x1="66" y1="49" x2="26" y2="100" stroke="#FFD700" stroke-width="2"></line>
+                <!-- Inner Light -->
+                <circle cx="50" cy="85" r="8" fill="#FFF" filter="drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #FFD700)"></circle>
+                <polygon points="46,85 50,70 54,85" fill="#FFF"></polygon>
+                <!-- Bottom Base -->
+                <polygon points="35,110 65,110 60,130 40,130" fill="url(#goldGrad)"></polygon>
+                <polygon points="25,135 75,135 65,145 35,145" fill="url(#goldGrad)"></polygon>
+            </g>
+            <g id="crescent-svg">
+                <polygon points="50,25 53,35 63,35 55,42 58,52 50,46 42,52 45,42 37,35 47,35" fill="url(#goldGrad)" filter="drop-shadow(0 0 5px #FFF)"></polygon>
+                <path d="M65 20 C30 15 10 40 15 70 C20 100 50 110 80 90 C85 85 88 80 88 80 C60 95 30 80 30 55 C30 40 45 25 65 20 Z" fill="url(#goldGrad)"></path>
+            </g>
+        </defs>
+    </svg>
+    <div class="ramadan-decor-wrapper">
+        <div class="decor-item">
+            <svg class="decor-icon hide-on-mobile" viewBox="0 0 100 150" width="30" height="45">
+                <use href="#fanous-svg"></use>
+            </svg>
+            <svg class="decor-icon show-on-mobile crescent" viewBox="0 0 100 120" width="35" height="42">
+                <use href="#crescent-svg"></use>
+            </svg>
+        </div>
+        <div class="decor-item"><svg class="decor-icon crescent" viewBox="0 0 100 120" width="35" height="42">
+                <use href="#crescent-svg"></use>
+            </svg></div>
+        <div class="decor-item"><svg class="decor-icon" viewBox="0 0 100 150" width="35" height="52">
+                <use href="#fanous-svg"></use>
+            </svg></div>
+        <div class="decor-item"><svg class="decor-icon crescent" viewBox="0 0 100 120" width="30" height="36">
+                <use href="#crescent-svg"></use>
+            </svg></div>
+        <div class="decor-item">
+            <svg class="decor-icon hide-on-mobile" viewBox="0 0 100 150" width="40" height="60">
+                <use href="#fanous-svg"></use>
+            </svg>
+            <svg class="decor-icon show-on-mobile crescent" viewBox="0 0 100 120" width="35" height="42">
+                <use href="#crescent-svg"></use>
+            </svg>
+        </div>
+        <div class="decor-item"><svg class="decor-icon crescent" viewBox="0 0 100 120" width="35" height="42">
+                <use href="#crescent-svg"></use>
+            </svg></div>
+        <div class="decor-item"><svg class="decor-icon" viewBox="0 0 100 150" width="30" height="45">
+                <use href="#fanous-svg"></use>
+            </svg></div>
+        <div class="decor-item"><svg class="decor-icon crescent" viewBox="0 0 100 120" width="30" height="36">
+                <use href="#crescent-svg"></use>
+            </svg></div>
+    </div>
+
+    
+
+    <div id="wrapper" style="position: relative;">  
+
+        <!-- Header Start -->
+
+<link href="/assets/css/Menu.css" rel="stylesheet">
+<style>
+
+    .mega-menu .preview {
+        width: 200px;
+        padding: 20px;
+    }
+
+    .preview {
+        display: none;
+        color: #efe7c6;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .fadeIn {
+        animation: fadeIn 0.5s ease;
+    }
+
+    nav#desktop-nav ul li a {
+        padding: 30px 20px 0px 0px;
+    }
+</style>
+<header>
+    <div id="header1" class="header2-area">
+        
+
+<script src="/assets/js/Language.js"></script>
+<style>
+    .main-menu-area .header-search{
+        margin:0px 0px !important;
+    }
+</style>
+<!-- TopHeader Start -->
+<div class="header-top-area">
+    <div class="container">
+        <div class="top-bar-border">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                    <div class="header-top-left">
+                        <ul class="Mobile-Hidden">
+                            <li><img style="height:25px;" src="/images/arms_of_Egypt_(Official).svg"></li>
+                            <li style="text-transform:capitalize;"><i class="fa fa-play-circle" aria-hidden="true"></i><a href="/App/VideosSection">فيديوهات إرشادية</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="header-top-right">
+                        <ul class="main-menu-area">
+                            <li>
+                                <div class="header-search d-none d-lg-block">
+                                    <form action="/Search/GetSearchResult" method="GET">
+                                        <input type="text" class="search-form" name="UserQuery" placeholder="بحث" required="">
+                                        <a href="#" class="search-button" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                    </form>
+                                </div>
+                            </li>
+                                <li>
+                                    <a class="login-btn-area" href="/App/Login_Form" id="login-button"><i class="fa fa-lock"></i> تسجيل الدخول</a>
+                                </li>
+
+
+                                <li><a class="login-btn-area" onclick="SelectedIndexChanged('en'); location.reload();" href="#"> <img src="/images/Flags/gb.png" alt="English">English</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TopHeader End -->
+
+
+        <!-- MenuHeader Start -->
+        <div class="main-menu-area bg-textPrimary" id="sticker">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-2 col-sm-2">
+                        <div class="logo-area">
+                            <a href="/"><img class="img-responsive" src="/images/logoums (1).png" alt="logo"></a>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-10 col-lg-12 col-md-12 col-sm-10">
+                        <div class="row">
+                            <h2 class="p-2 topTitle" style="color:#FFFFFF;margin:0 0 -60px 0;">نظام إدارة جامعة عين شمس</h2>
+                            <nav id="desktop-nav" style="width:auto;margin:30px 0px 0px 0px;">
+                                <ul>
+                                    <li class="active">
+                                        <a class="fa fa-home" href="/"></a>
+                                    </li>
+                                    <li>
+                                        <a href="#">خدمات الجامعة</a>
+                                        <ul>
+                                            <li class="has-child-menu">
+                                                <a href="#">مؤتمر الجامعة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/RequestServiceUniversityConference">طلب الإشتراك</a></li>
+                                                    <li><a href="/TrackExternalServices/Track">متابعة طلب الخدمة برقم التسجيل</a></li>
+                                                    <li><a href="/TrackExternalServices/GetUniveristyServicesHistory">متابعة طلب الخدمة بالرقم القومي</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="has-child-menu">
+                                                <a href="#">مركز ذوى الإعاقة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/StudentDisabilityCenter">التسجيل فى دورة ICDL محلية</a></li>
+                                                    <li><a href="/TrackExternalServices/Track">متابعة طلب الإشتراك</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">طلب الالتحاق بالتعلُم المدمج</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/BlendedLearningAdmission">طلب الالتحاق</a></li>
+                                                    <li><a href="/BlendedLearningAdmission/Track">متابعة التسجيل</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">خدمات رابطة الخريجين</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/GraduateAssociationSubscription">انضم الان</a></li>
+                                                    <li><a href="/GraduateAssociationSubscription/Track">متابعة التسجيل</a></li>
+                                                    <li><a href="/GeneralQuestionnaire">رأيك يهمنا</a></li>
+                                                    <li><a href="/GraduateAssociationSubscription/GraduateRamadan">سهرة رمضانية وسحور</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="has-child-menu">
+                                                <a href="#">خدمات الخريجين</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/CertificatesDocumentation">طلب الخدمة</a></li>
+                                                    <li><a href="/CertificatesDocumentation/Track">متابعة طلب الخدمة</a></li>
+                                                </ul>
+                                            </li>
+                                            
+                                        </ul>
+                                    </li>
+
+
+
+
+    <li>
+        <a href="#">مراكز الجامعة</a>
+        <ul>
+            <li class="has-child-menu">
+                <a href="#">خدمات مراكز الجامعة</a>
+                <ul class="thired-level mega-menu-area row pc-service-menu">
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=1">مركز الخدمة العامة والتنمية الاجتماعية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=4">المعادلات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=8">مركز الرفاعة - ألسن</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=11">مركز التميز التربوى - كلية التربية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=14">مركز تطوير استراتيجيات و بحوث التعليم</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=17">مركز تطوير التعليم الجامعى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=20">مركز التميز لتدريس اللغة الالمانية</a>
+                        </li>
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=2">مركز التعلم المدمج</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=5">مركز تعليم الكبار</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=9">مركز الحساب العلمى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=12">مركز الارشاد النفسى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=15">مركز الفنون</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=18">الوحدات ذات الطابع الخاص - كلية حقوق</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=21">مركز دراسات البردية والنقوش</a>
+                        </li>
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=3">مركز كونفوشيوس</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=7">مركز توثيق الشهادات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=10">مركز ضمان الجودة</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=13">مركز تطوير تدريس اللغة الانجليزية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=16">مركز الدراسات والبحوث المتكاملة - كلية البنات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=19">مركز الدراسات القانونية والأقتصادية</a>
+                        </li>
+                </ul>
+            </li>
+            <li><a href="/TrackExternalServices/Track">متابعة طلب الخدمة</a></li>
+        </ul>
+    </li>
+
+                                    <li>
+                                        <a href="#">خدمات الكليات</a>
+                                        <ul>
+                                            <li class="has-child-menu">
+                                                <a href="#">الخريجين</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/RequestService">شهادة تخرج عربى او انجليزى</a></li>
+                                                    <li><a href="/RequestService">استخراج شهاده تقديرات عربى</a></li>
+                                                    <li><a href="/RequestService">مقابل سحب ملف الخريجين</a></li>
+                                                    <li><a href="/RequestService">استخراج شهادة تقديرات انجليزى</a></li>
+                                                    <li><a href="/RequestService">خدمات أخرى</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">تعليم عالى</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/RequestService">بيان نجاح</a></li>
+                                                    <li><a href="/RequestService">رسوم ايقاف قيد او عذر عن عام دراسى كامل</a></li>
+                                                    <li><a href="/RequestService">شهادة فصل او بيان حاله</a></li>
+                                                    <li><a href="/RequestService">رسوم امتحان ماده تخلف للطلاب الراسبين</a></li>
+                                                    <li><a href="/RequestService">خدمات أخرى</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">الدراسات العليا</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/RequestService">تسجيل ماجستير نصف عام</a></li>
+                                                    <li><a href="/RequestService">تسجيل دكتوراه نصف عام</a></li>
+                                                    <li><a href="/RequestService">مد فتره تسجيل ماجستير او دكتوراه</a></li>
+                                                    <li><a href="/RequestService">شهادة مؤقته ماجستير عربى او انجليزى</a></li>
+                                                    <li><a href="/RequestService">مد فتره تسجيل ماجستير او دكتوراه</a></li>
+                                                    <li><a href="/RequestService">شهادة مؤقته دبلومات عربى او انجليزى</a></li>
+                                                    <li><a href="/RequestService">خدمات أخرى</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="has-child-menu">
+                                                <a href="#">متابعة طلب الخدمة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/TrackExternalServices/Track">متابعة طلب الخدمة برقم التسجيل</a></li>
+                                                    <li><a href="/TrackExternalServices/GetExternalServicesHistory">متابعة طلب الخدمة بالرقم القومي</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">التسجيل المبكر</a>
+                                        <ul>
+
+                                            <li class="has-child-menu">
+                                                <a href="#">لخريجي الثانوية العامة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/ApplicationRegister">طلب تسجيل مبكر</a></li>
+                                                    <li><a href="/ApplicationRegister/Track">متابعة التسجيل</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">لخريجي الجامعة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/PGApplicationRegister">طلب تسجيل</a></li>
+                                                    <li><a href="/PGApplicationRegister/Track">متابعة التسجيل</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">لخريجى الشهادة المعادلة</a>
+                                                <ul class="thired-level">
+                                                    <li><a href="/ApplicationRegister">طلب تسجيل مبكر</a></li>
+                                                    <li><a href="/ApplicationRegister/Track">متابعة التسجيل</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!-- student menu -->
+                                    <li>
+                                        <a href="#">المرحلة الجامعية</a>
+
+                                        <ul class="mega-menu-area row pc-service-menu">
+                                            <li class="col">
+                                                <a data-preview="تسجيل المقررات الدراسية لطلاب الساعات المعتمدة" href="#">تسجيل المقررات الدراسية</a>
+                                                <a data-preview="تعرف على جدولك للفصل الدراسى الحالى" href="#">جدولي</a>
+                                                <a data-preview="احصل على رمز QR لاستخدامه في تسجيل الحضور سواء فى المحاضرات او الامتحانات" href="#">رمز ال QR</a>
+                                                <a data-preview="اطلع على درجات اعمال السنة بتفاصيل مقررات كل فصل دراسي" href="#">درجات أعمال السنة</a>
+                                                <a data-preview="يستطيع طلاب الساعات المعتمدة تقديم طلب للانسحاب من المقررات الدراسية" href="#">طلب انسحاب من مقرر</a>
+                                                <a data-preview="يمكنك معرفة اذا كان لديك أية انذارات أكاديمية" href="#">انذار أكاديمى</a>
+                                                <a data-preview="تعرف على تفاصيل دورات التربية العسكرية" href="#">بيانات دورة التربية العسكرية</a>
+                                            </li>
+                                            <li class="col">
+                                                <a data-preview="يمكنك تقديم التماس علي المقررات المطلوبة منك فى العام الدراسي" href="#">الإلتماسات</a>
+                                                <a data-preview="التشعيب لأقسام الكلية" href="#">التشعيب</a>
+                                                <a data-preview="اطلع على مقرراتك الدراسية للعام الأكاديمي الحالي" href="#">المقررات</a>
+                                                <a data-preview="احصل على درجات العام الدراسي بتفاصيل مقررات كل فصل دراسي" href="#">الدرجات</a>
+                                                <a data-preview="طلب فتح مقرر للتسجيل" href="#">طلب فتح مقرر للتسجيل</a>
+                                                <a data-preview="اطلع على جوائزك" href="#">الجوائز</a>
+                                                <a data-preview="التسجيل في دورة التربية العسكرية للطلاب الذكور" href="#">دورات التربية العسكرية المسجلة</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- PG menu -->
+                                    <li>
+                                        <a href="#">الدراسات العليا</a>
+                                        <ul class="pc-service-menu">
+                                            <li><a data-preview="اطلع على مقرراتك الدراسية للعام الأكاديمي الحالي" href="#">المقررات</a></li>
+                                            <li><a data-preview="اطلع على رسالتك وبيانات المرشدين " href="#">رسالتى</a></li>
+                                            <li><a data-preview="يمكنك تقديم التماس علي المقررات المطلوبة منك فى العام الدراسي" href="#">الإلتماسات</a></li>
+                                            <li><a data-preview="اطلع على درجات اعمال السنة بتفاصيل مقررات كل فصل دراسي " href="#">درجات أعمال السنة</a></li>
+                                            <li><a data-preview="احصل على درجات العام الدراسي بتفاصيل مقررات كل فصل دراسي" href="#">الدرجات</a></li>
+                                            <li><a data-preview="قدم طلب لفتح امتحان مقرر" href="#">تقديم طلب الإمتحان</a></li>
+                                            <li><a data-preview="سجل رسالتك عن طريق عمل طلب" href="#">تسجيل رسالة</a></li>
+                                            <li><a data-preview="تسجيل المقررات الدراسية لطلاب الساعات المعتمدة" href="#">تسجيل المقررات الدراسية</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- staff & HR menu -->
+                                    <li>
+                                        <a href="#">هيئة التدريس و الموظفين</a>
+
+                                        <ul class="pc-service-menu">
+
+                                            <li class="has-child-menu">
+                                                <a href="#">هيئة التدريس</a>
+                                                <ul class="thired-level">
+                                                    <li><a data-preview="اطلع على مفردات مرتبك" href="#">الراتب</a></li>
+                                                    <li><a data-preview="سجل حضور الطلاب باستخدام رموز الQR الخاصة بهم" href="#">حضور الطلاب</a></li>
+                                                    <li><a data-preview="تابع مواعيد تسجيلك فى البصمة للحضور وللانصراف  " href="#">مواعيد حضور البصمة</a></li>
+                                                    <li><a href="#">الترقيات</a></li>
+                                                    <li><a href="#">الانتدابات والوظائف الخارجية</a></li>
+                                                    <li><a href="#">الجزاءات</a></li>
+                                                    <li><a href="#">الجوائز العلمية</a></li>
+                                                    <li><a href="#">طلب تعيين أو ترقية</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-child-menu">
+                                                <a href="#">الموظفين</a>
+                                                <ul class="thired-level">
+                                                    <li><a data-preview="اطلع على مفردات مرتبك" href="#">الراتب</a></li>
+                                                    <li><a data-preview="تابع مواعيد تسجيلك فى البصمة للحضور وللانصراف  " href="#">مواعيد حضور البصمة</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">الأخبار</a>
+                                        <ul>
+                                            <li><a href="/GeneralNews">الأخبار</a></li>
+                                            <li><a href="/GeneralEvent">الفعاليات</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">من نحن</a>
+                                        <ul>
+                                            <li><a href="/App/About">عن الجامعة</a></li>
+                                            <li><a href="/SystemTree">خدمات نظام UMS</a></li>
+                                            <li><a href="/App/VideosSection">فيديوهات إرشادية</a></li>
+                                            <li><a href="/App/FAQ">اسئلة شائعة</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- MenuHeader End -->
+
+
+    </div>
+    <!-- Mobile Menu Area Start -->
+    <div class="mobile-menu-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="mobile-menu">
+                        <nav id="dropdown" style="display: block;">
+                            <ul>
+                                <li class="active">
+                                    <a href="/">الرئيسية</a>
+                                </li>
+                                <li>
+                                    <a href="#">خدمات الجامعة</a>
+                                    <ul>
+                                        <li class="has-child-menu">
+                                            <a href="#">مؤتمر الجامعة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/RequestServiceUniversityConference">طلب الإشتراك</a></li>
+                                                <li><a href="/TrackExternalServices/Track">متابعة طلب الإشتراك</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="has-child-menu">
+                                            <a href="#">مركز ذوى الإعاقة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/StudentDisabilityCenter">التسجيل فى دورة ICDL محلية</a></li>
+                                                <li><a href="/TrackExternalServices/Track">متابعة طلب الإشتراك</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">طلب الالتحاق بالتعلُم المدمج</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/BlendedLearningAdmission">طلب الالتحاق</a></li>
+                                                <li><a href="/BlendedLearningAdmission/Track">متابعة التسجيل</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">خدمات رابطة الخريجين</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/GraduateAssociationSubscription">انضم الان</a></li>
+                                                <li><a href="/GeneralQuestionnaire">رأيك يهمنا</a></li>
+                                                <li><a href="/GraduateAssociationSubscription/GraduateRamadan">سهرة رمضانية وسحور</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="has-child-menu">
+                                            <a href="#">خدمات الخريجين</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/CertificatesDocumentation">طلب الخدمة</a></li>
+                                                <li><a href="/CertificatesDocumentation/Track">متابعة طلب الخدمة</a></li>
+                                            </ul>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
+
+
+
+
+    <li>
+        <a href="#">مراكز الجامعة</a>
+        <ul>
+            <li class="has-child-menu">
+                <a href="#">خدمات مراكز الجامعة</a>
+                <ul class="thired-level ">
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=1">مركز الخدمة العامة والتنمية الاجتماعية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=4">المعادلات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=8">مركز الرفاعة - ألسن</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=11">مركز التميز التربوى - كلية التربية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=14">مركز تطوير استراتيجيات و بحوث التعليم</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=17">مركز تطوير التعليم الجامعى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=20">مركز التميز لتدريس اللغة الالمانية</a>
+                        </li>
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=2">مركز التعلم المدمج</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=5">مركز تعليم الكبار</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=9">مركز الحساب العلمى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=12">مركز الارشاد النفسى</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=15">مركز الفنون</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=18">الوحدات ذات الطابع الخاص - كلية حقوق</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=21">مركز دراسات البردية والنقوش</a>
+                        </li>
+                        <li class="col">
+                                <a href="/UniversityCentersService/CenterRequest?centerId=3">مركز كونفوشيوس</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=7">مركز توثيق الشهادات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=10">مركز ضمان الجودة</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=13">مركز تطوير تدريس اللغة الانجليزية</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=16">مركز الدراسات والبحوث المتكاملة - كلية البنات</a>
+                                <a href="/UniversityCentersService/CenterRequest?centerId=19">مركز الدراسات القانونية والأقتصادية</a>
+                        </li>
+                </ul>
+            </li>
+            <li><a href="/TrackExternalServices/Track">متابعة طلب الخدمة</a></li>
+        </ul>
+    </li>
+
+                                <li>
+                                    <a href="#">خدمات الكليات</a>
+                                    <ul>
+                                        <li class="has-child-menu">
+                                            <a href="#">الخريجين</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/RequestService">شهادة تخرج عربى او انجليزى</a></li>
+                                                <li><a href="/RequestService">استخراج شهاده تقديرات عربى</a></li>
+                                                <li><a href="/RequestService">مقابل سحب ملف الخريجين</a></li>
+                                                <li><a href="/RequestService">استخراج شهادة تقديرات انجليزى</a></li>
+                                                <li><a href="/RequestService">خدمات أخرى</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">تعليم عالى</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/RequestService">بيان نجاح</a></li>
+                                                <li><a href="/RequestService">رسوم ايقاف قيد او عذر عن عام دراسى كامل</a></li>
+                                                <li><a href="/RequestService">شهادة فصل او بيان حاله</a></li>
+                                                <li><a href="/RequestService">رسوم امتحان ماده تخلف للطلاب الراسبين</a></li>
+                                                <li><a href="/RequestService">خدمات أخرى</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">الدراسات العليا</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/RequestService">تسجيل ماجستير نصف عام</a></li>
+                                                <li><a href="/RequestService">تسجيل دكتوراه نصف عام</a></li>
+                                                <li><a href="/RequestService">مد فتره تسجيل ماجستير او دكتوراه</a></li>
+                                                <li><a href="/RequestService">شهادة مؤقته ماجستير عربى او انجليزى</a></li>
+                                                <li><a href="/RequestService">مد فتره تسجيل ماجستير او دكتوراه</a></li>
+                                                <li><a href="/RequestService">شهادة مؤقته دبلومات عربى او انجليزى</a></li>
+                                                <li><a href="/RequestService">خدمات أخرى</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">متابعة طلب الخدمة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/TrackExternalServices/Track">متابعة طلب الخدمة برقم التسجيل</a></li>
+                                                <li><a href="/TrackExternalServices/GetExternalServicesHistory">متابعة طلب الخدمة بالرقم القومي</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">التسجيل المبكر</a>
+                                    <ul>
+
+                                        <li class="has-child-menu">
+                                            <a href="#">لخريجي الثانوية العامة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/ApplicationRegister">طلب تسجيل مبكر</a></li>
+                                                <li><a href="/ApplicationRegister/Track">متابعة التسجيل</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">لخريجي الجامعة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/PGApplicationRegister">طلب تسجيل</a></li>
+                                                <li><a href="/PGApplicationRegister/Track">متابعة التسجيل</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">لخريجى الشهادة المعادلة</a>
+                                            <ul class="thired-level">
+                                                <li><a href="/ApplicationRegister">طلب تسجيل مبكر</a></li>
+                                                <li><a href="/ApplicationRegister/Track">متابعة التسجيل</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">الطلاب</a>
+
+                                    <ul class="mega-menu-area row pc-service-menu">
+                                        <li class="col">
+                                            <a data-preview="تسجيل المقررات الدراسية لطلاب الساعات المعتمدة" href="#">تسجيل المقررات الدراسية</a>
+                                            <a data-preview="تعرف على جدولك للفصل الدراسى الحالى" href="#">جدولي</a>
+                                            <a data-preview="احصل على رمز QR لاستخدامه في تسجيل الحضور سواء فى المحاضرات او الامتحانات" href="#">رمز ال QR</a>
+                                            <a data-preview="اطلع على درجات اعمال السنة بتفاصيل مقررات كل فصل دراسي" href="#">درجات أعمال السنة</a>
+                                            <a data-preview="يستطيع طلاب الساعات المعتمدة تقديم طلب للانسحاب من المقررات الدراسية" href="#">طلب انسحاب من مقرر</a>
+                                            <a data-preview="يمكنك معرفة اذا كان لديك أية انذارات أكاديمية" href="#">انذار أكاديمى</a>
+                                            <a data-preview="تعرف على تفاصيل دورات التربية العسكرية" href="#">بيانات دورة التربية العسكرية</a>
+                                        </li>
+                                        <li class="col">
+                                            <a data-preview="يمكنك تقديم التماس علي المقررات المطلوبة منك فى العام الدراسي" href="#">الإلتماسات</a>
+                                            <a data-preview="التشعيب لأقسام الكلية" href="#">التشعيب</a>
+                                            <a data-preview="اطلع على مقرراتك الدراسية للعام الأكاديمي الحالي" href="#">المقررات</a>
+                                            <a data-preview="احصل على درجات العام الدراسي بتفاصيل مقررات كل فصل دراسي" href="#">الدرجات</a>
+                                            <a data-preview="طلب فتح مقرر للتسجيل" href="#">طلب فتح مقرر للتسجيل</a>
+                                            <a data-preview="اطلع على جوائزك" href="#">الجوائز</a>
+                                            <a data-preview="التسجيل في دورة التربية العسكرية للطلاب الذكور" href="#">دورات التربية العسكرية المسجلة</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">الدراسات العليا</a>
+                                    <ul class="pc-service-menu">
+                                        <li><a data-preview="اطلع على مقرراتك الدراسية للعام الأكاديمي الحالي" href="#">المقررات</a></li>
+                                        <li><a data-preview="اطلع على رسالتك وبيانات المرشدين " href="#">رسالتى</a></li>
+                                        <li><a data-preview="يمكنك تقديم التماس علي المقررات المطلوبة منك فى العام الدراسي" href="#">الإلتماسات</a></li>
+                                        <li><a data-preview="اطلع على درجات اعمال السنة بتفاصيل مقررات كل فصل دراسي " href="#">درجات أعمال السنة</a></li>
+                                        <li><a data-preview="احصل على درجات العام الدراسي بتفاصيل مقررات كل فصل دراسي" href="#">الدرجات</a></li>
+                                        <li><a data-preview="قدم طلب لفتح امتحان مقرر" href="#">تقديم طلب الإمتحان</a></li>
+                                        <li><a data-preview="سجل رسالتك عن طريق عمل طلب" href="#">تسجيل رسالة</a></li>
+                                        <li><a data-preview="تسجيل المقررات الدراسية لطلاب الساعات المعتمدة " href="#">تسجيل المقررات الدراسية</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">هيئة التدريس و الموظفين</a>
+
+                                    <ul class="pc-service-menu">
+
+                                        <li class="has-child-menu">
+                                            <a href="#">هيئة التدريس</a>
+                                            <ul class="thired-level">
+                                                <li><a data-preview="اطلع على مفردات مرتبك" href="#">الراتب</a></li>
+                                                <li><a data-preview="سجل حضور الطلاب باستخدام رموز الQR الخاصة بهم" href="#">حضور الطلاب</a></li>
+                                                <li><a data-preview="تابع مواعيد تسجيلك فى البصمة للحضور وللانصراف  " href="#">مواعيد حضور البصمة</a></li>
+                                                <li><a href="#">الترقيات</a></li>
+                                                <li><a href="#">الانتدابات والوظائف الخارجية</a></li>
+                                                <li><a href="#">الجزاءات</a></li>
+                                                <li><a href="#">الجوائز العلمية</a></li>
+                                                <li><a href="#">طلب تعيين أو ترقية</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child-menu">
+                                            <a href="#">الموظفين</a>
+                                            <ul class="thired-level">
+                                                <li><a data-preview="اطلع على مفردات مرتبك" href="#">الراتب</a></li>
+                                                <li><a data-preview="تابع مواعيد تسجيلك فى البصمة للحضور وللانصراف  " href="#">مواعيد حضور البصمة</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/GeneralNews">الأخبار</a>
+                                </li>
+                                <li>
+                                    <a href="#">من نحن</a>
+                                    <ul class="pc-service-menu">
+                                        <li><a href="/App/About">عن الجامعة</a></li>
+                                        <li><a href="/SystemTree">خدمات نظام UMS</a></li>
+                                        <li><a href="/App/VideosSection">فيديوهات إرشادية</a></li>
+                                        <li><a href="/App/FAQ">اسئلة شائعة</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<script>
+    const menuItems = document.querySelectorAll('.pc-service-menu a');
+    menuItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            var previewText = item.getAttribute('data-preview');
+            const preview = document.createElement('div');
+            preview.classList.add('preview');
+            preview.id = 'preview'
+            item.appendChild(preview);
+            preview.textContent = previewText;
+            preview.classList.add('show', 'fadeIn');
+        });
+
+        item.addEventListener('mouseleave', () => {
+            const preview = document.getElementById('preview');
+            preview.classList.remove('show');
+            item.removeChild(preview);
+        });
+    });
+
+    const mobileMenuItems = document.querySelectorAll('.mobile-service-menu a');
+    mobileMenuItems.forEach(item => {
+        const li = document.createElement('li');
+        const ul = document.createElement('ul');
+        ul.classList.add('preview-ul');
+        const a = document.createElement('a');
+        a.textContent = item.getAttribute('data-preview');
+        a.style.color = '#fafafa'
+        a.style.backgroundColor = '#002147'
+        li.appendChild(a);
+        ul.appendChild(li);
+        item.insertAdjacentElement('afterend', ul);
+    });
+    var itemInfoToggles = document.querySelectorAll('.preview-ul ~ a')
+    itemInfoToggles.forEach(item => {
+        item.textContent = "..."
+    })
+</script>        <!--Inner Header Start -->
+
+<!-- Inner Page Banner Area Start Here -->
+<div class="inner-page-banner-area" style="background-image: url('../../assets/images/banner1.jpg');">
+    <div class="container" style="max-height: 0px !important;">
+        <div class="pagination-area" style="margin-top:15rem">
+            <h1>تسجيل الدخول</h1>
+            <ul>
+                <li><a href="/UserInformation/MyAccount">الرئيسية</a> -</li>
+                <li>تسجيل الدخول</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Inner Page Banner Area End Here -->
+        <!-- PageBody Start -->
+        
+
+<style>
+    .registration-page-area .pLace-order {
+        text-align: center !important;
+    }
+
+    a:hover {
+        color: #fdc800;
+    }
+</style>
+
+<div class="">
+    <div class="registration-page-area">
+        <div id="start" class="container card-shadow p-5 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <h1 class=" text-center" style="color:#002147;">تسجيل الدخول</h1>
+            <div class="registration-details-area inner-page-padding">
+                
+                <form id="LoginForm" enctype="multipart/form-data" method="post" novalidate="novalidate">
+                    <input name="__RequestVerificationToken" type="hidden" value="1nVM9YxX4F-U15mtBnmp4Cib2QSTvVLoqVmNx8GlS_j_Z8EkR-Pz3fFW7BF5K7gyn1m3skhzMvQ7B9TejHqLsh5F5oc1">
+                    <div class="row center">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group ">
+                                <label style="color:#002147;" class="control-label h5 " for="first-name">الكلية</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group ">
+                                <div id="DomainDDL" style="width: 100%;">
+                                    <span title="" class="k-widget k-dropdown k-header w-100" unselectable="on" role="listbox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-owns="DomainName_listbox" aria-live="polite" aria-disabled="false" aria-busy="false" aria-activedescendant="36822a30-59b8-41f9-bed5-918a27fcd652" style=""><span unselectable="on" class="k-dropdown-wrap k-state-default"><span unselectable="on" class="k-input">كلية الحاسبات والمعلومات</span><span unselectable="on" class="k-select" aria-label="select"><span class="k-icon k-i-arrow-60-down"></span></span></span><input id="DomainName" name="DomainName" type="text" data-role="dropdownlist" style="display: none;"></span><script>
+	kendo.syncReady(function(){jQuery("#DomainName").kendoDropDownList({"dataSource":{"transport":{"read":{"url":"/App/FacultyNameLogo"},"prefix":""},"schema":{"errors":"Errors"}},"dataTextField":"FacultyName","filter":"contains","dataValueField":"DomainName"});});
+</script>
+                                </div>
+                                <input id="DomainName" name="DomainName" type="hidden" value="">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label style="color:#002147;" class="control-label h5" for="first-name">اسم المستخدم</label>
+                                <br>
+                                <label id="name-error" style="display: none; color: red; transition: all 0.2s;">من فضلك أكتب فقط الجزء قبل علامة @ و اختر النطاق من القائمة على اليمين</label>
+                                <input type="text" id="user-name" name="LoginName" required="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label style="color:#002147;" class="control-label h5" for="first-name">كلمة المرور</label>
+                                <input type="password" name="password" required="" id="pass" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
+
+                            <span style="color:#002147;" onclick="shPassword(this)"> <input data-val="true" data-val-required="The RememberMe field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true"><input name="RememberMe" type="hidden" value="false">اظهار كلمة المرور </span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="pLace-order mt-30 flex-center">
+                                <button id="submitButton" type="submit" class="default-big-btn w-50">تسجيل الدخول</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
+                                <div class="pLace-order mt-30 flex-center">
+
+
+                                    <a class="" style="font-weight:800; color:#0059bf" href="/LogInRequest">اضغط هنا، إن لم تتمكن من تسجيل الدخول</a>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
+                                <div class="pLace-order mt-30 flex-center">
+
+
+                                    <a class="" style="font-weight:800; color:#0059bf" href="/ResetPassword">لا تستطيع تذكر كلمة المرور الخاصة بك</a>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var element = document.getElementsByClassName("k-dropdown");
+        element[0].classList.add("w-100");
+        var targetElement = $("#start");
+        var offsetTop = targetElement.offset().top;
+    $("html, body").animate({
+        scrollTop: offsetTop
+    }, 500); 
+    });
+    function shPassword(e) {
+        var x = document.getElementById("pass");
+        if (x.type === "password") {
+            x.type = "text";
+        }
+        else {
+            x.type = "password";
+        }
+    }
+    $(window).on("load", function () {
+        const selectedDomainName = localStorage.getItem("SelectedDomainName");
+        if (selectedDomainName) {
+            var dropdownlist = $("#DomainName").data("kendoDropDownList");
+            dropdownlist.value(selectedDomainName);
+        }
+    })
+</script>
+
+        <!-- PageBody End -->
+
+            <div id="footer-div">
+                    <div class="endpage-divider"></div>
+                
+
+<style>
+    .footer-bottom-social li {
+      display: inline-block;
+      font-size: 14px;
+      border-right: 1px solid #BDBDBD;
+      margin-right: 15px;
+      padding-right: 15px;
+    }
+    .footer-bottom-social li a,.footer-bottom-social li{
+        color: white !important;
+    }
+    .footer-sticky{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    }
+</style>
+
+<!-- FooterBottom Start -->
+<div class="footer-area-bottom ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <p class="text-white font_18">© FCIS-AinShams 2020 - 2026 &nbsp; </p>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                <ul class="footer-bottom-social">
+                    <li><a href="/App/TermsAndConditions">شروط الاستخدام</a></li>
+                    <li><a href="/App/Privacy">سياسية الخصوصية</a></li>
+                    <li><a href="/App/FAQ">اسئلة شائعة</a></li>
+                    <li><a href="/App/CustomerServiceCharter">ميثاق خدمة المتعاملين</a></li>
+                    
+                        <li>41</li>
+                  
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FooterBottom End -->
+
+            </div>
+
+    </div>
+
+    
+
+    <script src="/assets/js/plugins.js" type="text/javascript"></script>
+    <!-- Bootstrap js -->
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- WOW JS -->
+    <script src="/assets/js/wow.min.js"></script>
+    <!-- Nivo slider js -->
+    <script src="/assets/vendor/AR/slider/js/jquery.nivo.slider.js" type="text/javascript"></script>
+    <script src="/assets/vendor/AR/slider/home.js" type="text/javascript"></script>
+    <!-- Meanmenu Js -->
+    <script src="/assets/js/jquery.meanmenu.min.js" type="text/javascript"></script>
+    <!-- Srollup js -->
+    <script src="/assets/js/jquery.scrollUp.min.js" type="text/javascript"></script>
+    <!-- jquery.counterup js -->
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <!-- Countdown js -->
+    <script src="/assets/js/jquery.countdown.min.js" type="text/javascript"></script>
+    <!-- Isotope js -->
+    <script src="/assets/js/isotope.pkgd.min.js" type="text/javascript"></script>
+    <!-- Select2 Js -->
+    <script src="/assets/js/select2.min.js" type="text/javascript"></script>
+    <!-- Nouislider Js -->
+    <script src="/assets/vendor/AR/noUiSlider/nouislider.min.js" type="text/javascript"></script>
+    <!-- Validator js -->
+    <script src="/assets/js/validator.min.js" type="text/javascript"></script>
+    <!-- Magic Popup js -->
+    <script src="/assets/js/jquery.magnific-popup.min.js" type="text/javascript"></script>
+    <!-- Gridrotator js -->
+    <script src="/assets/js/jquery.gridrotator.js" type="text/javascript"></script>
+    <!-- Custom Js -->
+        <script src="/assets/js/main-rtl.js" type="text/javascript"></script><a id="scrollUp" href="#top" style="display: none; position: fixed; z-index: 2147483647;"><i class="fa fa-arrow-up"></i></a>
+
+
+    <script>
+        $(document).ready(function () {
+            var tempdataval = ``
+            if (tempdataval != null && tempdataval != '')
+            {
+                Swal.fire({
+                    icon: 'error',
+                    // title: 'Error',
+                    text: tempdataval,
+                })
+            }
+
+            var tempsuccess = ``
+            if (tempsuccess != null && tempsuccess != '')
+            {
+                Swal.fire({
+                    icon: 'success',
+                    // title: 'Success',
+                    text: tempsuccess,
+                })
+            }
+            //textToSpeech()
+        })
+    </script>
+
+    <script src="/Scripts/jquery.validate.min.js"></script>
+
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    
+
+
+
+
+
+<script>
+
+    function generateUrl(url, params) {
+        var i = 0, key;
+        for (key in params) {
+            if (i === 0) {
+                url += "?";
+            } else {
+                url += "&";
+            }
+            url += key;
+            url += '=';
+            url += params[key];
+            i++;
+        }
+        return url;
+    }
+</script><div class="k-list-container k-popup k-group k-reset" id="DomainName-list" data-role="popup" aria-hidden="true" style="display: none; position: absolute;"><span class="k-list-filter"><input class="k-textbox" role="listbox" aria-haspopup="true" aria-expanded="false" aria-owns="DomainName_listbox" tabindex="0" aria-disabled="false" aria-activedescendant="36822a30-59b8-41f9-bed5-918a27fcd652"><span class="k-icon k-i-zoom"></span></span><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="DomainName_listbox" aria-live="polite" data-role="staticlist" role="listbox"><li tabindex="-1" role="option" unselectable="on" class="k-item k-state-focused k-state-selected" aria-selected="true" data-offset-index="0" id="36822a30-59b8-41f9-bed5-918a27fcd652">كلية الحاسبات والمعلومات</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="1">كلية الألسن</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="2">كلية الطب</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="3">كلية الزراعة</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="4">كلية الآداب</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="5">كلية طب الأسنان</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="6">كلية التمريض</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="7">كلية التربية النوعية</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="8">كلية العلوم</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="9">كلية الآثار</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="10">كلية التجارة</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="11">كلية الصيدلة</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="12">كلية البنات للأداب والعلوم والتربية</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="13">كلية الحقوق</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="14">كلية التربية</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="15">كلية الدراسات العليا للطفولة</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="16">المعهد الفني للتمريض (التابع لكلية التمريض)</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="17">المعهد الفنى التخصصى</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="18">كلية طب البيطري</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="19">كلية الاعلام</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="20">برنامج الماجستير في الأدارة المتكاملة للموارد المائية</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="21">كلية الدراسات والبحوث البيئية</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="22">معهد الدراسات العليا والبحوث الزراعية فى المناطق القاحلة</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="23">جامعة عين شمس</li><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="24">علوم تجريبي</li></ul></div><div class="k-nodata" style="display:none"><div>No data found.</div></div></div></body><!-- Body End --></html>

@@ -13,8 +13,22 @@ class EnrolledCoursesNotifier extends AsyncNotifier<List<Course>> {
     final user = ref.watch(currentUserProvider).valueOrNull;
     if (user == null) return [];
     
-    // Use email to fetch enrolled courses
-    return DataService.getEnrolledCourses(user.email);
+    // Fetch app enrolled courses and UMS courses in parallel
+    final results = await Future.wait([
+      DataService.getEnrolledCourses(user.email),
+      DataService.getUmsCourses(),
+    ]);
+    
+    final appCourses = results[0];
+    final umsCourses = results[1];
+    
+    // Merge: add UMS courses that aren't already in app courses (by code)
+    final appCourseCodes = appCourses.map((c) => c.code.toLowerCase()).toSet();
+    final uniqueUmsCourses = umsCourses
+        .where((c) => !appCourseCodes.contains(c.code.toLowerCase()))
+        .toList();
+    
+    return [...appCourses, ...uniqueUmsCourses];
   }
 
   Future<void> enroll(String courseId) async {
@@ -38,7 +52,20 @@ class EnrolledCoursesNotifier extends AsyncNotifier<List<Course>> {
   Future<List<Course>> _fetchCourses() async {
     final user = ref.read(currentUserProvider).valueOrNull;
     if (user == null) return [];
-    return DataService.getEnrolledCourses(user.email);
+    
+    final results = await Future.wait([
+      DataService.getEnrolledCourses(user.email),
+      DataService.getUmsCourses(),
+    ]);
+    
+    final appCourses = results[0];
+    final umsCourses = results[1];
+    final appCourseCodes = appCourses.map((c) => c.code.toLowerCase()).toSet();
+    final uniqueUmsCourses = umsCourses
+        .where((c) => !appCourseCodes.contains(c.code.toLowerCase()))
+        .toList();
+    
+    return [...appCourses, ...uniqueUmsCourses];
   }
 }
 

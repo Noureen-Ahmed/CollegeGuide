@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../storage_services.dart';
 import '../../providers/app_session_provider.dart';
-import '../../providers/app_mode_provider.dart';
-import '../../providers/course_provider.dart';
 import '../../models/course.dart';
 import '../../services/data_service.dart';
 
@@ -22,17 +18,17 @@ class SelectCoursePage extends ConsumerStatefulWidget {
 class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _gpaController = TextEditingController();
-  
+
   // Department and Program data
   List<Map<String, dynamic>> _departments = [];
   List<Map<String, dynamic>> _programs = [];
   List<Map<String, dynamic>> _levels = [];
-  
+
   String? _selectedDepartmentId;
   String? _selectedProgramId;
   int? _selectedLevel;
   CourseCategory? _selectedCategoryFilter;
-  
+
   List<String> selectedCourseIds = [];
   bool _isLoading = true;
   bool _isSaving = false;
@@ -49,13 +45,14 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
     try {
       // Load Departments and Levels from Backend
       final metadata = await DataService.getDepartments();
-      
+
       // Load Courses from Backend
       final courses = await DataService.getCourses();
 
       if (mounted) {
         setState(() {
-          _departments = List<Map<String, dynamic>>.from(metadata['departments'] ?? []);
+          _departments =
+              List<Map<String, dynamic>>.from(metadata['departments'] ?? []);
           _levels = List<Map<String, dynamic>>.from(metadata['levels'] ?? []);
           _allCourses = courses;
           _isLoading = false;
@@ -71,7 +68,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
     setState(() {
       _selectedDepartmentId = departmentId;
       _selectedProgramId = null;
-      
+
       // Update programs based on selected department
       if (departmentId != null) {
         final dept = _departments.firstWhere(
@@ -97,15 +94,15 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
     return _allCourses.where((course) {
       bool matchesSearch = course.code.toLowerCase().contains(query) ||
           course.name.toLowerCase().contains(query);
-      
+
       bool matchesLevel = true;
       if (_selectedLevel != null) {
         // Simple heuristic: 1st digit of number in code matches level
         // e.g. COMP101 -> 1, COMP201 -> 2
         final digits = course.code.replaceAll(RegExp(r'[^0-9]'), '');
         if (digits.isNotEmpty) {
-           int courseLevel = int.parse(digits[0]);
-           matchesLevel = courseLevel == _selectedLevel;
+          int courseLevel = int.parse(digits[0]);
+          matchesLevel = courseLevel == _selectedLevel;
         }
       }
 
@@ -141,7 +138,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
       _showError('Please select your level');
       return false;
     }
-    
+
     final gpaText = _gpaController.text.trim();
     if (gpaText.isNotEmpty) {
       final gpa = double.tryParse(gpaText);
@@ -150,12 +147,12 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
         return false;
       }
     }
-    
+
     if (selectedCourseIds.isEmpty) {
       _showError('Please select at least one course');
       return false;
     }
-    
+
     return true;
   }
 
@@ -167,7 +164,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
 
   Future<void> _finishSelection() async {
     if (!_validateForm()) return;
-    
+
     setState(() => _isSaving = true);
 
     await StorageService.saveCourses(selectedCourseIds);
@@ -177,7 +174,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
       (d) => d['id'] == _selectedDepartmentId,
       orElse: () => {'name': ''},
     )['name'];
-    
+
     final programName = _programs.firstWhere(
       (p) => p['id'] == _selectedProgramId,
       orElse: () => {'name': ''},
@@ -186,10 +183,10 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
     // Update user with all profile data
     final currentUser = ref.read(currentUserProvider).value;
     if (currentUser != null) {
-      final gpa = _gpaController.text.isNotEmpty 
-          ? double.tryParse(_gpaController.text) 
+      final gpa = _gpaController.text.isNotEmpty
+          ? double.tryParse(_gpaController.text)
           : null;
-          
+
       final updatedUser = currentUser.copyWith(
         department: deptName,
         departmentId: _selectedDepartmentId,
@@ -200,12 +197,14 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
         enrolledCourses: selectedCourseIds,
         isOnboardingComplete: true,
       );
-      
+
       // This updates the user in the database AND updates the local state
       // The authStateProvider will automatically detect isOnboardingComplete=true
       // and redirect to /home
-      await ref.read(appSessionControllerProvider.notifier).updateUser(updatedUser);
-      
+      await ref
+          .read(appSessionControllerProvider.notifier)
+          .updateUser(updatedUser);
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -266,7 +265,9 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                         IconButton(
                           icon: const Icon(Icons.logout, color: Colors.white70),
                           onPressed: () async {
-                            await ref.read(appSessionControllerProvider.notifier).logout();
+                            await ref
+                                .read(appSessionControllerProvider.notifier)
+                                .logout();
                           },
                         ),
                       ],
@@ -283,7 +284,8 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(32)),
                   ),
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -302,50 +304,59 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // Department Dropdown
                               _buildDropdown(
                                 label: 'Department',
                                 value: _selectedDepartmentId,
-                                items: _departments.map((d) => DropdownMenuItem<String>(
-                                  value: d['id'],
-                                  child: Text(d['name']),
-                                )).toList(),
+                                items: _departments
+                                    .map((d) => DropdownMenuItem<String>(
+                                          value: d['id'],
+                                          child: Text(d['name']),
+                                        ))
+                                    .toList(),
                                 onChanged: _onDepartmentChanged,
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // Program Dropdown
                               _buildDropdown(
                                 label: 'Program',
                                 value: _selectedProgramId,
-                                items: _programs.map((p) => DropdownMenuItem<String>(
-                                  value: p['id'],
-                                  child: Text(p['name']),
-                                )).toList(),
-                                onChanged: (value) => setState(() => _selectedProgramId = value),
+                                items: _programs
+                                    .map((p) => DropdownMenuItem<String>(
+                                          value: p['id'],
+                                          child: Text(p['name']),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) =>
+                                    setState(() => _selectedProgramId = value),
                                 enabled: _selectedDepartmentId != null,
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // Level Dropdown
                               _buildDropdown(
                                 label: 'Level',
                                 value: _selectedLevel,
-                                items: _levels.map((l) => DropdownMenuItem<int>(
-                                  value: l['id'],
-                                  child: Text(l['name']),
-                                )).toList(),
+                                items: _levels
+                                    .map((l) => DropdownMenuItem<int>(
+                                          value: l['id'],
+                                          child: Text(l['name']),
+                                        ))
+                                    .toList(),
                                 onChanged: (value) => setState(() {
                                   _selectedLevel = value;
                                 }),
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // GPA Input
                               TextFormField(
                                 controller: _gpaController,
-                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 decoration: InputDecoration(
                                   labelText: 'GPA (optional)',
                                   hintText: 'Enter your GPA (0.0 - 4.0)',
@@ -353,18 +364,20 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                   fillColor: const Color(0xFFf9fafb),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(color: Color(0xFFe5e7eb)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFe5e7eb)),
                                   ),
                                 ),
                               ),
-                              
+
                               const SizedBox(height: 32),
                               const Divider(),
                               const SizedBox(height: 16),
-                              
+
                               // Course Selection Section
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'Select Courses',
@@ -379,13 +392,17 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                     value: _selectedCategoryFilter,
                                     hint: const Text('All Categories'),
                                     items: [
-                                      const DropdownMenuItem(value: null, child: Text('All')),
-                                      ...CourseCategory.values.map((c) => DropdownMenuItem(
-                                        value: c,
-                                        child: Text(c.name.toUpperCase()),
-                                      )),
+                                      const DropdownMenuItem(
+                                          value: null, child: Text('All')),
+                                      ...CourseCategory.values
+                                          .map((c) => DropdownMenuItem(
+                                                value: c,
+                                                child:
+                                                    Text(c.name.toUpperCase()),
+                                              )),
                                     ],
-                                    onChanged: (val) => setState(() => _selectedCategoryFilter = val),
+                                    onChanged: (val) => setState(
+                                        () => _selectedCategoryFilter = val),
                                     underline: Container(),
                                   ),
                                 ],
@@ -396,14 +413,15 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                 style: const TextStyle(color: Colors.grey),
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // Search
                               TextField(
                                 controller: _searchController,
                                 onChanged: (_) => setState(() {}),
                                 decoration: InputDecoration(
                                   hintText: 'Search courses...',
-                                  prefixIcon: const Icon(Icons.search, color: Color(0xFF9ca3af)),
+                                  prefixIcon: const Icon(Icons.search,
+                                      color: Color(0xFF9ca3af)),
                                   filled: true,
                                   fillColor: const Color(0xFFf9fafb),
                                   border: OutlineInputBorder(
@@ -413,27 +431,34 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              
+
                               // Course List
-                              filteredCourses.isEmpty 
-                                ? const Center(child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Text('No courses found matching filters'),
-                                  ))
-                                : Column(
-                                    children: filteredCourses.map((course) => _buildCourseCard(course)).toList(),
-                                  ),
-                              
+                              filteredCourses.isEmpty
+                                  ? const Center(
+                                      child: Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: Text(
+                                          'No courses found matching filters'),
+                                    ))
+                                  : Column(
+                                      children: filteredCourses
+                                          .map((course) =>
+                                              _buildCourseCard(course))
+                                          .toList(),
+                                    ),
+
                               const SizedBox(height: 24),
-                              
+
                               // Submit Button
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: _isSaving ? null : _finishSelection,
+                                  onPressed:
+                                      _isSaving ? null : _finishSelection,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF2563eb),
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -442,11 +467,16 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                                       ? const SizedBox(
                                           height: 20,
                                           width: 20,
-                                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                          child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2),
                                         )
                                       : const Text(
                                           'Complete Setup',
-                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
                                         ),
                                 ),
                               ),
@@ -471,7 +501,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
     bool enabled = true,
   }) {
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       isExpanded: true,
       decoration: InputDecoration(
         labelText: label,
@@ -494,7 +524,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
 
   Widget _buildCourseCard(Course course) {
     final isSelected = selectedCourseIds.contains(course.id);
-    
+
     return GestureDetector(
       onTap: () => _toggleCourse(course.id),
       child: Container(
@@ -504,7 +534,8 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
           color: isSelected ? const Color(0xFFeff6ff) : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFF2563eb) : const Color(0xFFe5e7eb),
+            color:
+                isSelected ? const Color(0xFF2563eb) : const Color(0xFFe5e7eb),
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -515,9 +546,12 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? const Color(0xFF2563eb) : Colors.transparent,
+                color:
+                    isSelected ? const Color(0xFF2563eb) : Colors.transparent,
                 border: Border.all(
-                  color: isSelected ? const Color(0xFF2563eb) : const Color(0xFFd1d5db),
+                  color: isSelected
+                      ? const Color(0xFF2563eb)
+                      : const Color(0xFFd1d5db),
                   width: 2,
                 ),
               ),
@@ -530,7 +564,7 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Row(
+                  Row(
                     children: [
                       Text(
                         course.code,
@@ -541,18 +575,20 @@ class _SelectCoursePageState extends ConsumerState<SelectCoursePage> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                           color: Colors.grey.shade100,
-                           borderRadius: BorderRadius.circular(4),
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           course.category.name.toUpperCase(),
-                          style: TextStyle(fontSize: 10, color: Colors.grey.shade700),
+                          style: TextStyle(
+                              fontSize: 10, color: Colors.grey.shade700),
                         ),
                       ),
                     ],
-                   ),
+                  ),
                   Text(
                     course.name,
                     style: const TextStyle(color: Color(0xFF6b7280)),

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CollegeGuide Database UML Diagram</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a2e;
+            font-family: 'Segoe UI', sans-serif;
+            color: #e0e0e0;
+        }
+        h1 {
+            text-align: center;
+            color: #00d2ff;
+            margin-bottom: 5px;
+        }
+        p.hint {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        #diagram-container {
+            overflow: auto;
+            border: 1px solid #333;
+            border-radius: 12px;
+            background: #16213e;
+            padding: 30px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+        .mermaid svg {
+            max-width: none !important;
+        }
+        .controls {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .controls button {
+            background: #0f3460;
+            color: #00d2ff;
+            border: 1px solid #00d2ff;
+            padding: 8px 20px;
+            margin: 0 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .controls button:hover {
+            background: #00d2ff;
+            color: #1a1a2e;
+        }
+        .controls span {
+            color: #ccc;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CollegeGuide — Database ER Diagram</h1>
+    <p class="hint">Use the buttons below or Ctrl + Scroll to zoom. Drag to pan.</p>
+    <div class="controls">
+        <button onclick="zoomIn()">➕ Zoom In</button>
+        <span id="zoom-level">100%</span>
+        <button onclick="zoomOut()">➖ Zoom Out</button>
+        <button onclick="resetZoom()">↺ Reset</button>
+    </div>
+    <div id="diagram-container">
+        <div class="mermaid" id="mermaid-div">
+erDiagram
+    Faculty ||--o{ Department : "has"
+    Department ||--o{ Program : "has"
+    Department ||--o{ Course : "belongs to"
+    Department ||--o{ User : "professor dept"
+    Program ||--o{ User : "student program"
+    Program ||--o{ Course : "specific to"
+    Program ||--o{ ProgramInstructor : "taught by"
+
+    User ||--o{ ProgramInstructor : "teaches in"
+    User ||--o{ Enrollment : "enrolls"
+    User ||--o{ CourseInstructor : "teaches"
+    User ||--o{ Task : "creates"
+    User ||--o{ TaskSubmission : "submits"
+    User ||--o{ Announcement : "creates"
+    User ||--o{ Notification : "receives"
+    User ||--o{ ScheduleEvent : "has"
+    User ||--o{ CourseContent : "creates"
+    User ||--o{ VerificationCode : "has"
+
+    Course ||--o{ CourseInstructor : "has"
+    Course ||--o{ Enrollment : "has"
+    Course ||--o{ CourseContent : "has"
+    Course ||--o{ Task : "has"
+    Course ||--o{ Announcement : "has"
+    Course ||--o{ CourseSchedule : "has"
+
+    Task ||--o{ TaskSubmission : "has"
+
+    User ||--o| UmsSession : "has"
+    User ||--o{ UmsCourse : "has"
+    User ||--o{ UmsGrade : "has"
+
+    Faculty {
+        String id PK
+        String name UK
+        String nameAr
+        String code UK
+        String description
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    Department {
+        String id PK
+        String name
+        String nameAr
+        String code UK
+        String description
+        String facultyId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    Program {
+        String id PK
+        String name
+        String nameAr
+        String code UK
+        String description
+        Int creditHours
+        String departmentId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    ProgramInstructor {
+        Int id PK
+        DateTime assignedAt
+        String professorId FK
+        String programId FK
+    }
+
+    User {
+        String id PK
+        String email UK
+        String password
+        String name
+        String nameAr
+        String avatar
+        String phone
+        UserRole role
+        String studentId UK
+        Float gpa
+        Int level
+        String programId FK
+        String departmentId FK
+        Boolean isVerified
+        Boolean isOnboardingComplete
+        Boolean isActive
+        String fcmToken
+        DateTime createdAt
+        DateTime updatedAt
+        DateTime lastLoginAt
+    }
+
+    VerificationCode {
+        Int id PK
+        String code
+        VerificationType type
+        DateTime expiresAt
+        Boolean used
+        DateTime createdAt
+        String userId FK
+    }
+
+    Course {
+        String id PK
+        String code UK
+        String name
+        String nameAr
+        String description
+        CourseCategory category
+        Int creditHours
+        String semester
+        String academicYear
+        Boolean isActive
+        String departmentId FK
+        String programId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    CourseInstructor {
+        Int id PK
+        Boolean isPrimary
+        DateTime assignedAt
+        String userId FK
+        String courseId FK
+    }
+
+    Enrollment {
+        Int id PK
+        EnrollmentStatus status
+        DateTime enrolledAt
+        DateTime completedAt
+        String grade
+        Float gradePoints
+        String userId FK
+        String courseId FK
+    }
+
+    CourseContent {
+        String id PK
+        String title
+        String description
+        ContentType contentType
+        String fileUrl
+        Json attachments
+        Int weekNumber
+        Int orderIndex
+        Boolean isPublished
+        DateTime createdAt
+        DateTime updatedAt
+        String courseId FK
+        String createdById FK
+    }
+
+    CourseSchedule {
+        Int id PK
+        DayOfWeek dayOfWeek
+        String startTime
+        String endTime
+        String location
+        String room
+        String courseId FK
+    }
+
+    Task {
+        String id PK
+        String title
+        String description
+        TaskType taskType
+        TaskPriority priority
+        DateTime dueDate
+        DateTime startDate
+        Int maxPoints
+        Json attachments
+        Json questions
+        Json settings
+        Boolean published
+        String status
+        DateTime completedAt
+        DateTime createdAt
+        DateTime updatedAt
+        String courseId FK
+        String createdById FK
+    }
+
+    TaskSubmission {
+        String id PK
+        SubmissionStatus status
+        DateTime submittedAt
+        String fileUrl
+        String notes
+        Json answers
+        DateTime startedAt
+        Json snapshots
+        Float points
+        String grade
+        String feedback
+        DateTime gradedAt
+        String taskId FK
+        String studentId FK
+    }
+
+    Announcement {
+        String id PK
+        String title
+        String message
+        AnnouncementType type
+        Boolean isPinned
+        DateTime createdAt
+        DateTime expiresAt
+        String courseId FK
+        String createdById FK
+    }
+
+    Notification {
+        String id PK
+        String title
+        String message
+        NotificationType type
+        ReferenceType referenceType
+        String referenceId
+        Boolean isRead
+        Boolean isPushed
+        DateTime createdAt
+        DateTime readAt
+        String userId FK
+    }
+
+    ScheduleEvent {
+        String id PK
+        String title
+        String description
+        EventType eventType
+        DateTime startTime
+        DateTime endTime
+        Boolean isAllDay
+        String location
+        Boolean isRecurring
+        String recurrenceRule
+        DateTime createdAt
+        DateTime updatedAt
+        String userId FK
+    }
+
+    UmsSession {
+        Int id PK
+        Json cookies
+        DateTime lastSyncAt
+        DateTime expiresAt
+        Boolean isActive
+        String userId FK-UK
+    }
+
+    UmsCourse {
+        Int id PK
+        String courseCode
+        String courseName
+        String courseNameAr
+        Int creditHours
+        String section
+        String semester
+        String academicYear
+        String instructorName
+        Json rawData
+        DateTime syncedAt
+        String userId FK
+    }
+
+    UmsGrade {
+        Int id PK
+        String courseCode
+        String courseName
+        String grade
+        Float gradePoints
+        Int creditHours
+        String semester
+        String academicYear
+        Json rawData
+        DateTime syncedAt
+        String userId FK
+    }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            er: { useMaxWidth: false, layoutDirection: 'TB' },
+            themeVariables: {
+                primaryColor: '#0f3460',
+                primaryTextColor: '#e0e0e0',
+                lineColor: '#00d2ff',
+                background: '#16213e'
+            }
+        });
+
+        let currentZoom = 1;
+        const mermaidDiv = document.getElementById('mermaid-div');
+        const zoomLabel = document.getElementById('zoom-level');
+
+        function applyZoom() {
+            mermaidDiv.style.transform = `scale(${currentZoom})`;
+            mermaidDiv.style.transformOrigin = 'top center';
+            zoomLabel.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.2, 4);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.2, 0.2);
+            applyZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        document.getElementById('diagram-container').addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                if (e.deltaY < 0) zoomIn();
+                else zoomOut();
+            }
+        });
+    </script>
+</body>
+</html>

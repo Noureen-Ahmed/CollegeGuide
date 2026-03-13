@@ -56,9 +56,9 @@ class PhoneFrameWrapper extends StatelessWidget {
     // Only show phone frame on web
     if (!kIsWeb) return child;
     
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
         backgroundColor: const Color(0xFF1a1a2e),
         body: Center(
           child: Container(

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../providers/advising_provider.dart';
 import '../providers/app_session_provider.dart';
 import '../models/user.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AcademicAdvisingScreen extends ConsumerStatefulWidget {
   const AcademicAdvisingScreen({super.key});
@@ -52,12 +53,15 @@ class _AcademicAdvisingScreenState extends ConsumerState<AcademicAdvisingScreen>
           ? const Center(child: CircularProgressIndicator())
           : isDoctor
               ? _buildDoctorView(advisingState)
-              : _buildStudentView(advisingState),
+              : _buildStudentView(session, advisingState),
     );
   }
 
-  Widget _buildStudentView(AdvisingState state) {
-    if (state.advisor == null) {
+  Widget _buildStudentView(AppSessionAuthenticated session, AdvisingState state) {
+    final advisorName = state.advisor?.name ?? session.user.advisorName;
+    final advisorEmail = state.advisor?.email ?? session.user.advisorEmail;
+
+    if (advisorName == null) {
       return const Center(
         child: Padding(
           padding: EdgeInsets.all(32.0),
@@ -88,18 +92,38 @@ class _AcademicAdvisingScreenState extends ConsumerState<AcademicAdvisingScreen>
           ),
           const SizedBox(height: 16),
           Text(
-            state.advisor!.name,
+            advisorName,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const Text(
-            'Academic Advisor',
-            style: TextStyle(color: Colors.grey),
+          const SizedBox(height: 4),
+          Text(
+            advisorEmail ?? 'No email provided',
+            style: const TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
-            onPressed: () => context.go('/advising/chat/${state.advisor!.email}'),
-            icon: const Icon(Icons.chat),
-            label: const Text('Start Chat'),
+            onPressed: () async {
+              if (advisorEmail != null) {
+                final Uri outlookAppUri = Uri.parse('ms-outlook://compose?to=$advisorEmail');
+                final Uri outlookWebUri = Uri.parse('https://outlook.office.com/mail/deeplink/compose?to=$advisorEmail');
+                
+                try {
+                  if (await canLaunchUrl(outlookAppUri)) {
+                    await launchUrl(outlookAppUri);
+                  } else {
+                    await launchUrl(outlookWebUri, mode: LaunchMode.externalApplication);
+                  }
+                } catch (e) {
+                  debugPrint('Could not launch Outlook: $e');
+                  final Uri fallbackUri = Uri(scheme: 'mailto', path: advisorEmail);
+                  if (await canLaunchUrl(fallbackUri)) {
+                    await launchUrl(fallbackUri);
+                  }
+                }
+              }
+            },
+            icon: const Icon(Icons.email),
+            label: const Text('Email Advisor'),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF6366F1),
               foregroundColor: Colors.white,

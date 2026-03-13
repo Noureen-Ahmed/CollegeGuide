@@ -47,7 +47,7 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
         DataService.getTaskSubmissions(widget.taskId),
         DataService.getTask(widget.taskId)
       ]);
-      
+
       final submissions = futures[0] as List<Map<String, dynamic>>;
       final task = futures[1] as Task?;
 
@@ -69,7 +69,7 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
   }
 
   Future<void> _loadSubmissions() async {
-     try {
+    try {
       final submissions = await DataService.getTaskSubmissions(widget.taskId);
       if (mounted) {
         setState(() {
@@ -96,30 +96,33 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
   void _showGradingDialog(Map<String, dynamic> submission) async {
     // If it's an exam (has answers), go to detailed grading screen
     if (submission['answers'] != null) {
-       if (_task == null) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Exam data not loaded')));
-          return;
-       }
-       
-       final result = await Navigator.push(
-         context,
-         MaterialPageRoute(
-           builder: (context) => ExamGradingScreen(
-             submission: submission,
-             task: _task!, 
-           ),
-         ),
-       );
-       
-       if (result == true) {
-         _loadSubmissions();
-       }
-       return;
+      if (_task == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Exam data not loaded')));
+        return;
+      }
+
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ExamGradingScreen(
+            submission: submission,
+            task: _task!,
+          ),
+        ),
+      );
+
+      if (result == true) {
+        _loadSubmissions();
+      }
+      return;
     }
 
-    final pointsController = TextEditingController(text: submission['points']?.toString() ?? '');
-    final feedbackController = TextEditingController(text: submission['feedback'] ?? '');
-    
+    final pointsController =
+        TextEditingController(text: submission['points']?.toString() ?? '');
+    final feedbackController =
+        TextEditingController(text: submission['feedback'] ?? '');
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -132,44 +135,50 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
               // Student Info
               Row(
                 children: [
-                   UserAvatar(
-                     name: submission['student']['name'] ?? 'S',
-                     avatarUrl: submission['student']['avatar'],
-                     size: 40,
-                   ),
-                   const SizedBox(width: 12),
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Text(submission['student']['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                       Text(submission['student']['email'], style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-                     ],
-                   )
+                  UserAvatar(
+                    name: submission['student']['name'] ?? 'S',
+                    avatarUrl: submission['student']['avatar'],
+                    size: 40,
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(submission['student']['name'],
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text(submission['student']['email'],
+                          style:
+                              TextStyle(color: Colors.grey[600], fontSize: 12)),
+                    ],
+                  )
                 ],
               ),
               const SizedBox(height: 16),
-              
+
               // Submission Link
               if (submission['fileUrl'] != null)
                 ListTile(
                   leading: const Icon(Icons.attach_file, color: Colors.blue),
-                  title: const Text('View Submission File', style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
+                  title: const Text('View Submission File',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline)),
                   onTap: () => _openFile(submission['fileUrl']),
                   contentPadding: EdgeInsets.zero,
                   dense: true,
                 ),
-              
+
               if (submission['notes'] != null && submission['notes'].isNotEmpty)
                 Padding(
-                   padding: const EdgeInsets.symmetric(vertical: 8),
-                   child: Container(
-                     padding: const EdgeInsets.all(12),
-                     decoration: BoxDecoration(
-                       color: Colors.grey[100],
-                       borderRadius: BorderRadius.circular(8),
-                     ),
-                     child: Text(submission['notes']),
-                   ),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(submission['notes']),
+                  ),
                 ),
 
               const SizedBox(height: 16),
@@ -186,7 +195,7 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Feedback Input
               TextField(
                 controller: feedbackController,
@@ -200,7 +209,9 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
               final points = double.tryParse(pointsController.text);
@@ -221,12 +232,16 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
                 Navigator.pop(context);
                 if (success) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Grade saved!'), backgroundColor: Colors.green),
+                    const SnackBar(
+                        content: Text('Grade saved!'),
+                        backgroundColor: Colors.green),
                   );
                   _loadSubmissions(); // Reload
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Failed to save grade'), backgroundColor: Colors.red),
+                    const SnackBar(
+                        content: Text('Failed to save grade'),
+                        backgroundColor: Colors.red),
                   );
                 }
               }
@@ -240,15 +255,18 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final gradedCount = _submissions.where((s) => s['status'] == 'GRADED').length;
-    
+    final gradedCount =
+        _submissions.where((s) => s['status'] == 'GRADED').length;
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Grading Dashboard', style: TextStyle(fontSize: 16)),
-            Text(widget.taskTitle, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
+            Text(widget.taskTitle,
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.normal)),
           ],
         ),
         backgroundColor: Colors.white,
@@ -271,19 +289,28 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              _buildStat('Total', _submissions.length.toString(), Colors.blue),
-                              _buildStat('Graded', '$gradedCount/${_submissions.length}', Colors.green),
-                              _buildStat('Pending', (_submissions.length - gradedCount).toString(), Colors.orange),
+                              _buildStat('Total',
+                                  _submissions.length.toString(), Colors.blue),
+                              _buildStat(
+                                  'Graded',
+                                  '$gradedCount/${_submissions.length}',
+                                  Colors.green),
+                              _buildStat(
+                                  'Pending',
+                                  (_submissions.length - gradedCount)
+                                      .toString(),
+                                  Colors.orange),
                             ],
                           ),
                         ),
-                        
+
                         // List
                         Expanded(
                           child: ListView.separated(
                             padding: const EdgeInsets.all(16),
                             itemCount: _submissions.length,
-                            separatorBuilder: (c, i) => const SizedBox(height: 12),
+                            separatorBuilder: (c, i) =>
+                                const SizedBox(height: 12),
                             itemBuilder: (context, index) {
                               final sub = _submissions[index];
                               return _buildSubmissionCard(sub);
@@ -296,13 +323,15 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
   }
 
   Widget _buildEmptyState() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.assignment_turned_in_outlined, size: 64, color: Colors.grey),
+        children: [
+          Icon(Icons.assignment_turned_in_outlined,
+              size: 64, color: Colors.grey),
           SizedBox(height: 16),
-          Text('No submissions yet', style: TextStyle(fontSize: 18, color: Colors.grey)),
+          Text('No submissions yet',
+              style: TextStyle(fontSize: 18, color: Colors.grey)),
         ],
       ),
     );
@@ -311,7 +340,9 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
   Widget _buildStat(String label, String value, Color color) {
     return Column(
       children: [
-        Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
+        Text(value,
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: color)),
         Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );
@@ -321,7 +352,7 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
     final student = submission['student'];
     final isGraded = submission['status'] == 'GRADED';
     final submittedDate = DateTime.parse(submission['submittedAt']);
-    
+
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -336,7 +367,7 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
           child: Row(
             children: [
               UserAvatar(
-                name: student['name'], 
+                name: student['name'],
                 avatarUrl: student['avatar'],
                 size: 48,
               ),
@@ -347,7 +378,8 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
                   children: [
                     Text(
                       student['name'],
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
                       DateFormat('MMM d, h:mm a').format(submittedDate),
@@ -360,16 +392,23 @@ class _GradingDashboardState extends ConsumerState<GradingDashboard> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: isGraded ? Colors.green[50] : Colors.orange[50],
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: isGraded ? Colors.green[100]! : Colors.orange[100]!),
+                      border: Border.all(
+                          color: isGraded
+                              ? Colors.green[100]!
+                              : Colors.orange[100]!),
                     ),
                     child: Text(
-                      isGraded ? '${submission['points']} / ${widget.maxPoints}' : 'Pending',
+                      isGraded
+                          ? '${submission['points']} / ${widget.maxPoints}'
+                          : 'Pending',
                       style: TextStyle(
-                        color: isGraded ? Colors.green[700] : Colors.orange[700],
+                        color:
+                            isGraded ? Colors.green[700] : Colors.orange[700],
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                       ),

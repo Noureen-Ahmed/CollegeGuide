@@ -15,13 +15,17 @@ import '../models/user.dart';
 class DataService {
   // ============ AUTHENTICATION ============
   
-  /// Login and get user data
+  /// Login via UMS portal — authenticates against the university portal
+  /// and auto-creates/updates local user with synced data
   static Future<User?> login(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/auth/login'),
+        Uri.parse('${ApiConfig.baseUrl}/ums/login'),
         headers: ApiConfig.headers,
-        body: jsonEncode({'email': email, 'password': password}),
+        body: jsonEncode({
+          'loginName': email,
+          'password': password,
+        }),
       );
       
       if (response.statusCode == 200) {
@@ -96,6 +100,9 @@ class DataService {
         headers: ApiConfig.authHeaders,
         body: jsonEncode({
           'name': user.name,
+          'nameAr': user.nameAr,
+          'phone': user.phone,
+          'studentId': user.studentId,
           'department': user.department,
           'program': user.program,
           'programId': user.programId,
@@ -835,6 +842,124 @@ class DataService {
     }
   }
   
+  // ============ UMS PORTAL INTEGRATION ============
+
+  /// Login to UMS portal and sync student data
+  static Future<Map<String, dynamic>?> umsLogin({
+    required String loginName,
+    required String password,
+    String domain = 'asu.edu.eg',
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/ums/login'),
+        headers: ApiConfig.authHeaders,
+        body: jsonEncode({
+          'loginName': loginName,
+          'password': password,
+          'domain': domain,
+        }),
+      );
+      
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return null;
+    } catch (e) {
+      print('[DataService] UMS login error: $e');
+      return null;
+    }
+  }
+
+  /// Re-sync UMS data using stored session
+  static Future<Map<String, dynamic>?> umsSync() async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/ums/sync'),
+        headers: ApiConfig.authHeaders,
+      );
+      
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return null;
+    } catch (e) {
+      print('[DataService] UMS sync error: $e');
+      return null;
+    }
+  }
+
+  /// Get UMS synced courses
+  static Future<List<Course>> getUmsCourses() async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/ums/courses'),
+        headers: ApiConfig.authHeaders,
+      );
+      
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final List courses = data['courses'] ?? [];
+        return courses.map((c) => Course(
+          id: 'ums-${c['id']}',
+          code: c['course_code'] ?? c['courseCode'] ?? '',
+          name: c['course_name'] ?? c['courseName'] ?? '',
+          category: CourseCategory.comp,
+          creditHours: c['credit_hours'] ?? c['creditHours'] ?? 3,
+          professors: c['instructor_name'] != null ? [c['instructor_name']] 
+                     : c['instructorName'] != null ? [c['instructorName']] : [],
+          description: 'Synced from UMS Portal',
+          schedule: [],
+          content: [],
+          assignments: [],
+          exams: [],
+          enrollmentStatus: EnrollmentStatus.enrolled,
+        )).toList();
+      }
+      return [];
+    } catch (e) {
+      print('[DataService] Get UMS courses error: $e');
+      return [];
+    }
+  }
+
+  /// Get UMS synced grades
+  static Future<List<Map<String, dynamic>>> getUmsGrades() async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/ums/grades'),
+        headers: ApiConfig.authHeaders,
+      );
+      
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return List<Map<String, dynamic>>.from(data['grades'] ?? []);
+      }
+      return [];
+    } catch (e) {
+      print('[DataService] Get UMS grades error: $e');
+      return [];
+    }
+  }
+
+  /// Get UMS connection profile status
+  static Future<Map<String, dynamic>?> getUmsProfile() async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/ums/profile'),
+        headers: ApiConfig.authHeaders,
+      );
+      
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return null;
+    } catch (e) {
+      print('[DataService] Get UMS profile error: $e');
+      return null;
+    }
+  }
+
   // ============ HELPER METHODS ============
   
   static User? _parseUser(Map<String, dynamic>? json) {

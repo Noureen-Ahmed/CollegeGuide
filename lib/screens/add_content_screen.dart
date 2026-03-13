@@ -59,13 +59,14 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _pointsController = TextEditingController(text: '100');
+  final TextEditingController _pointsController =
+      TextEditingController(text: '100');
 
   DateTime? _dueDate;
   TimeOfDay? _dueTime;
-  
+
   // File attachments
-  List<String> _uploadedFiles = [];
+  final List<String> _uploadedFiles = [];
   bool _isUploading = false;
 
   // When true we show "Deadline & Grading" section
@@ -112,15 +113,17 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
 
   Future<void> _pickDueDate() async {
     DateTime tempDate = _dueDate ?? DateTime.now();
-    
+
     await showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
-          final busyNote = _busyDates[DateTime(tempDate.year, tempDate.month, tempDate.day)];
-          
+          final busyNote =
+              _busyDates[DateTime(tempDate.year, tempDate.month, tempDate.day)];
+
           return AlertDialog(
-            title: const Text('Select Date', style: TextStyle(color: Color(0xFF1D2B64))),
+            title: const Text('Select Date',
+                style: TextStyle(color: Color(0xFF1D2B64))),
             content: SizedBox(
               width: 350,
               height: 480,
@@ -128,7 +131,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TableCalendar(
-                    firstDay: DateTime.now().subtract(const Duration(days: 365)),
+                    firstDay:
+                        DateTime.now().subtract(const Duration(days: 365)),
                     lastDay: DateTime.now().add(const Duration(days: 365 * 5)),
                     focusedDay: tempDate,
                     selectedDayPredicate: (day) => isSameDay(tempDate, day),
@@ -180,11 +184,13 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                       decoration: BoxDecoration(
                         color: Colors.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                        border:
+                            Border.all(color: Colors.orange.withOpacity(0.3)),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.info_outline, size: 20, color: Colors.orange),
+                          const Icon(Icons.info_outline,
+                              size: 20, color: Colors.orange),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -205,7 +211,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.grey)),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -216,7 +223,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF7A6CF5),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text('OK'),
               ),
@@ -239,13 +247,15 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
 
   Future<void> _pickAndUploadFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
+      FilePickerResult? result =
+          await FilePicker.platform.pickFiles(type: FileType.any);
 
       if (result != null) {
         setState(() => _isUploading = true);
 
-        var request = http.MultipartRequest('POST', Uri.parse('${ApiConfig.baseUrl}/upload'));
-        
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('${ApiConfig.baseUrl}/upload'));
+
         final authHeader = ApiConfig.authHeaders['Authorization'];
         if (authHeader != null) {
           request.headers['Authorization'] = authHeader;
@@ -274,7 +284,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
               _uploadedFiles.add(data['fileUrl']);
               _isUploading = false;
             });
-            _showMessage('Uploaded: ${result.files.first.name}', isError: false);
+            _showMessage('Uploaded: ${result.files.first.name}',
+                isError: false);
           } else {
             throw Exception(data['message'] ?? 'Upload failed');
           }
@@ -362,12 +373,16 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
 
     if (success) {
       if (mounted) {
-        _showMessage('${_contentTypeLabels[_selectedType]} created! Students have been notified.', isError: false);
+        _showMessage(
+            '${_contentTypeLabels[_selectedType]} created! Students have been notified.',
+            isError: false);
         _resetForm();
       }
     } else {
       if (mounted) {
-        _showMessage('Failed to create ${_contentTypeLabels[_selectedType]?.toLowerCase()}', isError: true);
+        _showMessage(
+            'Failed to create ${_contentTypeLabels[_selectedType]?.toLowerCase()}',
+            isError: true);
       }
     }
   }
@@ -491,7 +506,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                                     _buildDeadlineSection(),
                                     const SizedBox(height: 16),
                                   ],
-                                  if (_selectedType != ContentType.announcement) ...[
+                                  if (_selectedType !=
+                                      ContentType.announcement) ...[
                                     _buildAttachmentSection(),
                                     const SizedBox(height: 16),
                                   ],
@@ -519,7 +535,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.go('/home'),
         ),
-        title: const Text('Access Denied', style: TextStyle(color: Colors.black)),
+        title:
+            const Text('Access Denied', style: TextStyle(color: Colors.black)),
       ),
       body: const Center(
         child: Column(
@@ -544,7 +561,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.school_outlined, size: 64, color: Color(0xFF7A6CF5)),
+            const Icon(Icons.school_outlined,
+                size: 64, color: Color(0xFF7A6CF5)),
             const SizedBox(height: 16),
             const Text(
               'No courses assigned',
@@ -581,19 +599,21 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
-            value: _selectedCourseId,
+            initialValue: _selectedCourseId,
             isExpanded: true,
             decoration: _roundedFieldDecoration.copyWith(
               hintText: 'Choose a course',
             ),
-            items: _courses.map((c) => DropdownMenuItem(
-              value: c.id,
-              child: Text(
-                '${c.code} - ${c.name}',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            )).toList(),
+            items: _courses
+                .map((c) => DropdownMenuItem(
+                      value: c.id,
+                      child: Text(
+                        '${c.code} - ${c.name}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ))
+                .toList(),
             onChanged: (v) => setState(() => _selectedCourseId = v),
           ),
         ],
@@ -625,12 +645,17 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                 onTap: () => setState(() => _selectedType = type),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                   decoration: BoxDecoration(
-                    color: selected ? const Color(0xFFE7E5FF) : const Color(0xFFF5F6FF),
+                    color: selected
+                        ? const Color(0xFFE7E5FF)
+                        : const Color(0xFFF5F6FF),
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: selected ? const Color(0xFF7A6CF5) : Colors.grey.shade300,
+                      color: selected
+                          ? const Color(0xFF7A6CF5)
+                          : Colors.grey.shade300,
                       width: selected ? 1.6 : 1,
                     ),
                   ),
@@ -640,7 +665,9 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                       Icon(
                         _contentTypeIcons[type],
                         size: 18,
-                        color: selected ? const Color(0xFF7A6CF5) : Colors.grey.shade700,
+                        color: selected
+                            ? const Color(0xFF7A6CF5)
+                            : Colors.grey.shade700,
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -648,7 +675,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                         style: TextStyle(
                           color: selected ? Colors.black : Colors.black87,
                           fontSize: 13,
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight:
+                              selected ? FontWeight.w700 : FontWeight.w500,
                         ),
                       ),
                     ],
@@ -671,9 +699,11 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
         children: [
           const Row(
             children: [
-              Icon(Icons.description_outlined, size: 18, color: Color(0xFF26C2FF)),
+              Icon(Icons.description_outlined,
+                  size: 18, color: Color(0xFF26C2FF)),
               SizedBox(width: 6),
-              Text('Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('Details',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 12),
@@ -703,7 +733,9 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
         ? 'Select Date'
         : '${_dueDate!.day.toString().padLeft(2, '0')}/${_dueDate!.month.toString().padLeft(2, '0')}/${_dueDate!.year}';
 
-    final busyInfo = _dueDate != null ? _busyDates[DateTime(_dueDate!.year, _dueDate!.month, _dueDate!.day)] : null;
+    final busyInfo = _dueDate != null
+        ? _busyDates[DateTime(_dueDate!.year, _dueDate!.month, _dueDate!.day)]
+        : null;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -715,7 +747,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
             children: [
               Icon(Icons.calendar_month, size: 18, color: Color(0xFFF6A400)),
               SizedBox(width: 6),
-              Text('Scheduling', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('Scheduling',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 12),
@@ -725,19 +758,23 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
               onTap: _pickDueDate,
               borderRadius: BorderRadius.circular(16),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today, size: 20, color: Color(0xFF7A6CF5)),
+                    const Icon(Icons.calendar_today,
+                        size: 20, color: Color(0xFF7A6CF5)),
                     const SizedBox(width: 12),
                     Text(
                       dateText,
                       style: TextStyle(
-                        color: _dueDate == null ? Colors.grey.shade600 : Colors.black,
+                        color: _dueDate == null
+                            ? Colors.grey.shade600
+                            : Colors.black,
                         fontSize: 14,
                       ),
                     ),
@@ -748,7 +785,6 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
               ),
             ),
           ),
-          
           if (busyInfo != null) ...[
             const SizedBox(height: 8),
             Container(
@@ -760,19 +796,22 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.warning_amber_rounded, size: 16, color: Colors.red),
+                  const Icon(Icons.warning_amber_rounded,
+                      size: 16, color: Colors.red),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       busyInfo,
-                      style: const TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
               ),
             ),
           ],
-
           const SizedBox(height: 16),
           _buildTimePicker('Due Time', _dueTime, _pickDueTime),
           const SizedBox(height: 12),
@@ -830,15 +869,16 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
             children: [
               Icon(Icons.attach_file, size: 18, color: Color(0xFF26C2FF)),
               SizedBox(width: 6),
-              Text('Attachments', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('Attachments',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 12),
           if (_uploadedFiles.isNotEmpty)
             Column(
               children: _uploadedFiles.map((url) {
-                final name = url.split('/').last.split('-').length > 1 
-                    ? url.split('/').last.split('-').skip(1).join('-') 
+                final name = url.split('/').last.split('-').length > 1
+                    ? url.split('/').last.split('-').skip(1).join('-')
                     : url.split('/').last;
                 return Container(
                   margin: const EdgeInsets.only(bottom: 8),
@@ -846,21 +886,25 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFF7F8FF),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFF7A6CF5).withOpacity(0.3)),
+                    border: Border.all(
+                        color: const Color(0xFF7A6CF5).withOpacity(0.3)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.insert_drive_file, color: Color(0xFF7A6CF5)),
+                      const Icon(Icons.insert_drive_file,
+                          color: Color(0xFF7A6CF5)),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           name,
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w500),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.close, size: 20, color: Colors.red),
+                        icon: const Icon(Icons.close,
+                            size: 20, color: Colors.red),
                         onPressed: () => _removeFile(url),
                       ),
                     ],
@@ -877,7 +921,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                   : const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.cloud_upload_outlined, size: 34, color: Color(0xFF7A6CF5)),
+                        Icon(Icons.cloud_upload_outlined,
+                            size: 34, color: Color(0xFF7A6CF5)),
                         SizedBox(height: 8),
                         Text(
                           'Click to upload or drag and drop',
@@ -907,7 +952,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
               side: const BorderSide(color: Colors.grey),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24)),
               foregroundColor: Colors.black87,
             ),
             onPressed: () {
@@ -926,7 +972,8 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF7A6CF5),
               padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               disabledBackgroundColor: const Color(0xFF7A6CF5).withOpacity(0.5),
             ),
             onPressed: _isSubmitting ? null : _submit,
@@ -934,9 +981,11 @@ class _AddContentScreenState extends ConsumerState<AddContentScreen> {
                 ? const SizedBox(
                     height: 20,
                     width: 20,
-                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                        color: Colors.white, strokeWidth: 2),
                   )
-                : const Text('Send', style: TextStyle(fontWeight: FontWeight.bold)),
+                : const Text('Send',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ),
       ],

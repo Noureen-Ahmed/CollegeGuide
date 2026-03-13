@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../../providers/app_session_provider.dart';
 import '../../providers/advising_provider.dart';
 
@@ -48,11 +46,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     setState(() => isLoading = true);
 
-    final result = await ref.read(appSessionControllerProvider.notifier).register(
-          nameController.text.trim(),
-          emailController.text.trim(),
-          passwordController.text,
-        );
+    final result =
+        await ref.read(appSessionControllerProvider.notifier).register(
+              nameController.text.trim(),
+              emailController.text.trim(),
+              passwordController.text,
+            );
 
     if (mounted) {
       if (result) {
@@ -62,7 +61,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             backgroundColor: Colors.green,
           ),
         );
-        
+
         context.go('/verification', extra: {
           'email': emailController.text.trim(),
           'password': passwordController.text,
@@ -85,7 +84,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         if (state is AppSessionError) {
           msg = state.message;
         }
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Registration failed: $msg'),
@@ -139,7 +138,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   padding: const EdgeInsets.all(24),
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(32)),
                   ),
                   child: SingleChildScrollView(
                     child: Form(
@@ -166,7 +166,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
                               }
-                              if (!value.endsWith('@gmail.com') && !value.contains('@')) {
+                              if (!value.endsWith('@gmail.com') &&
+                                  !value.contains('@')) {
                                 return 'Please enter a valid email';
                               }
                               return null;
@@ -183,8 +184,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 icon: Icon(obscurePassword
                                     ? Icons.visibility_off
                                     : Icons.visibility),
-                                onPressed: () =>
-                                    setState(() => obscurePassword = !obscurePassword),
+                                onPressed: () => setState(
+                                    () => obscurePassword = !obscurePassword),
                               ),
                             ),
                             validator: (value) {
@@ -205,8 +206,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 icon: Icon(obscureConfirm
                                     ? Icons.visibility_off
                                     : Icons.visibility),
-                                onPressed: () =>
-                                    setState(() => obscureConfirm = !obscureConfirm),
+                                onPressed: () => setState(
+                                    () => obscureConfirm = !obscureConfirm),
                               ),
                             ),
                             validator: (value) {
@@ -218,10 +219,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           const SizedBox(height: 16),
 
-
                           // Academic Advisor Section
-                          if (emailController.text.contains('doctor') || 
-                              emailController.text.contains('professor') || 
+                          if (emailController.text.contains('doctor') ||
+                              emailController.text.contains('professor') ||
                               emailController.text.contains('dr.')) ...[
                             const Divider(height: 32),
                             const Text(
@@ -237,7 +237,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               controller: studentEmailsController,
                               decoration: _buildInputDecoration(
                                 'Student Emails (comma separated)',
-                                const Icon(Icons.people_outline, color: Colors.grey),
+                                const Icon(Icons.people_outline,
+                                    color: Colors.grey),
                                 'student1@gmail.com, student2@gmail.com...',
                               ),
                               maxLines: 3,
@@ -252,11 +253,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               onPressed: isLoading ? null : register,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF2563eb),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                disabledBackgroundColor: const Color(0xFF93c5fd),
+                                disabledBackgroundColor:
+                                    const Color(0xFF93c5fd),
                               ),
                               child: isLoading
                                   ? const SizedBox(
@@ -311,7 +314,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     );
   }
 
-  InputDecoration _buildInputDecoration(String label, [Widget? suffix, String? hintText]) {
+  InputDecoration _buildInputDecoration(String label,
+      [Widget? suffix, String? hintText]) {
     return InputDecoration(
       labelText: label,
       hintText: hintText,
@@ -337,4 +341,3 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     );
   }
 }
- 

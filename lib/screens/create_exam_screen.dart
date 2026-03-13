@@ -19,45 +19,45 @@ class CreateExamScreen extends ConsumerStatefulWidget {
 
 class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Courses for selection
   List<Course> _courses = [];
   String? _selectedCourseId;
   bool _isLoadingCourses = true;
-  
+
   // Basic Info
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   DateTime _examDate = DateTime.now().add(const Duration(days: 1));
   TimeOfDay _examTime = const TimeOfDay(hour: 10, minute: 0);
   int _durationMinutes = 60;
-  
+
   // Questions
   final List<Map<String, dynamic>> _questions = [];
-  
+
   // Settings
   bool _shuffleQuestions = false;
   bool _showResultsImmediately = false;
   bool _isPublished = false;
-  
+
   bool _isLoading = false;
-  
+
   // Exam conflicts: dates where students have exams in other courses
   Map<DateTime, int> _examConflicts = {};
-  
+
   @override
   void initState() {
     super.initState();
     _loadCourses();
   }
-  
+
   Future<void> _loadCourses() async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) {
       setState(() => _isLoadingCourses = false);
       return;
     }
-    
+
     try {
       final courses = await DataService.getProfessorCourses(user.email);
       if (mounted) {
@@ -92,20 +92,23 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
 
   Future<void> _showExamDatePicker() async {
     DateTime tempDate = _examDate;
-    
+
     await showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
-          final normalizedTemp = DateTime(tempDate.year, tempDate.month, tempDate.day);
+          final normalizedTemp =
+              DateTime(tempDate.year, tempDate.month, tempDate.day);
           final conflictCount = _examConflicts[normalizedTemp];
           final screenHeight = MediaQuery.of(context).size.height;
           final screenWidth = MediaQuery.of(context).size.width;
-          
+
           return AlertDialog(
-            title: const Text('Select Exam Date', style: TextStyle(color: Color(0xFF002147), fontSize: 16)),
+            title: const Text('Select Exam Date',
+                style: TextStyle(color: Color(0xFF002147), fontSize: 16)),
             contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-            insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            insetPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             content: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: screenWidth * 0.9,
@@ -139,7 +142,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                       rowHeight: 40,
                       calendarBuilders: CalendarBuilders(
                         defaultBuilder: (context, day, focusedDay) {
-                          final normalizedDay = DateTime(day.year, day.month, day.day);
+                          final normalizedDay =
+                              DateTime(day.year, day.month, day.day);
                           if (_examConflicts.containsKey(normalizedDay)) {
                             return Container(
                               margin: const EdgeInsets.all(2.0),
@@ -150,7 +154,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                               ),
                               child: Text(
                                 '${day.day}',
-                                style: const TextStyle(color: Colors.white, fontSize: 13),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 13),
                               ),
                             );
                           }
@@ -161,7 +166,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                         formatButtonVisible: false,
                         titleCentered: true,
                         headerPadding: EdgeInsets.symmetric(vertical: 8),
-                        titleTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        titleTextStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -171,11 +177,13 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                         decoration: BoxDecoration(
                           color: Colors.orange.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                          border:
+                              Border.all(color: Colors.orange.withOpacity(0.3)),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.warning_amber_rounded, size: 18, color: Colors.orange),
+                            const Icon(Icons.warning_amber_rounded,
+                                size: 18, color: Colors.orange),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
@@ -197,7 +205,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.grey)),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -208,7 +217,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF002147),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text('OK'),
               ),
@@ -239,7 +249,7 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
     if (_courses.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -279,11 +289,12 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
         ),
       );
     }
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text('Create Exam', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text('Create Exam',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF002147),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -298,51 +309,55 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
           },
         ),
       ),
-      body: _isLoading 
-        ? const Center(child: CircularProgressIndicator(color: Color(0xFF002147)))
-        : Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                _buildCourseSelector(),
-                const SizedBox(height: 24),
-                _buildBasicInfoSection(),
-                const SizedBox(height: 24),
-                _buildQuestionsSection(),
-                const SizedBox(height: 24),
-                _buildSettingsSection(),
-                const SizedBox(height: 32),
-                _buildSubmitButton(),
-                const SizedBox(height: 120), // Extra padding for bottom nav
-              ],
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(color: Color(0xFF002147)))
+          : Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  _buildCourseSelector(),
+                  const SizedBox(height: 24),
+                  _buildBasicInfoSection(),
+                  const SizedBox(height: 24),
+                  _buildQuestionsSection(),
+                  const SizedBox(height: 24),
+                  _buildSettingsSection(),
+                  const SizedBox(height: 32),
+                  _buildSubmitButton(),
+                  const SizedBox(height: 120), // Extra padding for bottom nav
+                ],
+              ),
             ),
-          ),
     );
   }
-  
+
   Widget _buildCourseSelector() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Select Course', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text('Select Course',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         DropdownButtonFormField<String>(
-          value: _selectedCourseId,
+          initialValue: _selectedCourseId,
           isExpanded: true,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.school),
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           ),
-          items: _courses.map((c) => DropdownMenuItem(
-            value: c.id,
-            child: Text(
-              '${c.code} - ${c.name}',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          )).toList(),
+          items: _courses
+              .map((c) => DropdownMenuItem(
+                    value: c.id,
+                    child: Text(
+                      '${c.code} - ${c.name}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ))
+              .toList(),
           onChanged: (v) {
             setState(() => _selectedCourseId = v);
             if (v != null) _loadExamConflicts(v);
@@ -357,7 +372,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Exam Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text('Exam Details',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         TextFormField(
           controller: _titleController,
@@ -418,22 +434,24 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
         ),
         const SizedBox(height: 16),
         DropdownButtonFormField<int>(
-          value: _durationMinutes,
+          initialValue: _durationMinutes,
           decoration: const InputDecoration(
             labelText: 'Duration',
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.timer),
           ),
-          items: [30, 45, 60, 90, 120, 180].map((m) => DropdownMenuItem(
-            value: m,
-            child: Text('$m minutes'),
-          )).toList(),
+          items: [30, 45, 60, 90, 120, 180]
+              .map((m) => DropdownMenuItem(
+                    value: m,
+                    child: Text('$m minutes'),
+                  ))
+              .toList(),
           onChanged: (v) => setState(() => _durationMinutes = v!),
         ),
       ],
     );
   }
-  
+
   Widget _buildQuestionsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,9 +459,12 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Questions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('${_questions.length} questions • ${_calculateTotalPoints()} pts', 
-              style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500)),
+            const Text('Questions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+                '${_questions.length} questions • ${_calculateTotalPoints()} pts',
+                style: TextStyle(
+                    color: Colors.grey[600], fontWeight: FontWeight.w500)),
           ],
         ),
         const SizedBox(height: 16),
@@ -460,11 +481,11 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                 children: [
                   Icon(Icons.quiz_outlined, size: 48, color: Colors.grey[400]),
                   const SizedBox(height: 12),
-                  Text('No questions added yet', 
-                    style: TextStyle(color: Colors.grey[600], fontSize: 16)),
+                  Text('No questions added yet',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 16)),
                   const SizedBox(height: 4),
                   Text('Click "Add Question" to start building your exam',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12)),
+                      style: TextStyle(color: Colors.grey[500], fontSize: 12)),
                 ],
               ),
             ),
@@ -509,11 +530,15 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.blue[50], 
-          child: Text('${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+          backgroundColor: Colors.blue[50],
+          child: Text('${index + 1}',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.blue)),
         ),
-        title: Text(question['text'], maxLines: 1, overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.w600)),
+        title: Text(question['text'],
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text('${question['type']} • ${question['points']} pts'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -532,11 +557,11 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       ),
     );
   }
-  
+
   Widget _buildSettingsSection() {
     // Check if there are any written/TEXT questions
     final hasWrittenQuestions = _questions.any((q) => q['type'] == 'TEXT');
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -551,7 +576,8 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             children: [
               Icon(Icons.settings, color: Color(0xFF002147)),
               SizedBox(width: 8),
-              Text('Exam Settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Exam Settings',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 16),
@@ -561,17 +587,18 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             value: _shuffleQuestions,
             onChanged: (v) => setState(() => _shuffleQuestions = v),
             contentPadding: EdgeInsets.zero,
-            activeColor: const Color(0xFF002147),
+            activeThumbColor: const Color(0xFF002147),
           ),
           // Only show if there are NO written questions (auto-grading only works for MCQ/True-False)
           if (!hasWrittenQuestions)
             SwitchListTile(
               title: const Text('Show Results Immediately'),
-              subtitle: const Text('Allow students to see their score after submission'),
+              subtitle: const Text(
+                  'Allow students to see their score after submission'),
               value: _showResultsImmediately,
               onChanged: (v) => setState(() => _showResultsImmediately = v),
               contentPadding: EdgeInsets.zero,
-              activeColor: const Color(0xFF002147),
+              activeThumbColor: const Color(0xFF002147),
             )
           else
             Container(
@@ -600,13 +627,13 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             value: _isPublished,
             onChanged: (v) => setState(() => _isPublished = v),
             contentPadding: EdgeInsets.zero,
-            activeColor: const Color(0xFF002147),
+            activeThumbColor: const Color(0xFF002147),
           ),
         ],
       ),
     );
   }
-  
+
   Widget _buildSubmitButton() {
     return SizedBox(
       width: double.infinity,
@@ -616,22 +643,25 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
           padding: const EdgeInsets.symmetric(vertical: 18),
           backgroundColor: const Color(0xFF002147),
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        child: const Text('Create Exam', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: const Text('Create Exam',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ),
     );
   }
-  
+
   int _calculateTotalPoints() {
     return _questions.fold(0, (sum, q) => sum + (q['points'] as int? ?? 0));
   }
-  
+
   void _showAddQuestionDialog() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -639,7 +669,11 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Select Question Type', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF002147))),
+              const Text('Select Question Type',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF002147))),
               const SizedBox(height: 20),
               ListTile(
                 leading: Container(
@@ -650,8 +684,10 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                   ),
                   child: const Icon(Icons.list, color: Colors.blue),
                 ),
-                title: const Text('Multiple Choice', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Students select one correct answer', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                title: const Text('Multiple Choice',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                subtitle: const Text('Students select one correct answer',
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
                 onTap: () {
                   Navigator.pop(context);
                   _openQuestionEditor(type: 'MCQ');
@@ -665,10 +701,13 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                     color: Colors.green.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.check_circle_outline, color: Colors.green),
+                  child: const Icon(Icons.check_circle_outline,
+                      color: Colors.green),
                 ),
-                title: const Text('True / False', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Students answer True or False', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                title: const Text('True / False',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                subtitle: const Text('Students answer True or False',
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
                 onTap: () {
                   Navigator.pop(context);
                   _openQuestionEditor(type: 'TRUE_FALSE');
@@ -684,8 +723,11 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
                   ),
                   child: const Icon(Icons.edit_note, color: Colors.orange),
                 ),
-                title: const Text('Written Answer', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Free-text answer, requires manual grading', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                title: const Text('Written Answer',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                subtitle: const Text(
+                    'Free-text answer, requires manual grading',
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
                 onTap: () {
                   Navigator.pop(context);
                   _openQuestionEditor(type: 'TEXT');
@@ -698,7 +740,7 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       ),
     );
   }
-  
+
   void _editQuestion(int index) {
     _openQuestionEditor(
       type: _questions[index]['type'],
@@ -706,8 +748,11 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       editIndex: index,
     );
   }
-  
-  void _openQuestionEditor({required String type, Map<String, dynamic>? initialData, int? editIndex}) {
+
+  void _openQuestionEditor(
+      {required String type,
+      Map<String, dynamic>? initialData,
+      int? editIndex}) {
     showDialog(
       context: context,
       builder: (context) => _QuestionEditorDialog(
@@ -725,16 +770,17 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       ),
     );
   }
-  
+
   Future<void> _submitExam() async {
     if (!_formKey.currentState!.validate()) return;
     if (_questions.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please add at least one question')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please add at least one question')));
       return;
     }
-    
+
     setState(() => _isLoading = true);
-    
+
     final examDateTime = DateTime(
       _examDate.year,
       _examDate.month,
@@ -742,7 +788,7 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       _examTime.hour,
       _examTime.minute,
     );
-    
+
     final success = await DataService.createExam(
       courseId: _selectedCourseId!,
       title: _titleController.text,
@@ -757,9 +803,9 @@ class _CreateExamScreenState extends ConsumerState<CreateExamScreen> {
       },
       published: _isPublished,
     );
-    
+
     setState(() => _isLoading = false);
-    
+
     if (success) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -793,7 +839,8 @@ class _QuestionEditorDialog extends StatefulWidget {
   final Map<String, dynamic>? initialData;
   final Function(Map<String, dynamic>) onSave;
 
-  const _QuestionEditorDialog({required this.type, this.initialData, required this.onSave});
+  const _QuestionEditorDialog(
+      {required this.type, this.initialData, required this.onSave});
 
   @override
   State<_QuestionEditorDialog> createState() => _QuestionEditorDialogState();
@@ -810,14 +857,18 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController(text: widget.initialData?['text'] ?? '');
-    _pointsController = TextEditingController(text: (widget.initialData?['points'] ?? 5).toString());
+    _textController =
+        TextEditingController(text: widget.initialData?['text'] ?? '');
+    _pointsController = TextEditingController(
+        text: (widget.initialData?['points'] ?? 5).toString());
     _imageUrl = widget.initialData?['imageUrl'];
-    
+
     if (widget.type == 'MCQ') {
       final options = widget.initialData?['options'] as List?;
       if (options != null) {
-        _optionControllers = options.map((o) => TextEditingController(text: o.toString())).toList();
+        _optionControllers = options
+            .map((o) => TextEditingController(text: o.toString()))
+            .toList();
         // Restore correct answer index if available
         if (widget.initialData?['correctAnswerIndex'] != null) {
           _correctAnswer = widget.initialData!['correctAnswerIndex'].toString();
@@ -830,11 +881,15 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
           }
         }
       } else {
-        _optionControllers = [TextEditingController(), TextEditingController()]; // Start with 2 empty options
+        _optionControllers = [
+          TextEditingController(),
+          TextEditingController()
+        ]; // Start with 2 empty options
       }
     } else if (widget.type == 'TRUE_FALSE') {
       // Correct answer is 'true' or 'false' boolean string
-      _correctAnswer = widget.initialData?['correctAnswer']?.toString() ?? 'true';
+      _correctAnswer =
+          widget.initialData?['correctAnswer']?.toString() ?? 'true';
     }
   }
 
@@ -849,7 +904,7 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
       if (result != null && result.files.single.bytes != null) {
         final file = result.files.single;
         final url = await DataService.uploadFile(file.bytes!, file.name);
-        
+
         if (url != null) {
           setState(() {
             _imageUrl = url;
@@ -870,7 +925,9 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.initialData == null ? 'Add ${widget.type} Question' : 'Edit Question'),
+      title: Text(widget.initialData == null
+          ? 'Add ${widget.type} Question'
+          : 'Edit Question'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -878,63 +935,71 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
           children: [
             TextField(
               controller: _textController,
-              decoration: const InputDecoration(labelText: 'Question Text', border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                  labelText: 'Question Text', border: OutlineInputBorder()),
               maxLines: 2,
             ),
             const SizedBox(height: 12),
-            
+
             // Image Upload Section
             if (_imageUrl != null)
               Stack(
                 children: [
-                   Container(
-                     height: 150,
-                     width: double.infinity,
-                     decoration: BoxDecoration(
-                       border: Border.all(color: Colors.grey[300]!),
-                       borderRadius: BorderRadius.circular(8),
-                     ),
-                     child: ClipRRect(
-                       borderRadius: BorderRadius.circular(8),
-                       child: Image.network(_imageUrl!, fit: BoxFit.cover),
-                     ),
-                   ),
-                   Positioned(
-                     top: 4,
-                     right: 4,
-                     child: GestureDetector(
-                       onTap: () => setState(() => _imageUrl = null),
-                       child: Container(
-                         padding: const EdgeInsets.all(4),
-                         decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                         child: const Icon(Icons.close, size: 16, color: Colors.black),
-                       ),
-                     ),
-                   ),
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(_imageUrl!, fit: BoxFit.cover),
+                    ),
+                  ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: GestureDetector(
+                      onTap: () => setState(() => _imageUrl = null),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
+                        child: const Icon(Icons.close,
+                            size: 16, color: Colors.black),
+                      ),
+                    ),
+                  ),
                 ],
               )
             else
               OutlinedButton.icon(
                 onPressed: _isLoadingImage ? null : _pickImage,
-                icon: _isLoadingImage 
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Icon(Icons.image),
+                icon: _isLoadingImage
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.image),
                 label: Text(_isLoadingImage ? 'Uploading...' : 'Add Image'),
                 style: OutlinedButton.styleFrom(
-                   minimumSize: const Size(double.infinity, 44),
+                  minimumSize: const Size(double.infinity, 44),
                 ),
               ),
-              
+
             const SizedBox(height: 12),
 
             TextField(
               controller: _pointsController,
-              decoration: const InputDecoration(labelText: 'Points', border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                  labelText: 'Points', border: OutlineInputBorder()),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
             if (widget.type == 'MCQ') ...[
-              const Text('Options', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text('Options',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               ...List.generate(_optionControllers.length, (index) {
                 return Padding(
@@ -942,7 +1007,8 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
                   child: Row(
                     children: [
                       Radio<String>(
-                        value: index.toString(), // Store index as correct answer for simplicity? Or the text? 
+                        value: index
+                            .toString(), // Store index as correct answer for simplicity? Or the text?
                         // Let's store the actual text or index. Index is safer if text changes.
                         // But Data model plan said "text". Let's stick to text or index. 0-based index string "0", "1".
                         groupValue: _correctAnswer,
@@ -958,13 +1024,16 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.remove_circle_outline, color: Colors.grey),
+                        icon: const Icon(Icons.remove_circle_outline,
+                            color: Colors.grey),
                         onPressed: () {
                           if (_optionControllers.length > 2) {
                             setState(() {
                               _optionControllers.removeAt(index);
                               // Reset correct answer if invalid
-                              if (_correctAnswer == index.toString()) _correctAnswer = null;
+                              if (_correctAnswer == index.toString()) {
+                                _correctAnswer = null;
+                              }
                             });
                           }
                         },
@@ -974,12 +1043,14 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
                 );
               }),
               TextButton.icon(
-                onPressed: () => setState(() => _optionControllers.add(TextEditingController())),
+                onPressed: () => setState(
+                    () => _optionControllers.add(TextEditingController())),
                 icon: const Icon(Icons.add),
                 label: const Text('Add Option'),
               ),
             ] else if (widget.type == 'TRUE_FALSE') ...[
-              const Text('Correct Answer:', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text('Correct Answer:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   Expanded(
@@ -1010,12 +1081,14 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, color: Colors.blue.shade600, size: 20),
+                    Icon(Icons.info_outline,
+                        color: Colors.blue.shade600, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'Written answers are free-form text responses. You will grade these manually after students submit.',
-                        style: TextStyle(color: Colors.blue.shade700, fontSize: 13),
+                        style: TextStyle(
+                            color: Colors.blue.shade700, fontSize: 13),
                       ),
                     ),
                   ],
@@ -1026,7 +1099,9 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel')),
         ElevatedButton(
           onPressed: _save,
           child: const Text('Save'),
@@ -1034,76 +1109,93 @@ class _QuestionEditorDialogState extends State<_QuestionEditorDialog> {
       ],
     );
   }
-  
+
   void _save() {
     // Validate question text
     if (_textController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter question text'), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text('Please enter question text'),
+            backgroundColor: Colors.red),
       );
       return;
     }
-    
+
     // Validate points
     final points = int.tryParse(_pointsController.text) ?? 0;
     if (points <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Points must be greater than 0'), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text('Points must be greater than 0'),
+            backgroundColor: Colors.red),
       );
       return;
     }
-    
+
     final question = {
-      'id': widget.initialData?['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
+      'id': widget.initialData?['id'] ??
+          DateTime.now().millisecondsSinceEpoch.toString(),
       'type': widget.type,
       'text': _textController.text,
       'imageUrl': _imageUrl,
       'points': points,
     };
-    
+
     if (widget.type == 'MCQ') {
-      final options = _optionControllers.map((c) => c.text).where((t) => t.isNotEmpty).toList();
-      
+      final options = _optionControllers
+          .map((c) => c.text)
+          .where((t) => t.isNotEmpty)
+          .toList();
+
       // Validate at least 2 options
       if (options.length < 2) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('MCQ requires at least 2 options'), backgroundColor: Colors.red),
+          const SnackBar(
+              content: Text('MCQ requires at least 2 options'),
+              backgroundColor: Colors.red),
         );
         return;
       }
-      
+
       // Validate correct answer is selected
       if (_correctAnswer == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select the correct answer'), backgroundColor: Colors.red),
+          const SnackBar(
+              content: Text('Please select the correct answer'),
+              backgroundColor: Colors.red),
         );
         return;
       }
-      
+
       final idx = int.tryParse(_correctAnswer!);
       if (idx == null || idx >= options.length || options[idx].isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a valid correct answer'), backgroundColor: Colors.red),
+          const SnackBar(
+              content: Text('Please select a valid correct answer'),
+              backgroundColor: Colors.red),
         );
         return;
       }
-      
+
       question['options'] = options;
       question['correctAnswer'] = options[idx];
       question['correctAnswerIndex'] = idx; // Store index for editing
-      
     } else if (widget.type == 'TRUE_FALSE') {
       // Validate correct answer is selected
-      if (_correctAnswer == null || (_correctAnswer != 'true' && _correctAnswer != 'false')) {
+      if (_correctAnswer == null ||
+          (_correctAnswer != 'true' && _correctAnswer != 'false')) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select True or False as the correct answer'), backgroundColor: Colors.red),
+          const SnackBar(
+              content:
+                  Text('Please select True or False as the correct answer'),
+              backgroundColor: Colors.red),
         );
         return;
       }
       question['correctAnswer'] = _correctAnswer;
     }
     // TEXT type doesn't need correctAnswer - it's manually graded
-    
+
     widget.onSave(question);
     Navigator.pop(context);
   }

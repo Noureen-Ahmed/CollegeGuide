@@ -19,9 +19,11 @@ class _ExplainProgramState extends State<ExplainProgram> {
     final departmentsList = Departments;
     List<Map<String, dynamic>> filteredDepartments = [];
     if (selectedTrack == 'math') {
-      filteredDepartments = departmentsList.where((d) => d['isMath'] == true).toList();
+      filteredDepartments =
+          departmentsList.where((d) => d['isMath'] == true).toList();
     } else if (selectedTrack == 'science') {
-      filteredDepartments = departmentsList.where((d) => d['isScience'] == true).toList();
+      filteredDepartments =
+          departmentsList.where((d) => d['isScience'] == true).toList();
     }
 
     return Scaffold(
@@ -63,14 +65,14 @@ class _ExplainProgramState extends State<ExplainProgram> {
                     const Text(
                       'Select High School Track',
                       style: TextStyle(
-                        fontSize: 16, 
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF374151),
                       ),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
-                      value: selectedTrack,
+                      initialValue: selectedTrack,
                       isExpanded: true,
                       decoration: InputDecoration(
                         filled: true,
@@ -85,9 +87,11 @@ class _ExplainProgramState extends State<ExplainProgram> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF2563eb)),
+                          borderSide:
+                              const BorderSide(color: Color(0xFF2563eb)),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
                       ),
                       hint: const Text('Choose your track'),
                       items: const [
@@ -95,7 +99,8 @@ class _ExplainProgramState extends State<ExplainProgram> {
                           value: 'math',
                           child: Row(
                             children: [
-                              Icon(Icons.calculate, color: Color(0xFF2563eb), size: 20),
+                              Icon(Icons.calculate,
+                                  color: Color(0xFF2563eb), size: 20),
                               SizedBox(width: 12),
                               Text('Scientific Math (علمي رياضة)'),
                             ],
@@ -105,7 +110,8 @@ class _ExplainProgramState extends State<ExplainProgram> {
                           value: 'science',
                           child: Row(
                             children: [
-                              Icon(Icons.science, color: Color(0xFF7c3aed), size: 20),
+                              Icon(Icons.science,
+                                  color: Color(0xFF7c3aed), size: 20),
                               SizedBox(width: 12),
                               Text('Scientific Science (علمي علوم)'),
                             ],
@@ -121,9 +127,7 @@ class _ExplainProgramState extends State<ExplainProgram> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 24),
-
               Expanded(
                 child: filteredDepartments.isEmpty
                     ? Center(
@@ -131,13 +135,15 @@ class _ExplainProgramState extends State<ExplainProgram> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              selectedTrack == null ? Icons.touch_app : Icons.search_off,
+                              selectedTrack == null
+                                  ? Icons.touch_app
+                                  : Icons.search_off,
                               size: 64,
                               color: Colors.grey[300],
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              selectedTrack == null 
+                              selectedTrack == null
                                   ? 'Please select a track above'
                                   : 'No programs found for this track',
                               style: TextStyle(
@@ -166,7 +172,8 @@ class _ExplainProgramState extends State<ExplainProgram> {
                           Expanded(
                             child: GridView.builder(
                               itemCount: filteredDepartments.length,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 16,
                                 crossAxisSpacing: 16,
@@ -181,12 +188,15 @@ class _ExplainProgramState extends State<ExplainProgram> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DepartmentDetailsScreen(
+                                        builder: (context) =>
+                                            DepartmentDetailsScreen(
                                           title: department['title']!,
                                           arInfo: department['ARinformation']!,
                                           enInfo: department['ENinformation']!,
-                                          finalProgramsAR: department['finalProgramsAR']!,
-                                          finalProgramsEN: department['finalProgramsEN']!,
+                                          finalProgramsAR:
+                                              department['finalProgramsAR']!,
+                                          finalProgramsEN:
+                                              department['finalProgramsEN']!,
                                         ),
                                       ),
                                     );

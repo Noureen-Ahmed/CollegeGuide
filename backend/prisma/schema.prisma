@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -134,6 +134,14 @@ model User {
   isOnboardingComplete  Boolean  @default(false) @map("is_onboarding_complete")
   isActive              Boolean  @default(true) @map("is_active")
   
+  // Scraped UMS Data
+  faculty               String?
+  major                 String?
+  semester              String?
+  academicYear          String?  @map("academic_year")
+  advisorName           String?  @map("advisor_name")
+  advisorEmail          String?  @map("advisor_email")
+  
   fcmToken              String?  @map("fcm_token")
   
   createdAt             DateTime @default(now()) @map("created_at")
@@ -151,6 +159,11 @@ model User {
   scheduleEvents        ScheduleEvent[]
   contentCreated        CourseContent[]
   verificationCodes     VerificationCode[]
+  
+  // UMS Portal Integration
+  umsSession            UmsSession?
+  umsCourses            UmsCourse[]
+  umsGrades             UmsGrade[]
   
   @@index([programId])
   @@index([departmentId])
@@ -528,4 +541,60 @@ enum EventType {
   MEETING
   OFFICE_HOURS
   PERSONAL
+}
+
+// ============ UMS PORTAL INTEGRATION ============
+
+model UmsSession {
+  id           Int      @id @default(autoincrement())
+  cookies      Json                     // Serialized session cookies from UMS
+  lastSyncAt   DateTime @default(now()) @map("last_sync_at")
+  expiresAt    DateTime?                @map("expires_at")
+  isActive     Boolean  @default(true)  @map("is_active")
+
+  userId       String   @unique @map("user_id")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ums_sessions")
+}
+
+model UmsCourse {
+  id              Int      @id @default(autoincrement())
+  courseCode      String   @map("course_code")
+  courseName      String   @map("course_name")
+  courseNameAr    String?  @map("course_name_ar")
+  creditHours     Int?     @map("credit_hours")
+  section         String?
+  semester        String?
+  academicYear    String?  @map("academic_year")
+  instructorName  String?  @map("instructor_name")
+  rawData         Json?    @map("raw_data")
+  syncedAt        DateTime @default(now()) @map("synced_at")
+
+  userId          String   @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseCode, semester, academicYear])
+  @@index([userId])
+  @@map("ums_courses")
+}
+
+model UmsGrade {
+  id              Int      @id @default(autoincrement())
+  courseCode      String   @map("course_code")
+  courseName      String   @map("course_name")
+  grade           String?
+  gradePoints     Float?   @map("grade_points")
+  creditHours     Int?     @map("credit_hours")
+  semester        String?
+  academicYear    String?  @map("academic_year")
+  rawData         Json?    @map("raw_data")
+  syncedAt        DateTime @default(now()) @map("synced_at")
+
+  userId          String   @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseCode, semester, academicYear])
+  @@index([userId])
+  @@map("ums_grades")
 }

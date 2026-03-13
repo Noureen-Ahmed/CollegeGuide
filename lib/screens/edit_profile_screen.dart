@@ -1,10 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/app_session_provider.dart';
-import '../providers/app_mode_provider.dart';
 import '../models/user.dart';
 import '../widgets/user_avatar.dart';
 import '../services/data_service.dart';
@@ -41,7 +38,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _gpaController = TextEditingController(text: user?.gpa?.toString() ?? '');
     _avatarUrl = user?.avatar;
     _selectedLevel = user?.level;
-    
+
     if (user != null) {
       _isProfessor = user.mode == AppMode.professor;
     }
@@ -71,27 +68,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           );
           if (dept.isNotEmpty) {
             _selectedDepartmentId = dept['id'];
-            
-            // Programs are inside the department object in JSON? 
+
+            // Programs are inside the department object in JSON?
             // Checking structure: "departments": [ { "programs": [...] } ]
             // Yes, based on CourseSelectionScreen:
             // _programs = List<Map<String, dynamic>>.from(department['programs']);
-            
-            if (dept['programs'] != null) {
-               setState(() {
-                 _programs = List<Map<String, dynamic>>.from(dept['programs']);
-               });
 
-               // Find Program
-               if (user.major?.isNotEmpty ?? false) {
-                 final prog = _programs.firstWhere(
-                   (p) => p['name'] == user.major,
-                   orElse: () => {},
-                 );
-                 if (prog.isNotEmpty) {
-                   _selectedProgramId = prog['id'];
-                 }
-               }
+            if (dept['programs'] != null) {
+              setState(() {
+                _programs = List<Map<String, dynamic>>.from(dept['programs']);
+              });
+
+              // Find Program
+              if (user.major?.isNotEmpty ?? false) {
+                final prog = _programs.firstWhere(
+                  (p) => p['name'] == user.major,
+                  orElse: () => {},
+                );
+                if (prog.isNotEmpty) {
+                  _selectedProgramId = prog['id'];
+                }
+              }
             }
           }
         }
@@ -113,7 +110,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     setState(() {
       _selectedDepartmentId = val;
       _selectedProgramId = null; // reset program
-      final dept = _departments.firstWhere((d) => d['id'] == val, orElse: () => {});
+      final dept =
+          _departments.firstWhere((d) => d['id'] == val, orElse: () => {});
       if (dept.isNotEmpty && dept['programs'] != null) {
         _programs = List<Map<String, dynamic>>.from(dept['programs']);
       } else {
@@ -128,12 +126,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       if (image != null) {
         final bytes = await image.length();
         const maxSizeBytes = 5 * 1024 * 1024;
-        
+
         if (bytes > maxSizeBytes) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Image size exceeds 5MB limit. Please choose a smaller image.'),
+                content: Text(
+                    'Image size exceeds 5MB limit. Please choose a smaller image.'),
                 backgroundColor: Colors.red,
               ),
             );
@@ -147,7 +146,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             const SnackBar(
               content: Row(
                 children: [
-                  SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
+                  SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: Colors.white)),
                   SizedBox(width: 12),
                   Text('Uploading profile picture...'),
                 ],
@@ -159,8 +162,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
         // Upload to backend (R2 storage)
         final imageBytes = await image.readAsBytes();
-        final uploadedUrl = await DataService.uploadFile(imageBytes, image.name, type: 'profile');
-        
+        final uploadedUrl = await DataService.uploadFile(imageBytes, image.name,
+            type: 'profile');
+
         // Dismiss loading snackbar
         if (mounted) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -168,7 +172,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
         if (uploadedUrl != null) {
           // Append timestamp to force cache refresh if the URL is reused
-          final uniqueUrl = '$uploadedUrl?t=${DateTime.now().millisecondsSinceEpoch}';
+          final uniqueUrl =
+              '$uploadedUrl?t=${DateTime.now().millisecondsSinceEpoch}';
           setState(() {
             _avatarUrl = uniqueUrl;
           });
@@ -203,18 +208,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     // Resolve IDs to Names
     String deptName = '';
     if (_selectedDepartmentId != null) {
-      final d = _departments.firstWhere((d) => d['id'] == _selectedDepartmentId, orElse: () => {});
+      final d = _departments.firstWhere((d) => d['id'] == _selectedDepartmentId,
+          orElse: () => {});
       if (d.isNotEmpty) deptName = d['name'];
     }
 
     String programName = '';
     if (_selectedProgramId != null) {
-       final p = _programs.firstWhere((p) => p['id'] == _selectedProgramId, orElse: () => {});
-       if (p.isNotEmpty) programName = p['name'];
+      final p = _programs.firstWhere((p) => p['id'] == _selectedProgramId,
+          orElse: () => {});
+      if (p.isNotEmpty) programName = p['name'];
     }
 
     final currentUser = ref.read(currentUserProvider).value;
@@ -231,17 +238,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       avatar: _avatarUrl ?? currentUser.avatar,
     );
 
-    final success = await ref.read(appSessionControllerProvider.notifier).updateUser(updatedUser);
+    final success = await ref
+        .read(appSessionControllerProvider.notifier)
+        .updateUser(updatedUser);
 
     if (mounted) {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile updated successfully!'), backgroundColor: Colors.green),
+          const SnackBar(
+              content: Text('Profile updated successfully!'),
+              backgroundColor: Colors.green),
         );
         Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update profile'), backgroundColor: Colors.red),
+          const SnackBar(
+              content: Text('Failed to update profile'),
+              backgroundColor: Colors.red),
         );
       }
     }
@@ -256,7 +269,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
-        title: const Text('Edit Profile', style: TextStyle(color: navyColor, fontWeight: FontWeight.bold)),
+        title: const Text('Edit Profile',
+            style: TextStyle(color: navyColor, fontWeight: FontWeight.bold)),
         backgroundColor: bgColor,
         elevation: 0,
         leading: IconButton(
@@ -266,7 +280,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         actions: [
           TextButton(
             onPressed: _saveProfile,
-            child: const Text('Save', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: navyColor)),
+            child: const Text('Save',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: navyColor)),
           ),
         ],
       ),
@@ -282,7 +300,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: navyColor.withValues(alpha: 0.1), width: 4),
+                        border: Border.all(
+                            color: navyColor.withValues(alpha: 0.1), width: 4),
                       ),
                       child: UserAvatar(
                         avatarUrl: _avatarUrl ?? '',
@@ -301,10 +320,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             color: navyColor,
                             shape: BoxShape.circle,
                             boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2)),
                             ],
                           ),
-                          child: const Icon(Icons.camera_alt, color: goldColor, size: 20),
+                          child: const Icon(Icons.camera_alt,
+                              color: goldColor, size: 20),
                         ),
                       ),
                     ),
@@ -312,7 +335,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-              
+
               // Name
               _buildTextField(
                 controller: _nameController,
@@ -344,10 +367,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   icon: Icons.school_outlined,
                   value: _selectedProgramId,
                   items: _programs.map((p) {
-                     return DropdownMenuItem<String>(
-                       value: p['id'] as String,
-                       child: Text(p['name']),
-                     );
+                    return DropdownMenuItem<String>(
+                      value: p['id'] as String,
+                      child: Text(p['name']),
+                    );
                   }).toList(),
                   onChanged: (val) => setState(() => _selectedProgramId = val),
                 ),
@@ -355,36 +378,38 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ],
 
               if (!_isProfessor)
-              Row(
-                children: [
-                   // Level Dropdown
-                  Expanded(
-                    child: _buildDropdown(
-                      label: 'Level',
-                      icon: Icons.grid_view,
-                      value: _selectedLevel,
-                      items: _levels.map((l) {
-                        return DropdownMenuItem<int>(
-                          value: l['id'] as int,
-                          child: Text(l['name']),
-                        );
-                      }).toList(),
-                      onChanged: (val) => setState(() => _selectedLevel = val),
+                Row(
+                  children: [
+                    // Level Dropdown
+                    Expanded(
+                      child: _buildDropdown(
+                        label: 'Level',
+                        icon: Icons.grid_view,
+                        value: _selectedLevel,
+                        items: _levels.map((l) {
+                          return DropdownMenuItem<int>(
+                            value: l['id'] as int,
+                            child: Text(l['name']),
+                          );
+                        }).toList(),
+                        onChanged: (val) =>
+                            setState(() => _selectedLevel = val),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  
-                  // GPA
-                  Expanded(
-                    child: _buildTextField(
-                      controller: _gpaController,
-                      label: 'GPA',
-                      icon: Icons.star_border,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    const SizedBox(width: 16),
+
+                    // GPA
+                    Expanded(
+                      child: _buildTextField(
+                        controller: _gpaController,
+                        label: 'GPA',
+                        icon: Icons.star_border,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(height: 40),
             ],
           ),
@@ -403,7 +428,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }) {
     const navyColor = Color(0xFF002147);
     const goldColor = Color(0xFFFDC800);
-    
+
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
@@ -443,7 +468,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     const goldColor = Color(0xFFFDC800);
 
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       items: items,
       onChanged: onChanged,
       isExpanded: true,
