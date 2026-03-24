@@ -23,9 +23,10 @@ class EnrolledCoursesNotifier extends AsyncNotifier<List<Course>> {
     final umsCourses = results[1];
     
     // Merge: add UMS courses that aren't already in app courses (by code)
-    final appCourseCodes = appCourses.map((c) => c.code.toLowerCase()).toSet();
+    // Normalize codes by removing whitespace
+    final appCourseCodes = appCourses.map((c) => c.code.replaceAll(' ', '').toLowerCase()).toSet();
     final uniqueUmsCourses = umsCourses
-        .where((c) => !appCourseCodes.contains(c.code.toLowerCase()))
+        .where((c) => !appCourseCodes.contains(c.code.replaceAll(' ', '').toLowerCase()))
         .toList();
     
     return [...appCourses, ...uniqueUmsCourses];
@@ -60,9 +61,11 @@ class EnrolledCoursesNotifier extends AsyncNotifier<List<Course>> {
     
     final appCourses = results[0];
     final umsCourses = results[1];
-    final appCourseCodes = appCourses.map((c) => c.code.toLowerCase()).toSet();
+    
+    // Normalize codes by removing whitespace
+    final appCourseCodes = appCourses.map((c) => c.code.replaceAll(' ', '').toLowerCase()).toSet();
     final uniqueUmsCourses = umsCourses
-        .where((c) => !appCourseCodes.contains(c.code.toLowerCase()))
+        .where((c) => !appCourseCodes.contains(c.code.replaceAll(' ', '').toLowerCase()))
         .toList();
     
     return [...appCourses, ...uniqueUmsCourses];

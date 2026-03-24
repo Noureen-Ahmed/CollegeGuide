@@ -317,6 +317,47 @@ async function syncStudentData(userId, umsResult) {
         }
       });
       results.courses++;
+
+      // Auto-enroll in specific App Courses, creating them if they don't exist
+      if (course.courseCode) {
+        const normalizedCode = course.courseCode.replace(/\s+/g, '');
+        
+        let appCourse = await prisma.course.findUnique({
+          where: { code: normalizedCode }
+        });
+        
+        // Save the course "forever" in the main database
+        if (!appCourse) {
+          appCourse = await prisma.course.create({
+            data: {
+              code: normalizedCode,
+              name: course.courseName || course.courseCode,
+              category: normalizedCode.replace(/[0-9]/g, '') || 'GEN', 
+              creditHours: course.creditHours || 3,
+              semester: course.semester || 'current',
+              academicYear: course.academicYear || new Date().getFullYear().toString(),
+              isActive: true,
+            }
+          });
+        }
+        
+        if (appCourse && appCourse.isActive) {
+          await prisma.enrollment.upsert({
+            where: {
+              userId_courseId: {
+                userId,
+                courseId: appCourse.id
+              }
+            },
+            update: { status: 'ENROLLED' },
+            create: {
+              userId,
+              courseId: appCourse.id,
+              status: 'ENROLLED'
+            }
+          });
+        }
+      }
     } catch (err) {
       logger.error(`[UMS] Course upsert error: ${err.message}`);
     }

@@ -138,6 +138,12 @@ async function main() {
   const professors = await prisma.$transaction([
     prisma.user.create({
       data: {
+        email: 'doctor@college.edu', password: hashedPassword, name: 'Dr. Smith',
+        role: 'PROFESSOR', departmentId: deptMap['MATH'].id, isVerified: true, isOnboardingComplete: true
+      }
+    }),
+    prisma.user.create({
+      data: {
         email: 'dr.ahmed@college.edu', password: hashedPassword, name: 'د. أحمد حسن',
         role: 'PROFESSOR', departmentId: deptMap['MATH'].id, isVerified: true, isOnboardingComplete: true
       }
@@ -321,6 +327,18 @@ async function main() {
     await prisma.enrollment.create({
       data: { userId: students[0].id, courseId: course.id, status: 'ENROLLED' }
     });
+    
+    // Assign these specific courses to doctor@college.edu
+    const doctorUser = professors.find(p => p.email === 'doctor@college.edu');
+    if (doctorUser) {
+      try {
+        await prisma.courseInstructor.create({
+          data: { userId: doctorUser.id, courseId: course.id, isPrimary: true }
+        });
+      } catch (e) {
+        // Already assigned, which is fine
+      }
+    }
   }
 
   // Student 2: Stats student
@@ -531,6 +549,7 @@ async function main() {
   console.log('   • sara@college.edu (Stats student)');
   console.log('   • omar@college.edu (Physics student)');
   console.log('   Professors:');
+  console.log('   • doctor@college.edu (Dr. Smith)');
   console.log('   • dr.ahmed@college.edu (Math/CS)');
   console.log('   • dr.mohamed@college.edu (Math/Stats)');
   console.log('   • dr.fatma@college.edu (Physics)');

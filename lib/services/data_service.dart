@@ -13,19 +13,23 @@ import '../models/schedule_event.dart';
 import '../models/user.dart';
 
 class DataService {
-  // ============ AUTHENTICATION ============
-  
-  /// Login via UMS portal — authenticates against the university portal
-  /// and auto-creates/updates local user with synced data
   static Future<User?> login(String email, String password) async {
     try {
+      // Route based on email format:
+      // Starts with a digit -> student UMS login
+      // Otherwise -> standard database login (doctors/admins)
+      final isStudent = RegExp(r'^\d').hasMatch(email);
+      final endpoint = isStudent ? '/ums/login' : '/auth/login';
+      final body = isStudent 
+          ? {'loginName': email, 'password': password}
+          : {'email': email, 'password': password};
+
+      print('[DataService] Routing login to $endpoint for email: $email');
+
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/ums/login'),
+        Uri.parse('${ApiConfig.baseUrl}$endpoint'),
         headers: ApiConfig.headers,
-        body: jsonEncode({
-          'loginName': email,
-          'password': password,
-        }),
+        body: jsonEncode(body),
       );
       
       if (response.statusCode == 200) {
