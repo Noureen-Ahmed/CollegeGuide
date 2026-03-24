@@ -9,11 +9,11 @@ class StorageService {
   static const String keyIsVerified = 'is_verified';
   static const String keySelectedCourses = 'selected_courses';
   
-  /// Helper to check if email belongs to a doctor (username has non-numeric characters)
+  /// Helper to check if email belongs to a doctor 
+  /// (Starts with 2 or more letters. 0 or 1 letter is considered a student/passport ID)
   static bool isDoctorEmail(String email) {
-    if (!email.contains('@')) return false;
-    final username = email.split('@')[0];
-    return int.tryParse(username) == null;
+    final username = email.contains('@') ? email.split('@')[0] : email;
+    return RegExp(r'^[a-zA-Z]{2,}').hasMatch(username);
   }
   
   // Initialize SharedPreferences

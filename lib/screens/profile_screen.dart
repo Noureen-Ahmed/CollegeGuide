@@ -36,9 +36,9 @@ class ProfileScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildAcademicStats(context, user),
+                      _buildAcademicStats(context, user, ref),
                       const SizedBox(height: 24),
-                      _buildDetailRow('Student ID', user.studentId ?? 'N/A'),
+                      _buildDetailRow('Student ID', user.studentId ?? user.email.split('@').first),
                       const SizedBox(height: 8),
                       _buildDetailRow('Faculty', user.faculty ?? 'N/A'),
                       const SizedBox(height: 8),
@@ -56,6 +56,18 @@ class ProfileScreen extends ConsumerWidget {
                         _buildDetailRow('Semester', user.semester!),
                         const SizedBox(height: 8),
                       ],
+                      if (user.level != null) ...[
+                        _buildDetailRow('Level', 'Level ${user.level}'),
+                        const SizedBox(height: 8),
+                      ],
+                      if (user.advisorName != null && user.advisorName!.isNotEmpty) ...[
+                        _buildDetailRow('Advisor Name', user.advisorName!),
+                        const SizedBox(height: 8),
+                      ],
+                      if (user.advisorEmail != null && user.advisorEmail!.isNotEmpty) ...[
+                        _buildDetailRow('Advisor Email', user.advisorEmail!),
+                        const SizedBox(height: 8),
+                      ],
                       const SizedBox(height: 32),
                       _buildSectionHeader('General Settings'),
                       const SizedBox(height: 12),
@@ -63,7 +75,7 @@ class ProfileScreen extends ConsumerWidget {
                         _buildSettingsTile(
                           icon: Icons.person_outline,
                           title: 'Edit Profile',
-                          subtitle: 'Change your name, level, or department',
+                          subtitle: 'Update your GPA or profile photo',
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const EditProfileScreen()),
@@ -167,7 +179,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  user.studentId ?? '',
+                  user.studentId ?? user.email.split('@').first,
                   style: TextStyle(
                     color: const Color(0xFFFDC800).withOpacity(0.8),
                     fontSize: 16,
@@ -194,14 +206,16 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAcademicStats(BuildContext context, User user) {
+  Widget _buildAcademicStats(BuildContext context, User user, WidgetRef ref) {
+    final coursesAsync = ref.watch(enrolledCoursesProvider);
+    final courseCount = coursesAsync.whenOrNull(data: (courses) => courses.length) ?? 0;
     return Row(
       children: [
         Expanded(child: _buildStatItem('GPA', user.gpa?.toString() ?? 'N/A', Colors.amber)),
         const SizedBox(width: 12),
         Expanded(child: _buildStatItem('Level', user.level?.toString() ?? 'N/A', Colors.green)),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatItem('Courses', user.enrolledCourses.length.toString(), Colors.blue)),
+        Expanded(child: _buildStatItem('Courses', courseCount.toString(), Colors.blue)),
       ],
     );
   }

@@ -16,9 +16,10 @@ class DataService {
   static Future<User?> login(String email, String password) async {
     try {
       // Route based on email format:
-      // Starts with a digit -> student UMS login
-      // Otherwise -> standard database login (doctors/admins)
-      final isStudent = RegExp(r'^\d').hasMatch(email);
+      // Starts with 2 or more letters -> doctor/admin login
+      // Starts with 0 or 1 letter (like passport ID 'A123') -> student UMS login
+      final isDoctor = RegExp(r'^[a-zA-Z]{2,}').hasMatch(email);
+      final isStudent = !isDoctor;
       final endpoint = isStudent ? '/ums/login' : '/auth/login';
       final body = isStudent 
           ? {'loginName': email, 'password': password}
@@ -37,6 +38,7 @@ class DataService {
         if (data['token'] != null) {
           ApiConfig.setAuthToken(data['token']);
         }
+        // /api/ums/login already scrapes+saves all data and returns the full user
         return _parseUser(data['user']);
       }
       return null;
@@ -876,11 +878,17 @@ class DataService {
   }
 
   /// Re-sync UMS data using stored session
-  static Future<Map<String, dynamic>?> umsSync() async {
+  static Future<Map<String, dynamic>?> umsSync(String email, String password) async {
     try {
+      final body = {
+        'umsUsername': email,
+        'umsPassword': password
+      };
+      
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/ums/sync'),
         headers: ApiConfig.authHeaders,
+        body: jsonEncode(body),
       );
       
       if (response.statusCode == 200) {

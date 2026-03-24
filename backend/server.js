@@ -2,11 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const SCRAPER_URL = process.env.SCRAPER_URL || 'http://localhost:5000';
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key_change_in_production';
 
 // MySQL Connection Pool - Aiven Cloud Database
 const pool = mysql.createPool({
@@ -220,6 +227,77 @@ async function initDatabase() {
       )
     `);
 
+        // ==========================================
+        // NEW UMS UNIFIED TABLES
+        // ==========================================
+        
+        await connection.execute(`
+            CREATE TABLE IF NOT EXISTS ums_sessions (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id VARCHAR(50) NOT NULL,
+                cookies JSON,
+                last_sync_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                expires_at TIMESTAMP,
+                is_active BOOLEAN DEFAULT TRUE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `);
+
+        await connection.execute(`
+            CREATE TABLE IF NOT EXISTS ums_courses (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id VARCHAR(50) NOT NULL,
+                course_code VARCHAR(50),
+                course_name VARCHAR(255),
+                course_name_ar VARCHAR(255),
+                credit_hours INT,
+                section VARCHAR(50),
+                semester VARCHAR(50),
+                academic_year VARCHAR(50),
+                instructor_name VARCHAR(255),
+                raw_data JSON,
+                synced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `);
+
+        await connection.execute(`
+            CREATE TABLE IF NOT EXISTS ums_grades (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id VARCHAR(50) NOT NULL,
+                course_code VARCHAR(50),
+                course_name VARCHAR(255),
+                grade VARCHAR(10),
+                grade_points DECIMAL(3,2),
+                credit_hours INT,
+                semester VARCHAR(50),
+                academic_year VARCHAR(50),
+                raw_data JSON,
+                synced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `);
+
+        await connection.execute(`
+            CREATE TABLE IF NOT EXISTS ums_profile (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id VARCHAR(50) NOT NULL UNIQUE,
+                faculty VARCHAR(255),
+                major VARCHAR(255),
+                semester VARCHAR(50),
+                academic_year VARCHAR(50),
+                advisor_name VARCHAR(255),
+                advisor_email VARCHAR(255),
+                student_id_ums VARCHAR(100),
+                synced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `);
+        
+        try {
+            await connection.execute('ALTER TABLE users ADD COLUMN ums_username VARCHAR(100)');
+        } catch (e) {}
+
         connection.release();
         console.log('✅ Database tables initialized');
     } catch (error) {
@@ -245,17 +323,25 @@ function formatUser(row) {
     return {
         id: row.id,
         name: row.name,
+        nameAr: row.name_ar || null,
         email: row.email,
         avatar: row.avatar,
         studentId: row.student_id,
+        phone: row.phone,
         major: row.major,
         department: row.department,
+        program: row.program,
+        faculty: row.faculty,
+        semester: row.semester,
+        academicYear: row.academic_year,
         gpa: row.gpa ? parseFloat(row.gpa) : null,
         level: row.level,
         mode: row.mode || 'student',
         isOnboardingComplete: !!row.is_onboarding_complete,
         isVerified: !!row.is_verified,
-        enrolledCourses: courses
+        enrolledCourses: courses,
+        advisorName: row.advisor_name,
+        advisorEmail: row.advisor_email
     };
 }
 
@@ -306,6 +392,35 @@ async function notifyStudentsInCourse(courseId, notification) {
     }
 }
 
+// ============ MIDDLEWARE (JWT) ============
+
+function verifyToken(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) {
+        return res.status(401).json({ success: false, error: 'Access denied. No token provided.' });
+    }
+    
+    const token = bearerHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ success: false, error: 'Access denied. Invalid token format.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(403).json({ success: false, error: 'Invalid or expired token.' });
+    }
+}
+
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api/auth') || req.path === '/api/health' || req.path.startsWith('/api/ums/login')) {
+        return next();
+    }
+    verifyToken(req, res, next);
+});
+
 // ============ AUTH ENDPOINTS ============
 
 app.post('/api/auth/register', async (req, res) => {
@@ -322,10 +437,12 @@ app.post('/api/auth/register', async (req, res) => {
         const mode = email.includes('doctor') || email.includes('professor') || email.includes('dr.') ? 'professor' : 'student';
         const studentId = mode === 'student' ? `STU${Date.now().toString().slice(-8)}` : null;
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         await pool.execute(`
             INSERT INTO users (id, name, email, password, student_id, mode, is_onboarding_complete)
             VALUES (?, ?, ?, ?, ?, ?, FALSE)
-        `, [id, name, email, password, studentId, mode]);
+        `, [id, name, email, hashedPassword, studentId, mode]);
 
         // Generate verification code
         const code = Math.floor(1000 + Math.random() * 9000).toString();
@@ -350,11 +467,14 @@ app.post('/api/auth/register', async (req, res) => {
             console.log(`📧 Email not configured. Code for ${email}: ${code}`);
         }
 
+        // Generate JWT
+        const token = jwt.sign({ id, email, role: mode }, JWT_SECRET, { expiresIn: '7d' });
+
         const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
         const user = formatUser(rows[0]);
 
         console.log(`✅ User registered: ${email} (${mode})`);
-        res.json({ success: true, user });
+        res.status(201).json({ success: true, user, token });
     } catch (error) {
         console.error('Register error:', error);
         res.status(500).json({ error: 'Registration failed' });
@@ -365,17 +485,35 @@ app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const [rows] = await pool.execute(
-            'SELECT * FROM users WHERE email = ? AND password = ?',
-            [email, password]
+            'SELECT * FROM users WHERE email = ?',
+            [email]
         );
 
         if (rows.length === 0) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const user = formatUser(rows[0]);
+        const userRow = rows[0];
+        const isMatch = await bcrypt.compare(password, userRow.password);
+        
+        // Allow plain text login if bcrypt compare fails (Legacy support while transitioning)
+        let passwordValid = isMatch;
+        if (!passwordValid && password === userRow.password) {
+            passwordValid = true;
+            // Upgrade password immediately to bcrypt
+            const hashed = await bcrypt.hash(password, 10);
+            await pool.execute('UPDATE users SET password = ? WHERE id = ?', [hashed, userRow.id]);
+        }
+
+        if (!passwordValid) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign({ id: userRow.id, email: userRow.email, role: userRow.mode }, JWT_SECRET, { expiresIn: '7d' });
+
+        const user = formatUser(userRow);
         console.log(`✅ User logged in: ${email}`);
-        res.json({ success: true, user });
+        res.json({ success: true, user, token });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Login failed' });
@@ -457,7 +595,12 @@ app.post('/api/auth/reset-password', async (req, res) => {
 app.get('/api/users/:email', async (req, res) => {
     try {
         const { email } = req.params;
-        const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
+        const [rows] = await pool.execute(`
+            SELECT u.*, p.advisor_name, p.advisor_email 
+            FROM users u 
+            LEFT JOIN ums_profile p ON u.id = p.user_id 
+            WHERE u.email = ?
+        `, [email]);
 
         if (rows.length === 0) {
             return res.status(404).json({ error: 'User not found' });
@@ -473,9 +616,10 @@ app.get('/api/users/:email', async (req, res) => {
 app.put('/api/users/:email', async (req, res) => {
     try {
         const { email } = req.params;
-        const { name, avatar, major, department, gpa, level, mode, isOnboardingComplete, enrolledCourses } = req.body;
+        const { name, avatar, department, gpa, level, mode, isOnboardingComplete, enrolledCourses } = req.body;
+        const major = req.body.program || req.body.major;
 
-        const coursesStr = Array.isArray(enrolledCourses) ? enrolledCourses.join(',') : '';
+        const coursesStr = Array.isArray(enrolledCourses) ? enrolledCourses.join(',') : (enrolledCourses || '');
 
         await pool.execute(`
             UPDATE users SET
@@ -489,7 +633,18 @@ app.put('/api/users/:email', async (req, res) => {
                 is_onboarding_complete = ?,
                 enrolled_courses = ?
             WHERE email = ?
-        `, [name, avatar, major, department, gpa, level, mode, isOnboardingComplete ? 1 : 0, coursesStr, email]);
+        `, [
+            name || null, 
+            avatar || null, 
+            major || null, 
+            department || null, 
+            gpa || null, 
+            level || null, 
+            mode || null, 
+            isOnboardingComplete ? 1 : 0, 
+            coursesStr, 
+            email
+        ]);
 
         const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
         const user = rows.length > 0 ? formatUser(rows[0]) : null;
@@ -557,6 +712,44 @@ app.post('/api/doctor-courses', async (req, res) => {
     } catch (error) {
         console.error('Assign doctor course error:', error);
         res.status(500).json({ error: 'Failed to assign course' });
+    }
+});
+
+// Alias endpoint for Flutter getProfessorCourses (bridges /api/users/professor/courses?email=X)
+app.get('/api/users/professor/courses', async (req, res) => {
+    try {
+        const email = req.query.email;
+        if (!email) return res.status(400).json({ error: 'Email required' });
+
+        const [doctorCourses] = await pool.execute(
+            'SELECT course_id, is_primary FROM doctor_courses WHERE doctor_email = ?',
+            [email]
+        );
+
+        if (doctorCourses.length === 0) {
+            return res.json({ success: true, courses: [] });
+        }
+
+        const courseIds = doctorCourses.map(dc => dc.course_id);
+        const placeholders = courseIds.map(() => '?').join(',');
+        const [courses] = await pool.execute(
+            `SELECT * FROM courses WHERE id IN (${placeholders})`,
+            courseIds
+        );
+
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            professors: parseJson(course.professors),
+            schedule: parseJson(course.schedule),
+            content: parseJson(course.content),
+            assignments: parseJson(course.assignments),
+            exams: parseJson(course.exams),
+        }));
+
+        res.json({ success: true, courses: formattedCourses });
+    } catch (error) {
+        console.error('Get professor courses error:', error);
+        res.status(500).json({ error: 'Failed to get professor courses' });
     }
 });
 
@@ -1100,6 +1293,277 @@ app.get('/api/advising/messages', async (req, res) => {
         res.status(500).json({ error: 'Failed to get messages' });
     }
 });
+
+// ============ UMS SYNC & CACHE ENDPOINTS ============
+
+app.post('/api/ums/sync', async (req, res) => {
+    try {
+        const { umsUsername, umsPassword } = req.body;
+        const userId = req.user.id;
+
+        if (!umsUsername || !umsPassword) {
+            return res.status(400).json({ success: false, error: 'UMS credentials required to sync' });
+        }
+
+        console.log(`📡 Calling Python Scraper for ${umsUsername}...`);
+        const scraperRes = await axios.post(`${SCRAPER_URL}/scrape/all`, {
+            username: umsUsername,
+            password: umsPassword
+        }, { timeout: 120000 });
+
+        if (!scraperRes.data.success) {
+            return res.status(400).json({ success: false, error: scraperRes.data.error });
+        }
+
+        const { profile, courses, grades } = scraperRes.data.data;
+
+        await pool.execute(`
+            INSERT INTO ums_profile (user_id, faculty, major, semester, academic_year, advisor_name, advisor_email, student_id_ums)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+               faculty=VALUES(faculty), major=VALUES(major), semester=VALUES(semester),
+               academic_year=VALUES(academic_year), advisor_name=VALUES(advisor_name),
+               advisor_email=VALUES(advisor_email), student_id_ums=VALUES(student_id_ums),
+               synced_at=CURRENT_TIMESTAMP
+        `, [
+            userId, 
+            profile.faculty || null, 
+            profile.major || null, 
+            profile.semester || null, 
+            profile.academicYear || null, 
+            profile.advisorName || null, 
+            profile.advisorEmail || null, 
+            profile.studentId || null
+        ]);
+
+        await pool.execute('DELETE FROM ums_courses WHERE user_id = ?', [userId]);
+        await pool.execute('DELETE FROM ums_grades WHERE user_id = ?', [userId]);
+
+        for (const c of courses) {
+            await pool.execute(`
+                INSERT INTO ums_courses (user_id, course_code, course_name, credit_hours, section, instructor_name, raw_data)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `, [userId, c.courseCode || '', c.courseName || '', c.creditHours || null, c.section || null, c.instructorName || null, JSON.stringify(c.grades || {})]);
+        }
+
+        for (const g of grades) {
+            await pool.execute(`
+                INSERT INTO ums_grades (user_id, course_code, course_name, grade, grade_points, credit_hours)
+                VALUES (?, ?, ?, ?, ?, ?)
+            `, [userId, g.courseCode, g.courseName, g.grade, g.gradePoints, g.creditHours]);
+        }
+        const numericLevel = profile.level ? parseInt(profile.level.match(/\d+/)?.[0]) || null : null;
+        await pool.execute(`
+            UPDATE users 
+            SET ums_username = ?, department = ?, program = ?, level = ?,
+                faculty = ?, phone = ?, semester = ?, academic_year = ?
+            WHERE id = ?
+        `, [
+            umsUsername,
+            profile.department || null,
+            profile.program || null,
+            numericLevel,
+            profile.faculty || null,
+            profile.phone || null,
+            profile.semester || null,
+            profile.academicYear || null,
+            userId
+        ]);
+
+        // Return updated user so Flutter doesn't need an extra /auth/me call
+        const [updatedRows] = await pool.execute(`
+            SELECT u.*, p.advisor_name, p.advisor_email
+            FROM users u
+            LEFT JOIN ums_profile p ON u.id = p.user_id
+            WHERE u.id = ?
+        `, [userId]);
+        const updatedUser = updatedRows.length > 0 ? formatUser(updatedRows[0]) : null;
+
+        res.json({ success: true, message: 'UMS synced successfully', timestamp: new Date().toISOString(), user: updatedUser });
+    } catch (error) {
+        console.error('UMS Sync error:', error.message);
+        res.status(502).json({ success: false, error: 'Failed to communicate with UMS portal' });
+    }
+});
+
+app.get('/api/ums/status/:userEmail', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const [rows] = await pool.execute('SELECT MAX(synced_at) as lastSync FROM ums_courses WHERE user_id = ?', [userId]);
+        
+        if (rows.length > 0 && rows[0].lastSync) {
+            return res.json({ success: true, hasCachedData: true, lastSyncAt: rows[0].lastSync });
+        }
+        return res.json({ success: true, hasCachedData: false });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Failed to get UMS status' });
+    }
+});
+
+app.get('/api/ums/courses', async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM ums_courses WHERE user_id = ? ORDER BY course_code', [req.user.id]);
+        if (rows.length === 0) return res.json({ success: true, needsSync: true, courses: [] });
+        res.json({ success: true, courses: rows });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Database error fetching courses' });
+    }
+});
+
+app.get('/api/ums/grades', async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM ums_grades WHERE user_id = ? ORDER BY course_code', [req.user.id]);
+        if (rows.length === 0) return res.json({ success: true, needsSync: true, grades: [] });
+        res.json({ success: true, grades: rows });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Database error fetching grades' });
+    }
+});
+
+app.get('/api/ums/profile', async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM ums_profile WHERE user_id = ? LIMIT 1', [req.user.id]);
+        if (rows.length === 0) return res.json({ success: true, needsSync: true, profile: null });
+        res.json({ success: true, profile: rows[0] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Database error fetching profile' });
+    }
+});
+
+app.post('/api/ums/login', async (req, res) => {
+    try {
+        const { loginName, password } = req.body;
+        if (!loginName || !password) {
+            return res.status(400).json({ success: false, error: 'loginName and password required' });
+        }
+
+        // Derive email – if loginName has no @, append default sci domain
+        const umsUsername = loginName.includes('@') ? loginName : `${loginName}@sci.asu.edu.eg`;
+
+        // ── 1. Scrape from UMS first (validates credentials + gets all data) ──
+        console.log(`📡 Calling Python Scraper for ${umsUsername}...`);
+        let scraperData = null;
+        try {
+            const scraperRes = await axios.post(`${SCRAPER_URL}/scrape/all`, {
+                username: umsUsername,
+                password: password
+            }, { timeout: 120000 });
+
+            if (scraperRes.data.success) {
+                scraperData = scraperRes.data.data;
+                console.log(`✅ Scrape OK for ${umsUsername}, profile keys:`, Object.keys(scraperData.profile || {}));
+            } else {
+                return res.status(401).json({ success: false, error: scraperRes.data.error || 'ums_auth_failed' });
+            }
+        } catch (scraperErr) {
+            console.error('Scraper error:', scraperErr.message);
+            return res.status(401).json({ success: false, error: 'ums_server_error' });
+        }
+
+        const profile = scraperData.profile || {};
+        const courses = scraperData.courses || [];
+        const grades = scraperData.grades || [];
+
+        // Derive real student name and email from scraped data
+        const studentName = profile.nameAr || profile.nameEn || loginName;
+        const studentEmail = profile.email || umsUsername;
+        const numericLevel = profile.level ? parseInt(profile.level.match(/\d+/)?.[0]) || null : null;
+
+        // ── 2. Find or create user in DB ──
+        let user;
+        const [rows] = await pool.execute(`
+            SELECT u.*, p.advisor_name, p.advisor_email 
+            FROM users u 
+            LEFT JOIN ums_profile p ON u.id = p.user_id 
+            WHERE u.email = ? OR u.ums_username = ? OR u.ums_username = ?
+        `, [studentEmail, loginName, umsUsername]);
+
+        if (rows.length > 0) {
+            user = rows[0];
+            // Validate password (bcrypt or plain)
+            const isMatch = await bcrypt.compare(password, user.password).catch(() => false);
+            if (!isMatch && password !== user.password) {
+                return res.status(401).json({ success: false, error: 'Invalid credentials' });
+            }
+        } else {
+            // New student — create account
+            const id = generateId();
+            const hashed = await bcrypt.hash(password, 10);
+            await pool.execute(`
+                INSERT INTO users (id, name, email, password, mode, ums_username, is_verified, is_onboarding_complete)
+                VALUES (?, ?, ?, ?, 'student', ?, true, true)
+            `, [id, studentName, studentEmail, hashed, umsUsername]);
+            const [newRows] = await pool.execute(`
+                SELECT u.*, p.advisor_name, p.advisor_email 
+                FROM users u LEFT JOIN ums_profile p ON u.id = p.user_id 
+                WHERE u.id = ?
+            `, [id]);
+            user = newRows[0];
+        }
+
+        // ── 3. Save all scraped fields to users + ums_profile ──
+        await pool.execute(`
+            UPDATE users 
+            SET name = ?, ums_username = ?, department = ?, program = ?, level = ?,
+                faculty = ?, phone = ?, semester = ?, academic_year = ?
+            WHERE id = ?
+        `, [
+            studentName, umsUsername,
+            profile.department || null, profile.program || null, numericLevel,
+            profile.faculty || null, profile.phone || null,
+            profile.semester || null, profile.academicYear || null,
+            user.id
+        ]);
+
+        await pool.execute(`
+            INSERT INTO ums_profile (user_id, faculty, major, semester, academic_year, advisor_name, advisor_email, student_id_ums)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+               faculty=VALUES(faculty), major=VALUES(major), semester=VALUES(semester),
+               academic_year=VALUES(academic_year), advisor_name=VALUES(advisor_name),
+               advisor_email=VALUES(advisor_email), student_id_ums=VALUES(student_id_ums),
+               synced_at=CURRENT_TIMESTAMP
+        `, [
+            user.id,
+            profile.faculty || null, profile.program || null,
+            profile.semester || null, profile.academicYear || null,
+            profile.advisorName || null, profile.advisorEmail || null,
+            profile.studentId || loginName
+        ]);
+
+        // Save courses
+        await pool.execute('DELETE FROM ums_courses WHERE user_id = ?', [user.id]);
+        for (const c of courses) {
+            await pool.execute(`
+                INSERT INTO ums_courses (user_id, course_code, course_name, credit_hours, section, instructor_name, raw_data)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `, [user.id, c.courseCode || '', c.courseName || '', c.creditHours || null, c.section || null, c.instructorName || null, JSON.stringify(c.grades || {})]);
+        }
+
+        // Save grades
+        await pool.execute('DELETE FROM ums_grades WHERE user_id = ?', [user.id]);
+        for (const g of grades) {
+            await pool.execute(`
+                INSERT INTO ums_grades (user_id, course_code, course_name, grade, grade_points, credit_hours)
+                VALUES (?, ?, ?, ?, ?, ?)
+            `, [user.id, g.courseCode, g.courseName, g.grade, g.gradePoints, g.creditHours]);
+        }
+
+        // ── 4. Return fresh user with all fields ──
+        const [updatedRows] = await pool.execute(`
+            SELECT u.*, p.advisor_name, p.advisor_email
+            FROM users u LEFT JOIN ums_profile p ON u.id = p.user_id
+            WHERE u.id = ?
+        `, [user.id]);
+
+        const token = jwt.sign({ id: user.id, email: studentEmail, role: 'student' }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ success: true, user: formatUser(updatedRows[0]), token });
+    } catch (error) {
+        console.error('UMS login error:', error);
+        res.status(500).json({ success: false, error: 'Login failed' });
+    }
+});
+
 
 // ============ HEALTH CHECK ============
 
