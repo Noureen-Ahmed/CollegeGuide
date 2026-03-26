@@ -45,14 +45,14 @@ const formatUserResponse = (user, umsProfile = {}) => ({
   level: user.level,
   department: user.department?.name || null,
   departmentId: user.departmentId,
-  program: user.program?.name || umsProfile.program || user.program || null,
+  program: user.program?.name || umsProfile.program || user.major || user.program || null,
   programId: user.programId,
   faculty: user.faculty || umsProfile.faculty || null,
   major: user.major || umsProfile.major || null,
   semester: user.semester || umsProfile.semester || null,
   academicYear: user.academicYear || umsProfile.academicYear || null,
-  advisorName: umsProfile.advisorName || null,
-  advisorEmail: umsProfile.advisorEmail || null,
+  advisorName: umsProfile.advisorName || user.advisorName || null,
+  advisorEmail: umsProfile.advisorEmail || user.advisorEmail || null,
   isVerified: user.isVerified,
   isOnboardingComplete: user.isOnboardingComplete,
   enrolledCourses: user.enrollments?.map(e => e.courseId) || [],
@@ -68,6 +68,99 @@ router.post('/login', async (req, res, next) => {
     if (!loginName || !password) {
       return res.status(400).json({
         error: 'loginName and password are required'
+      });
+    }
+
+    const loginId = loginName.includes('@') ? loginName.split('@')[0] : loginName;
+    const loginEmail = loginName.includes('@') ? loginName : `${loginName}@asu.edu.eg`;
+    
+    // Check if user exists locally with matching password (skip UMS scrape)
+    let localUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: loginEmail },
+          { studentId: loginId }
+        ]
+      },
+      include: {
+        department: { select: { id: true, name: true, code: true } },
+        program: { select: { id: true, name: true, code: true } },
+        enrollments: { select: { courseId: true } },
+        _count: { select: { umsCourses: true, umsGrades: true } }
+      }
+    });
+
+    if (localUser && localUser.password && await bcrypt.compare(password, localUser.password) && localUser._count.umsCourses > 0) {
+      // Local auth successful and user has data, bypass Puppeteer scrape
+      
+      // Re-sync enrollments if user has UMS courses but no enrollments
+      // (this can happen if courses weren't in the DB during the original sync)
+      if (localUser.enrollments.length === 0 && localUser._count.umsCourses > 0) {
+        logger.info(`[UMS] User has ${localUser._count.umsCourses} UMS courses but 0 enrollments — re-syncing...`);
+        const umsCourses = await prisma.umsCourse.findMany({
+          where: { userId: localUser.id }
+        });
+        
+        let enrolledCount = 0;
+        for (const umsCourse of umsCourses) {
+          const normalizedCode = (umsCourse.courseCode || '').replace(/\s+/g, '').toUpperCase();
+          const rawName = umsCourse.courseName || '';
+          
+          // Try to find matching course in DB
+          let appCourse = await prisma.course.findFirst({
+            where: { code: normalizedCode }
+          });
+          
+          // Fallback: match by name
+          if (!appCourse && rawName) {
+            appCourse = await prisma.course.findFirst({
+              where: {
+                OR: [
+                  { name: { equals: rawName } },
+                  { nameAr: { equals: rawName } },
+                  { name: { contains: rawName } },
+                  { nameAr: { contains: rawName } }
+                ]
+              }
+            });
+          }
+          
+          if (appCourse) {
+            try {
+              await prisma.enrollment.upsert({
+                where: { userId_courseId: { userId: localUser.id, courseId: appCourse.id } },
+                update: { status: 'ENROLLED' },
+                create: { userId: localUser.id, courseId: appCourse.id, status: 'ENROLLED' }
+              });
+              enrolledCount++;
+            } catch (e) {
+              // skip duplicates
+            }
+          }
+        }
+        logger.info(`[UMS] Re-synced ${enrolledCount} enrollments from UMS courses`);
+      }
+      
+      const updatedUser = await prisma.user.update({
+        where: { id: localUser.id },
+        data: { lastLoginAt: new Date() },
+        include: {
+          department: { select: { id: true, name: true, code: true } },
+          program: { select: { id: true, name: true, code: true } },
+          enrollments: { select: { courseId: true } }
+        }
+      });
+      
+      const session = await prisma.umsSession.findUnique({ where: { userId: updatedUser.id } });
+      const lastSyncAt = session ? session.lastSyncAt : null;
+      
+      logger.info(`✅ Local login bypass successful: ${loginEmail}`);
+      return res.json({
+        success: true,
+        message: 'Local login successful (UMS bypassed)',
+        user: formatUserResponse(updatedUser),
+        token: generateToken(updatedUser.id),
+        sync: { courses: localUser._count.umsCourses, grades: localUser._count.umsGrades || 0, bypassed: true }
       });
     }
 
@@ -125,7 +218,7 @@ router.post('/login', async (req, res, next) => {
           password: hashedPassword,
           level: umsProfile.levelNum || user.level,
           faculty: umsProfile.faculty || user.faculty,
-          major: umsProfile.major || user.major,
+          major: umsProfile.program || umsProfile.major || user.major,
           semester: umsProfile.semester || user.semester,
           academicYear: umsProfile.academicYear || user.academicYear,
           advisorName: umsProfile.advisorName || user.advisorName,
@@ -154,7 +247,7 @@ router.post('/login', async (req, res, next) => {
           studentId: studentId,
           level: umsProfile.levelNum || null,
           faculty: umsProfile.faculty || null,
-          major: umsProfile.major || null,
+          major: umsProfile.program || umsProfile.major || null,
           semester: umsProfile.semester || null,
           academicYear: umsProfile.academicYear || null,
           advisorName: umsProfile.advisorName || null,

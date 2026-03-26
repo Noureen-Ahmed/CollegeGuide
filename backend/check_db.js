@@ -1,19 +1,16 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-async function run() {
-    const db = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        ssl: { rejectUnauthorized: false }
-    });
+async function main() {
+  const users = await prisma.user.findMany({
+    include: {
+      _count: { select: { umsCourses: true, enrollments: true } }
+    }
+  });
 
-    const [r] = await db.query('SHOW CREATE TABLE doctor_courses');
-    console.log(r[0]['Create Table']);
-
-    await db.end();
+  users.forEach(u => {
+    console.log(`User: ${u.email} | umsCourses: ${u._count.umsCourses} | enrollments: ${u._count.enrollments}`);
+  });
 }
-run();
+
+main().finally(() => prisma.$disconnect());

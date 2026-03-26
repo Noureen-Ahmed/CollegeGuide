@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,7 +30,7 @@ model Faculty {
   name        String   @unique
   nameAr      String?  @map("name_ar")  // Arabic name
   code        String   @unique
-  description String?  @db.Text
+  description String?  @db.LongText
   
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -45,7 +45,7 @@ model Department {
   name        String
   nameAr      String?  @map("name_ar")
   code        String   @unique
-  description String?  @db.Text
+  description String?  @db.LongText
   
   facultyId   String   @map("faculty_id")
   faculty     Faculty  @relation(fields: [facultyId], references: [id], onDelete: Cascade)
@@ -69,7 +69,7 @@ model Program {
   name         String      // e.g., "Computer Science", "Zoology", "Statistics"
   nameAr       String?     @map("name_ar")
   code         String   @unique
-  description  String?  @db.Text
+  description  String?  @db.LongText
   creditHours  Int      @default(132) @map("credit_hours")
   
   departmentId String   @map("department_id")
@@ -206,7 +206,7 @@ model Course {
   code        String   @unique
   name        String
   nameAr      String?  @map("name_ar")
-  description String?  @db.Text
+  description String?  @db.LongText
   category    CourseCategory @default(GENERAL)
   creditHours Int      @default(3) @map("credit_hours")
   
@@ -296,7 +296,7 @@ enum EnrollmentStatus {
 model CourseContent {
   id          String      @id @default(cuid())
   title       String
-  description String?     @db.Text
+  description String?     @db.LongText
   contentType ContentType
   fileUrl     String?     @map("file_url")
   attachments Json?       
@@ -353,7 +353,7 @@ enum DayOfWeek {
 model Task {
   id           String       @id @default(cuid())
   title        String
-  description  String?      @db.Text
+  description  String?      @db.LongText
   taskType     TaskType     @default(ASSIGNMENT) @map("task_type")
   priority     TaskPriority @default(MEDIUM)
   
@@ -390,7 +390,7 @@ model TaskSubmission {
   status       SubmissionStatus @default(PENDING)
   submittedAt  DateTime?        @map("submitted_at")
   fileUrl      String?          @map("file_url")
-  notes        String?          @db.Text
+  notes        String?          @db.LongText
   
   answers      Json?            // For exam answers
   startedAt    DateTime?        @map("started_at") // For timed exams
@@ -398,7 +398,7 @@ model TaskSubmission {
   
   points       Float?
   grade        String?
-  feedback     String?          @db.Text
+  feedback     String?          @db.LongText
   gradedAt     DateTime?        @map("graded_at")
   
   taskId       String       @map("task_id")
@@ -439,7 +439,7 @@ enum SubmissionStatus {
 model Announcement {
   id             String           @id @default(cuid())
   title          String
-  message        String           @db.Text
+  message        String           @db.LongText
   type           AnnouncementType @default(GENERAL)
   isPinned       Boolean          @default(false) @map("is_pinned")
   
@@ -469,7 +469,7 @@ enum AnnouncementType {
 model Notification {
   id            String           @id @default(cuid())
   title         String
-  message       String           @db.Text
+  message       String           @db.LongText
   type          NotificationType @default(GENERAL)
   
   referenceType ReferenceType?   @map("reference_type")
@@ -511,7 +511,7 @@ enum ReferenceType {
 model ScheduleEvent {
   id          String    @id @default(cuid())
   title       String
-  description String?   @db.Text
+  description String?   @db.LongText
   eventType   EventType @default(PERSONAL)
   
   startTime   DateTime  @map("start_time")

@@ -110,32 +110,7 @@ async function loginToUMS(loginName, password) {
       grades: []
     };
 
-    // Fetch profile JSON
-    try {
-      const profileData = await page.evaluate(async () => {
-        const res = await fetch('/UserInformation/GetStudentDataChangeRequests', {
-          headers: { 'x-requested-with': 'XMLHttpRequest', 'Accept': 'application/json' }
-        });
-        return res.text();
-      });
-      
-      const jsonData = JSON.parse(profileData);
-      const record = Array.isArray(jsonData.data) && jsonData.data.length > 0 ? jsonData.data[0] : jsonData;
-      
-      result.profile = {
-        nameAr: record.StudentName || null,
-        nameEn: record.StudentNameEn || null,
-        phone: record.PhoneNo || null,
-        email: record.Email || null,
-        altEmail: record.AlternativeEmail || null,
-        ssn: record.SSN || null
-      };
-      logger.info(`[UMS] ✅ Profile: name=${result.profile.nameAr}, phone=${result.profile.phone}`);
-    } catch (err) {
-      logger.error(`[UMS] Profile fetch error: ${err.message}`);
-    }
-
-    // Fetch HTML page for level/faculty/program
+    // Fetch HTML page for all profile data
     try {
       await page.goto(`${UMS_BASE}/UserInformation`, { waitUntil: 'networkidle2', timeout: 20000 });
       const htmlContent = await page.content();
@@ -144,7 +119,20 @@ async function loginToUMS(loginName, password) {
         'اسم الكلية': 'faculty',
         'اسم البرنامج': 'program', 
         'السنة الأكاديمية': 'academicYear',
-        'المستوى': 'level'
+        'المستوى': 'level',
+        'الاسم': 'nameAr',
+        'الإسم': 'nameAr',
+        'اسم الطالب': 'nameAr',
+        'الرقم القومى': 'ssn',
+        'بطاقة الرقم القومى': 'ssn',
+        'رقم جواز السفر': 'ssn',
+        'رقم التليفون': 'phone',
+        'تليفون محمول': 'phone',
+        'التليفون': 'phone',
+        'موبايل': 'phone',
+        'البريد الجامعى': 'email',
+        'البريد الإلكتروني': 'email',
+        'البريد': 'email'
       };
 
       for (const [arLabel, fieldName] of Object.entries(htmlFields)) {
@@ -157,7 +145,9 @@ async function loginToUMS(loginName, password) {
           if (match && match[1]) {
             const val = match[1].trim();
             if (val && val !== ':' && !val.startsWith('<') && val.length > 1 && val.length < 200) {
-              result.profile[fieldName] = val;
+              if (!result.profile[fieldName]) { // Fallback, don't overwrite JSON 
+                result.profile[fieldName] = val;
+              }
               break;
             }
           }
@@ -200,11 +190,11 @@ async function loginToUMS(loginName, password) {
       const advisorHtml = await page.content();
       
       // Extract advisor name and email using Regex based on the HTML structure
-      const advisorNameMatch = advisorHtml.match(/للمرشد الأكاديمى\s*:\s*([^<]+)/);
-      const advisorEmailMatch = advisorHtml.match(/mailto:([^"]+)/);
+      const advisorNameMatch = advisorHtml.match(/للمرشد الأكاديمى\s*:?\s*([^<]+)|المرشد\s*:?\s*([^<]+)|Advisor\s*:?\s*([^<]+)/i);
+      const advisorEmailMatch = advisorHtml.match(/mailto:([^"]+)/i);
       
-      if (advisorNameMatch && advisorNameMatch[1]) {
-        result.profile.advisorName = advisorNameMatch[1].trim();
+      if (advisorNameMatch) {
+        result.profile.advisorName = (advisorNameMatch[1] || advisorNameMatch[2] || advisorNameMatch[3]).trim();
       }
       
       if (advisorEmailMatch && advisorEmailMatch[1]) {
@@ -229,24 +219,40 @@ function parseCoursesHtml(html) {
   const $ = cheerio.load(html);
   const courses = [];
 
-  $('table').each((tableIdx, table) => {
-    $(table).find('tr').each((i, row) => {
-      if (i === 0) return;
-      const cells = $(row).find('td');
-      if (cells.length >= 2) {
-        const course = {
-          courseCode: $(cells[0]).text().trim(),
-          courseName: $(cells[1]).text().trim(),
-          creditHours: cells.length > 2 ? parseInt($(cells[2]).text().trim()) || null : null,
-          section: cells.length > 3 ? $(cells[3]).text().trim() : null,
-          instructorName: cells.length > 4 ? $(cells[4]).text().trim() : null
-        };
-        if (course.courseCode && course.courseCode.length > 1) {
-          courses.push(course);
-        }
-      }
-    });
+  // Parse from modern card layout
+  $('h5.text-dark').each((i, el) => {
+    const text = $(el).text().trim();
+    const match = text.match(/(.*)\[(.*)\]/);
+    if (match) {
+      courses.push({
+        courseCode: match[2].trim(),
+        courseName: match[1].trim(),
+        creditHours: null
+      });
+    }
   });
+
+  // Fallback to table parsing
+  if (courses.length === 0) {
+    $('table').each((tableIdx, table) => {
+      $(table).find('tr').each((i, row) => {
+        if (i === 0) return;
+        const cells = $(row).find('td');
+        if (cells.length >= 2) {
+          const course = {
+            courseCode: $(cells[0]).text().trim(),
+            courseName: $(cells[1]).text().trim(),
+            creditHours: cells.length > 2 ? parseInt($(cells[2]).text().trim()) || null : null,
+            section: cells.length > 3 ? $(cells[3]).text().trim() : null,
+            instructorName: cells.length > 4 ? $(cells[4]).text().trim() : null
+          };
+          if (course.courseCode && course.courseCode.length > 1) {
+            courses.push(course);
+          }
+        }
+      });
+    });
+  }
 
   logger.info(`[UMS] Parsed ${courses.length} courses from HTML`);
   return courses;
@@ -318,21 +324,42 @@ async function syncStudentData(userId, umsResult) {
       });
       results.courses++;
 
-      // Auto-enroll in specific App Courses, creating them if they don't exist
+      // Auto-enroll in specific App Courses, linking them appropriately
       if (course.courseCode) {
-        const normalizedCode = course.courseCode.replace(/\s+/g, '');
+        const rawCode = course.courseCode || 'UNKNOWN';
+        const rawName = course.courseName || '';
+        const normalizedCode = rawCode.replace(/\s+/g, '').toUpperCase();
         
-        let appCourse = await prisma.course.findUnique({
+        // 1. Match by normalized code
+        let appCourse = await prisma.course.findFirst({
           where: { code: normalizedCode }
         });
         
-        // Save the course "forever" in the main database
+        // 2. Match by exact or partial name if code fails
+        if (!appCourse && rawName) {
+          appCourse = await prisma.course.findFirst({
+            where: {
+              OR: [
+                { name: { equals: rawName } },
+                { nameAr: { equals: rawName } },
+                { name: { contains: rawName } },
+                { nameAr: { contains: rawName } }
+              ]
+            }
+          });
+        }
+        
+        // 3. Fallback: Create stub only if no match found
         if (!appCourse) {
+          const categoryString = normalizedCode.replace(/[0-9]/g, '');
+          const validCategories = ['COMP', 'MATH', 'CHEM', 'PHYS', 'BIO', 'GENERAL', 'ELECTIVE'];
+          const category = validCategories.includes(categoryString) ? categoryString : 'GENERAL';
+
           appCourse = await prisma.course.create({
             data: {
               code: normalizedCode,
-              name: course.courseName || course.courseCode,
-              category: normalizedCode.replace(/[0-9]/g, '') || 'GEN', 
+              name: rawName || rawCode,
+              category: category, 
               creditHours: course.creditHours || 3,
               semester: course.semester || 'current',
               academicYear: course.academicYear || new Date().getFullYear().toString(),

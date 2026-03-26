@@ -1,0 +1,701 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths k-webkit k-webkit120 js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths js  js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head><style type="text/css">.swal-icon--error{border-color:#f27474;-webkit-animation:animateErrorIcon .5s;animation:animateErrorIcon .5s}.swal-icon--error__x-mark{position:relative;display:block;-webkit-animation:animateXMark .5s;animation:animateXMark .5s}.swal-icon--error__line{position:absolute;height:5px;width:47px;background-color:#f27474;display:block;top:37px;border-radius:2px}.swal-icon--error__line--left{-webkit-transform:rotate(45deg);transform:rotate(45deg);left:17px}.swal-icon--error__line--right{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);right:16px}@-webkit-keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@-webkit-keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}@keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}.swal-icon--warning{border-color:#f8bb86;-webkit-animation:pulseWarning .75s infinite alternate;animation:pulseWarning .75s infinite alternate}.swal-icon--warning__body{width:5px;height:47px;top:10px;border-radius:2px;margin-left:-2px}.swal-icon--warning__body,.swal-icon--warning__dot{position:absolute;left:50%;background-color:#f8bb86}.swal-icon--warning__dot{width:7px;height:7px;border-radius:50%;margin-left:-4px;bottom:-11px}@-webkit-keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}@keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}.swal-icon--success{border-color:#a5dc86}.swal-icon--success:after,.swal-icon--success:before{content:"";border-radius:50%;position:absolute;width:60px;height:120px;background:#fff;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal-icon--success:before{border-radius:120px 0 0 120px;top:-7px;left:-33px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:60px 60px;transform-origin:60px 60px}.swal-icon--success:after{border-radius:0 120px 120px 0;top:-11px;left:30px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 60px;transform-origin:0 60px;-webkit-animation:rotatePlaceholder 4.25s ease-in;animation:rotatePlaceholder 4.25s ease-in}.swal-icon--success__ring{width:80px;height:80px;border:4px solid hsla(98,55%,69%,.2);border-radius:50%;box-sizing:content-box;position:absolute;left:-4px;top:-4px;z-index:2}.swal-icon--success__hide-corners{width:5px;height:90px;background-color:#fff;padding:1px;position:absolute;left:28px;top:8px;z-index:1;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal-icon--success__line{height:5px;background-color:#a5dc86;display:block;border-radius:2px;position:absolute;z-index:2}.swal-icon--success__line--tip{width:25px;left:14px;top:46px;-webkit-transform:rotate(45deg);transform:rotate(45deg);-webkit-animation:animateSuccessTip .75s;animation:animateSuccessTip .75s}.swal-icon--success__line--long{width:47px;right:8px;top:38px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-animation:animateSuccessLong .75s;animation:animateSuccessLong .75s}@-webkit-keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@-webkit-keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}.swal-icon--info{border-color:#c9dae1}.swal-icon--info:before{width:5px;height:29px;bottom:17px;border-radius:2px;margin-left:-2px}.swal-icon--info:after,.swal-icon--info:before{content:"";position:absolute;left:50%;background-color:#c9dae1}.swal-icon--info:after{width:7px;height:7px;border-radius:50%;margin-left:-3px;top:19px}.swal-icon{width:80px;height:80px;border-width:4px;border-style:solid;border-radius:50%;padding:0;position:relative;box-sizing:content-box;margin:20px auto}.swal-icon:first-child{margin-top:32px}.swal-icon--custom{width:auto;height:auto;max-width:100%;border:none;border-radius:0}.swal-icon img{max-width:100%;max-height:100%}.swal-title{color:rgba(0,0,0,.65);font-weight:600;text-transform:none;position:relative;display:block;padding:13px 16px;font-size:27px;line-height:normal;text-align:center;margin-bottom:0}.swal-title:first-child{margin-top:26px}.swal-title:not(:first-child){padding-bottom:0}.swal-title:not(:last-child){margin-bottom:13px}.swal-text{font-size:16px;position:relative;float:none;line-height:normal;vertical-align:top;text-align:left;display:inline-block;margin:0;padding:0 10px;font-weight:400;color:rgba(0,0,0,.64);max-width:calc(100% - 20px);overflow-wrap:break-word;box-sizing:border-box}.swal-text:first-child{margin-top:45px}.swal-text:last-child{margin-bottom:45px}.swal-footer{text-align:right;padding-top:13px;margin-top:13px;padding:13px 16px;border-radius:inherit;border-top-left-radius:0;border-top-right-radius:0}.swal-button-container{margin:5px;display:inline-block;position:relative}.swal-button{background-color:#7cd1f9;color:#fff;border:none;box-shadow:none;border-radius:5px;font-weight:600;font-size:14px;padding:10px 24px;margin:0;cursor:pointer}.swal-button:not([disabled]):hover{background-color:#78cbf2}.swal-button:active{background-color:#70bce0}.swal-button:focus{outline:none;box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(43,114,165,.29)}.swal-button[disabled]{opacity:.5;cursor:default}.swal-button::-moz-focus-inner{border:0}.swal-button--cancel{color:#555;background-color:#efefef}.swal-button--cancel:not([disabled]):hover{background-color:#e8e8e8}.swal-button--cancel:active{background-color:#d7d7d7}.swal-button--cancel:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(116,136,150,.29)}.swal-button--danger{background-color:#e64942}.swal-button--danger:not([disabled]):hover{background-color:#df4740}.swal-button--danger:active{background-color:#cf423b}.swal-button--danger:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(165,43,43,.29)}.swal-content{padding:0 20px;margin-top:20px;font-size:medium}.swal-content:last-child{margin-bottom:20px}.swal-content__input,.swal-content__textarea{-webkit-appearance:none;background-color:#fff;border:none;font-size:14px;display:block;box-sizing:border-box;width:100%;border:1px solid rgba(0,0,0,.14);padding:10px 13px;border-radius:2px;transition:border-color .2s}.swal-content__input:focus,.swal-content__textarea:focus{outline:none;border-color:#6db8ff}.swal-content__textarea{resize:vertical}.swal-button--loading{color:transparent}.swal-button--loading~.swal-button__loader{opacity:1}.swal-button__loader{position:absolute;height:auto;width:43px;z-index:2;left:50%;top:50%;-webkit-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);text-align:center;pointer-events:none;opacity:0}.swal-button__loader div{display:inline-block;float:none;vertical-align:baseline;width:9px;height:9px;padding:0;border:none;margin:2px;opacity:.4;border-radius:7px;background-color:hsla(0,0%,100%,.9);transition:background .2s;-webkit-animation:swal-loading-anim 1s infinite;animation:swal-loading-anim 1s infinite}.swal-button__loader div:nth-child(3n+2){-webkit-animation-delay:.15s;animation-delay:.15s}.swal-button__loader div:nth-child(3n+3){-webkit-animation-delay:.3s;animation-delay:.3s}@-webkit-keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}@keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}.swal-overlay{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center;font-size:0;overflow-y:auto;background-color:rgba(0,0,0,.4);z-index:10000;pointer-events:none;opacity:0;transition:opacity .3s}.swal-overlay:before{content:" ";display:inline-block;vertical-align:middle;height:100%}.swal-overlay--show-modal{opacity:1;pointer-events:auto}.swal-overlay--show-modal .swal-modal{opacity:1;pointer-events:auto;box-sizing:border-box;-webkit-animation:showSweetAlert .3s;animation:showSweetAlert .3s;will-change:transform}.swal-modal{width:478px;opacity:0;pointer-events:none;background-color:#fff;text-align:center;border-radius:5px;position:static;margin:20px auto;display:inline-block;vertical-align:middle;-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;z-index:10001;transition:opacity .2s,-webkit-transform .3s;transition:transform .3s,opacity .2s;transition:transform .3s,opacity .2s,-webkit-transform .3s}@media (max-width:500px){.swal-modal{width:calc(100% - 20px)}}@-webkit-keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}</style>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:url" content="https://ums.asu.edu.eg/">
+    <meta property="og:image" content="/images/logoums (1).png">
+    <meta property="og:description" content="Digital Management System of Ain Shams University">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="640">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>المقررات | منصة الجامعة الذكية </title>
+    
+
+<!-- Normalize CSS -->
+<link rel="stylesheet" href="/assets/css/AR/normalize.css">
+<!-- Main CSS -->
+<link rel="stylesheet" href="/assets/css/AR/main.css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/assets/css/AR/bootstrap.min.css">
+<!-- Animate CSS -->
+<link rel="stylesheet" href="/assets/css/AR/animate.min.css">
+<!-- Font-awesome CSS-->
+<link rel="stylesheet" href="/assets/fontawesome-free-6.1.1-web/css/all.min.css">
+<link rel="stylesheet" href="/assets/fontawesome-free-6.1.1-web/css/fontawesome.min.css">
+<!-- Owl Caousel CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/OwlCarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/vendor/AR/OwlCarousel/owl.theme.default.min.css">
+<!-- Main Menu CSS -->
+<link rel="stylesheet" href="/assets/css/AR/meanmenu.min.css">
+<!-- nivo slider CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/slider/css/nivo-slider.css" type="text/css">
+<link rel="stylesheet" href="/assets/vendor/AR/slider/css/preview.css" type="text/css" media="screen">
+<!-- Datetime Picker Style CSS -->
+<link rel="stylesheet" href="/assets/css/AR/jquery.datetimepicker.css">
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="/assets/css/AR/select2.min.css">
+<!-- Magic popup CSS -->
+<link rel="stylesheet" href="/assets/css/AR/magnific-popup.css">
+<!-- Switch Style CSS -->
+<link rel="stylesheet" href="/assets/css/AR/hover-min.css">
+<!-- ReImageGrid CSS -->
+<link rel="stylesheet" href="/assets/css/AR/reImageGrid.css">
+<!-- Nouislider Style CSS -->
+<link rel="stylesheet" href="/assets/vendor/AR/noUiSlider/nouislider.min.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/AR/style.css">
+
+<link href="/Content/fontawesome-all.css" rel="stylesheet">
+<!--Kendo-->
+<link href="/Content/kendo/2018.3.1017/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.mobile.all.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.dataviz.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/Content/kendo/2018.3.1017/kendo.dataviz.bootstrap.min.css" rel="stylesheet" type="text/css">
+<!--Kendo custom styles-->
+<style>
+    .k-dropdown .k-state-focused, .k-filebrowser-dropzone, .k-list > .k-state-hover, .k-listbox .k-item:hover:not(.k-state-disabled), .k-mobile-list .k-edit-label.k-check:active, .k-mobile-list .k-item > .k-label:active, .k-mobile-list .k-item > .k-link:active, .k-mobile-list .k-recur-view .k-check:active, .k-pager-wrap .k-link:hover, .k-scheduler .k-scheduler-toolbar ul li.k-state-hover, .k-splitbar-horizontal-hover:hover, .k-splitbar-vertical-hover:hover, .k-state-hover, .k-state-hover:hover {
+        background-color: #0021473d;
+    }
+    .k-list > .k-state-focused.k-state-selected, .k-listview > .k-state-focused.k-state-selected, .k-state-focused.k-state-selected, td.k-state-focused.k-state-selected {
+        box-shadow: inset 0 0 10px 3px #002147;
+    }
+    .k-draghandle.k-state-selected:hover, .k-ghost-splitbar-horizontal, .k-ghost-splitbar-vertical, .k-list > .k-state-highlight, .k-list > .k-state-selected, .k-marquee-color, .k-panel > .k-state-selected, .k-scheduler .k-scheduler-toolbar .k-state-selected, .k-scheduler .k-today.k-state-selected, .k-state-selected, .k-state-selected:link, .k-state-selected:visited, .k-tool.k-state-selected {
+        background-color: #002147;
+        border-color: #002147;
+    }
+    .k-link:link, .k-link:visited, .k-nav-current.k-state-hover .k-link {
+        color: #002147;
+    }
+</style>
+    <link href="/Content/kendo/2018.3.1017/kendo.rtl.min.css" rel="stylesheet" type="text/css">
+<script src="/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="/Scripts/modernizr-2.8.3.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/jszip.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.all.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.dropdownlist.min.js"></script>
+<script src="/Scripts/kendo/2018.3.1017/kendo.aspnetmvc.min.js"></script>
+<script src="/Scripts/modernizr-2.8.3.js"></script>
+<script src="/Scripts/kendo.modernizr.custom.js"></script>
+
+
+    <!-- BEGIN SWEETALERT -->
+    <link href="/assets/SweetAlert/sweetalert2.min.css" rel="stylesheet">
+    <script src="/assets/SweetAlert/sweetalert2.min.js"></script>
+    <script src="/assets/js/modernizr-2.8.3.min.js"></script>
+
+    <script src="/assets/SweetAlert/sweetalert.min.js"></script>
+    <!-- Owl Cauosel JS -->
+    <script src="/assets/vendor/AR/OwlCarousel/owl.carousel.min.js" type="text/javascript"></script>
+</head>
+<!-- Head End -->
+<!-- Body Start -->
+
+<body dir="rtl">
+    
+
+    
+    
+    
+    
+
+
+
+
+    
+
+    <div id="wrapper" style="position: relative;">  
+
+        <!-- Header Start -->
+
+<style>
+    .navbar-nav {
+        flex-direction: row !important;
+    }
+</style>
+<link href="/assets/css/Menu.css" rel="stylesheet">
+    <header>
+        <div id="header1" class="header2-area">
+            
+
+<script src="/assets/js/Language.js"></script>
+<style>
+    .main-menu-area .header-search{
+        margin:0px 0px !important;
+    }
+</style>
+<!-- TopHeader Start -->
+<div class="header-top-area">
+    <div class="container">
+        <div class="top-bar-border">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                    <div class="header-top-left">
+                        <ul class="Mobile-Hidden">
+                            <li><img style="height:25px;" src="/images/arms_of_Egypt_(Official).svg"></li>
+                            <li style="text-transform:capitalize;"><i class="fa fa-play-circle" aria-hidden="true"></i><a href="/App/VideosSection">فيديوهات إرشادية</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="header-top-right">
+                        <ul class="main-menu-area">
+                            <li>
+                                <div class="header-search d-none d-lg-block">
+                                    <form action="/Search/GetSearchResult" method="GET">
+                                        <input type="text" class="search-form" name="UserQuery" placeholder="بحث" required="">
+                                        <a href="#" class="search-button" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                    </form>
+                                </div>
+                            </li>
+                                <li>
+                                    <a class="login-btn-area" href="/App/Logout" id="logout-button"><i class="fa fa-lock"></i> تسجيل الخروج</a>
+                                </li>
+
+
+                                <li><a class="login-btn-area" onclick="SelectedIndexChanged('en'); location.reload();" href="#"> <img src="/images/Flags/gb.png" alt="English">English</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TopHeader End -->
+
+
+            <!-- MenuHeader Start -->
+            <div class="main-menu-area bg-textPrimary" id="sticker">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-3 col-md-3">
+                                <a href="/"><img class="img-responsive" src="/images/logoums (1).png" alt="logo"></a>
+                        </div>
+                        <div class="col-xl-7 col-lg-7 col-md-7">
+                            <nav id="desktop-nav">
+                                <ul style="text-align:center;">
+                                    <li class=""><a href="/UserInformation/MyAccount">    <span class="title">الصفحة الرئيسية</span></a></li><li class=""><a href="/Services">    <span class="title">خدمات عامة</span></a></li><li class=""><a href="javascript:;"> <span>خدمات دراسية</span><span class="nav-icon nav-arrow"></span></a> <ul class="mega-menu-area sub-mega-menu"><li><a href="/MilitaryStudentFamilyDetails">    <span class="title">بيانات مطلوبة</span></a></li><li><a href="/UserInformation/CurrentCourse">    <span class="title">المقررات</span></a><a href="/Schedule">    <span class="title">الجدول</span></a><a href="/UserInformation/AllStudentCourseQRs">    <span class="title">لجان الاختبارات : رموز ال QR</span></a><a href="/YearWorkGradesForStudent">    <span class="title">درجات اعمال السنة</span></a><a href="/StudentGrades">    <span class="title">الدرجات</span></a></li><li><a href="/RegisterElectiveCourse/Registration">    <span class="title">تسجيل المقررات الدراسية</span></a><a href="/OpenCourseRequest">    <span class="title">طلب فتح مقرر للتسجيل</span></a><a href="/WithdrawCourseRequest">    <span class="title">طلب انسحاب من مقرر</span></a><a href="/Appeal">    <span class="title">الالتماسات</span></a><a href="/StudentGraduationRequirement">    <span class="title">متطلبات الجامعه</span></a></li><li><a href="/Bifurcation">    <span class="title">التشعيب</span></a><a href="/Awards">    <span class="title">الجوائز</span></a><a href="/UserInformation/StudentWarnings">    <span class="title">انذار أكاديمى</span></a><a href="/MilitaryEducationCourseRegistration">    <span class="title">تسجيل دورة التربية العسكرية</span></a><a href="/MilitaryCoursePreview">    <span class="title">بيانات دورة التربية العسكرية</span></a></li></ul></li><li class=""><a href="javascript:;"> <span>الشكاوى / المقترحات</span><span class="nav-icon nav-arrow"></span></a><ul><li class=" "><a href="/Complaint/ComplaintList">    <span class="title">الشكاوى / المقترحات</span></a></li><li class=" "><a href="/GeneralQuestionnaire">    <span class="title">رأيك يهمنا</span></a></li></ul></li><li class=""><a href="javascript:;"> <span>سجل المدفوعات</span><span class="nav-icon nav-arrow"></span></a><ul><li class=" "><a href="/Home/Payment">    <span class="title">المدفوعات المستحقة</span></a></li><li class=" "><a href="/Home/History">    <span class="title">سجل التعاملات</span></a></li></ul></li><li class=""><a href="/InnerAnnouncement">    <span class="title">الأخبار</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-xl-3 col-lg-2 col-md-2">
+                            <nav id="desktop-nav">
+                                <ul class="header-user">
+                                    <li>
+                                        <a href="#" dir="rtl"><i class="fa-solid fa-user" style="padding: 0 8px;"></i>نورين احمد على محمد</a>
+                                        <ul>
+                                            <li><a href="/UserInformation">الصفحة الشخصية</a></li>
+                                            <li><a href="/App/Logout">تسجيل الخروج</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MenuHeader End -->
+            <div class="mobile-menu-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mobile-menu">
+                                <nav id="dropdown" style="display: block;">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa-solid fa-user"></i>نورين احمد على محمد</a>
+                                            <ul>
+                                                <li><a href="/UserInformation">الصفحة الشخصية</a></li>
+                                                <li><a href="/App/Logout">تسجيل الخروج</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class=""><a href="/UserInformation/MyAccount">    <span class="title">الصفحة الرئيسية</span></a></li><li class=""><a href="/Services">    <span class="title">خدمات عامة</span></a></li><li class=""><a href="javascript:;"> <span>خدمات دراسية</span><span class="nav-icon nav-arrow"></span></a> <ul class="mega-menu-area sub-mega-menu"><li><a href="/MilitaryStudentFamilyDetails">    <span class="title">بيانات مطلوبة</span></a></li><li><a href="/UserInformation/CurrentCourse">    <span class="title">المقررات</span></a><a href="/Schedule">    <span class="title">الجدول</span></a><a href="/UserInformation/AllStudentCourseQRs">    <span class="title">لجان الاختبارات : رموز ال QR</span></a><a href="/YearWorkGradesForStudent">    <span class="title">درجات اعمال السنة</span></a><a href="/StudentGrades">    <span class="title">الدرجات</span></a></li><li><a href="/RegisterElectiveCourse/Registration">    <span class="title">تسجيل المقررات الدراسية</span></a><a href="/OpenCourseRequest">    <span class="title">طلب فتح مقرر للتسجيل</span></a><a href="/WithdrawCourseRequest">    <span class="title">طلب انسحاب من مقرر</span></a><a href="/Appeal">    <span class="title">الالتماسات</span></a><a href="/StudentGraduationRequirement">    <span class="title">متطلبات الجامعه</span></a></li><li><a href="/Bifurcation">    <span class="title">التشعيب</span></a><a href="/Awards">    <span class="title">الجوائز</span></a><a href="/UserInformation/StudentWarnings">    <span class="title">انذار أكاديمى</span></a><a href="/MilitaryEducationCourseRegistration">    <span class="title">تسجيل دورة التربية العسكرية</span></a><a href="/MilitaryCoursePreview">    <span class="title">بيانات دورة التربية العسكرية</span></a></li></ul></li><li class=""><a href="javascript:;"> <span>الشكاوى / المقترحات</span><span class="nav-icon nav-arrow"></span></a><ul><li class=" "><a href="/Complaint/ComplaintList">    <span class="title">الشكاوى / المقترحات</span></a></li><li class=" "><a href="/GeneralQuestionnaire">    <span class="title">رأيك يهمنا</span></a></li></ul></li><li class=""><a href="javascript:;"> <span>سجل المدفوعات</span><span class="nav-icon nav-arrow"></span></a><ul><li class=" "><a href="/Home/Payment">    <span class="title">المدفوعات المستحقة</span></a></li><li class=" "><a href="/Home/History">    <span class="title">سجل التعاملات</span></a></li></ul></li><li class=""><a href="/InnerAnnouncement">    <span class="title">الأخبار</span></a></li>                                        
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+        <!--Inner Header Start -->
+
+<!-- Inner Page Banner Area Start Here -->
+<div class="inner-page-banner-area" style="background-image: url('../../assets/images/banner1.jpg');">
+    <div class="container" style="max-height: 0px !important;">
+        <div class="pagination-area" style="margin-top:15rem">
+            <h1>المقررات</h1>
+            <ul>
+                <li><a href="/UserInformation/MyAccount">الرئيسية</a> -</li>
+                <li>المقررات</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Inner Page Banner Area End Here -->
+        <!-- PageBody Start -->
+        
+
+<style>
+   .price-table-box2 span {
+       letter-spacing: normal !important;
+   }
+</style>
+
+<section class="padding:5%">
+    <div class="container card-shadow mt-5">
+            <div class="sec_job_listing">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h2 class="title-default-left title-bar-high">
+                            المواد الحالية
+                        </h2>
+                    </div>
+                    <br>
+                    <div class="col-md-9">
+                        <h5>
+                            <br>
+                            <span class="f_size_20 ">العام الدراسي :  2025-2026</span>
+                                        <span class="f_size_20" style="text-align: center"> &gt; مستوى :  مستوي 4</span>
+                                    <span class="f_size_20" style="text-align: center">&gt;الفصل:  فصل الربيع</span>
+
+                        </h5>
+                    </div>
+                </div>
+
+
+            </div>
+                <div class="job_listing">
+                    <div class="k-rtl" id="tab_filter" style="min-height: 0px;">
+                    </div>
+
+                    <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 hvr-float-shadow ">
+                                <div class="price-table-box2">
+                                    <div class=" ">
+                                        <div class=" pricetable-btn">
+                                            <a href="/UserInformation/CourseAttendance?courseId=910&amp;termId=2" class="price_btn btn_hover mt_30">
+                                                <i class="fa fa-pencil "></i> الحضور
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <i class="text-primary"></i>
+
+                                            <br>
+
+
+
+                                            <h5 class="text-dark">
+                                                
+المعلوماتيه الحيويه                                                [COMP 402]
+
+                                            </h5>
+                                        </div>
+
+
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+تحريري:&nbsp;105.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+شفوي:&nbsp;8.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+أعمال فصل:&nbsp;37.00                                                    </span>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 hvr-float-shadow ">
+                                <div class="price-table-box2">
+                                    <div class=" ">
+                                        <div class=" pricetable-btn">
+                                            <a href="/UserInformation/CourseAttendance?courseId=912&amp;termId=2" class="price_btn btn_hover mt_30">
+                                                <i class="fa fa-pencil "></i> الحضور
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <i class="text-primary"></i>
+
+                                            <br>
+
+
+
+                                            <h5 class="text-dark">
+                                                
+هندسه البرمجيات                                                [COMP 404]
+
+                                            </h5>
+                                        </div>
+
+
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+تحريري:&nbsp;90.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+عملي:&nbsp;37.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+شفوي:&nbsp;8.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+أعمال فصل:&nbsp;15.00                                                    </span>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 hvr-float-shadow ">
+                                <div class="price-table-box2">
+                                    <div class=" ">
+                                        <div class=" pricetable-btn">
+                                            <a href="/UserInformation/CourseAttendance?courseId=914&amp;termId=2" class="price_btn btn_hover mt_30">
+                                                <i class="fa fa-pencil "></i> الحضور
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <i class="text-primary"></i>
+
+                                            <br>
+
+
+
+                                            <h5 class="text-dark">
+                                                
+مشروع حاسب (ب)                                                [COMP 406]
+
+                                            </h5>
+                                        </div>
+
+
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+عملي:&nbsp;70.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+شفوي:&nbsp;70.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+أعمال فصل:&nbsp;60.00                                                    </span>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 hvr-float-shadow ">
+                                <div class="price-table-box2">
+                                    <div class=" ">
+                                        <div class=" pricetable-btn">
+                                            <a href="/UserInformation/CourseAttendance?courseId=916&amp;termId=2" class="price_btn btn_hover mt_30">
+                                                <i class="fa fa-pencil "></i> الحضور
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <i class="text-primary"></i>
+
+                                            <br>
+
+
+
+                                            <h5 class="text-dark">
+                                                
+موضوعات متقدمه فى الذكاء الإصطناعى                                                [COMP 408]
+
+                                            </h5>
+                                        </div>
+
+
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+تحريري:&nbsp;105.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+شفوي:&nbsp;8.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+أعمال فصل:&nbsp;37.00                                                    </span>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 hvr-float-shadow ">
+                                <div class="price-table-box2">
+                                    <div class=" ">
+                                        <div class=" pricetable-btn">
+                                            <a href="/UserInformation/CourseAttendance?courseId=924&amp;termId=2" class="price_btn btn_hover mt_30">
+                                                <i class="fa fa-pencil "></i> الحضور
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <i class="text-primary"></i>
+
+                                            <br>
+
+
+
+                                            <h5 class="text-dark">
+                                                
+استخلاص البيانات والويب                                                [COMP 416]
+
+                                            </h5>
+                                        </div>
+
+
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+تحريري:&nbsp;105.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+شفوي:&nbsp;8.00                                                    </span>
+
+                                                </div>
+                                                <div class="row">
+                                                    <span class="">
+                                                        
+أعمال فصل:&nbsp;37.00                                                    </span>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+                </div>
+    </div>
+
+
+</section>
+
+
+
+<script>
+
+    var learnMoreExpanded = false;
+    function expandLearnMoreDiv(linkElement) {
+        var hyperlinkID = $(linkElement).attr('id');
+        var courseID = hyperlinkID.split('_')[1];
+
+
+        $('#learnMoreDiv_' + courseID).show();
+
+
+
+        $('#learnLessLink_' + courseID).show();
+        $(linkElement).hide();
+
+
+        //$(linkElement).text("Less");
+        //document.getElementById("learnMoreLink").style.display = "none";
+    }
+    function contractLearnMoreDiv(linkElement) {
+
+        var hyperlinkID = $(linkElement).attr('id');
+        var courseID = hyperlinkID.split('_')[1];
+
+
+        $('#learnMoreDiv_' + courseID).hide();
+        $(linkElement).hide();
+
+        $('#learnMoreLink_' + courseID).show();
+
+    }
+    function backToHome() {
+
+    }
+</script>
+
+
+        <!-- PageBody End -->
+
+            <div id="footer-div">
+                    <div class="endpage-divider"></div>
+                
+
+<style>
+    .footer-bottom-social li {
+      display: inline-block;
+      font-size: 14px;
+      border-right: 1px solid #BDBDBD;
+      margin-right: 15px;
+      padding-right: 15px;
+    }
+    .footer-bottom-social li a,.footer-bottom-social li{
+        color: white !important;
+    }
+    .footer-sticky{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    }
+</style>
+
+<!-- FooterBottom Start -->
+<div class="footer-area-bottom ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <p class="text-white font_18">© FCIS-AinShams 2020 - 2026 &nbsp; </p>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                <ul class="footer-bottom-social">
+                    <li><a href="/App/TermsAndConditions">شروط الاستخدام</a></li>
+                    <li><a href="/App/Privacy">سياسية الخصوصية</a></li>
+                    <li><a href="/App/FAQ">اسئلة شائعة</a></li>
+                    <li><a href="/App/CustomerServiceCharter">ميثاق خدمة المتعاملين</a></li>
+                    
+                        <li>40</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FooterBottom End -->
+
+            </div>
+
+    </div>
+
+    
+
+    <script src="/assets/js/plugins.js" type="text/javascript"></script>
+    <!-- Bootstrap js -->
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- WOW JS -->
+    <script src="/assets/js/wow.min.js"></script>
+    <!-- Nivo slider js -->
+    <script src="/assets/vendor/AR/slider/js/jquery.nivo.slider.js" type="text/javascript"></script>
+    <script src="/assets/vendor/AR/slider/home.js" type="text/javascript"></script>
+    <!-- Meanmenu Js -->
+    <script src="/assets/js/jquery.meanmenu.min.js" type="text/javascript"></script>
+    <!-- Srollup js -->
+    <script src="/assets/js/jquery.scrollUp.min.js" type="text/javascript"></script>
+    <!-- jquery.counterup js -->
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <!-- Countdown js -->
+    <script src="/assets/js/jquery.countdown.min.js" type="text/javascript"></script>
+    <!-- Isotope js -->
+    <script src="/assets/js/isotope.pkgd.min.js" type="text/javascript"></script>
+    <!-- Select2 Js -->
+    <script src="/assets/js/select2.min.js" type="text/javascript"></script>
+    <!-- Nouislider Js -->
+    <script src="/assets/vendor/AR/noUiSlider/nouislider.min.js" type="text/javascript"></script>
+    <!-- Validator js -->
+    <script src="/assets/js/validator.min.js" type="text/javascript"></script>
+    <!-- Magic Popup js -->
+    <script src="/assets/js/jquery.magnific-popup.min.js" type="text/javascript"></script>
+    <!-- Gridrotator js -->
+    <script src="/assets/js/jquery.gridrotator.js" type="text/javascript"></script>
+    <!-- Custom Js -->
+        <script src="/assets/js/main-rtl.js" type="text/javascript"></script><a id="scrollUp" href="#top" style="display: none; position: fixed; z-index: 2147483647;"><i class="fa fa-arrow-up"></i></a>
+
+
+    <script>
+        $(document).ready(function () {
+            var tempdataval = ``
+            if (tempdataval != null && tempdataval != '')
+            {
+                Swal.fire({
+                    icon: 'error',
+                    // title: 'Error',
+                    text: tempdataval,
+                })
+            }
+
+            var tempsuccess = ``
+            if (tempsuccess != null && tempsuccess != '')
+            {
+                Swal.fire({
+                    icon: 'success',
+                    // title: 'Success',
+                    text: tempsuccess,
+                })
+            }
+            //textToSpeech()
+        })
+    </script>
+
+    <script src="/Scripts/jquery.validate.min.js"></script>
+
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    
+
+
+
+
+
+<script>
+
+    function generateUrl(url, params) {
+        var i = 0, key;
+        for (key in params) {
+            if (i === 0) {
+                url += "?";
+            } else {
+                url += "&";
+            }
+            url += key;
+            url += '=';
+            url += params[key];
+            i++;
+        }
+        return url;
+    }
+</script></body><!-- Body End --></html>

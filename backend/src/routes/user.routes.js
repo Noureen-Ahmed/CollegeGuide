@@ -25,10 +25,10 @@ const formatUserResponse = (user) => ({
   studentId: user.studentId,
   faculty: user.faculty,
   major: user.major,
-  department: user.department?.name,
-  departmentId: user.departmentId,
-  program: user.program?.name,
-  programId: user.programId,
+  department: user.department?.name || null,
+  departmentId: user.departmentId || null,
+  program: user.program?.name || user.major || null,
+  programId: user.programId || null,
   semester: user.semester,
   academicYear: user.academicYear,
   gpa: user.gpa,
@@ -227,7 +227,8 @@ router.put('/:email',
         studentId,
         avatar, 
         departmentId, // Use IDs for relations
-        programId, 
+        programId,
+        program, // Added destructuring specifically to avoid ReferenceError
         gpa, 
         level, 
         isOnboardingComplete, 
@@ -246,6 +247,8 @@ router.put('/:email',
           // Update relations using IDs
           ...(departmentId && { departmentId }), 
           ...(programId && { programId }),
+          // If the frontend sends program string but no ID, save it to major
+          ...((program && !programId) && { major: program }),
           ...(gpa !== undefined && { gpa }),
           ...(level !== undefined && { level }),
           ...(isOnboardingComplete !== undefined && { isOnboardingComplete })

@@ -114,8 +114,8 @@ async function startServer() {
     logger.info('✅ Database connected successfully');
 
     // Start server
-    app.listen(PORT, () => {
-      logger.info(`🚀 Server running on http://localhost:${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
       logger.info(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
