@@ -62,28 +62,30 @@ class TaskCard extends StatelessWidget {
                     Row(
                       children: [
                         // Due date badge
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: _getDueDateColor(task.dueDate).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                              color: _getDueDateColor(task.dueDate).withOpacity(0.3),
+                        if (task.dueDate != null) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _getDueDateColor(task.dueDate!).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: _getDueDateColor(task.dueDate!).withOpacity(0.3),
+                              ),
+                            ),
+                            child: Text(
+                              'Due: ${_formatDate(task.dueDate!)}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: _getDueDateColor(task.dueDate!),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          child: Text(
-                            'Due: ${_formatDate(task.dueDate)}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: _getDueDateColor(task.dueDate),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
+                          const SizedBox(width: 8),
+                        ],
                         
                         // Priority badge
                         Container(
