@@ -265,11 +265,14 @@ class _AssignmentDetailScreenState extends ConsumerState<AssignmentDetailScreen>
               // Course & Due Date
               Row(
                 children: [
-                  Text(
-                    _task.subject,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 16,
+                  Expanded(
+                    child: Text(
+                      _task.subject,
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 16,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -483,12 +486,15 @@ class _AssignmentDetailScreenState extends ConsumerState<AssignmentDetailScreen>
                   children: [
                     const Icon(Icons.grade, color: Colors.green),
                     const SizedBox(width: 8),
-                    Text(
-                      'Grade: ${_task.submission!['grade'] ?? _task.submission!['points']}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green
+                    Expanded(
+                      child: Text(
+                        'Grade: ${_task.submission!['grade'] ?? _task.submission!['points']}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

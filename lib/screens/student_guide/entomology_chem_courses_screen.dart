@@ -23,19 +23,19 @@ const List<Map<String, String>> _courses = [
   {
     "level": "1",
     "type": "mandatory",
-    "department": "متطلب جامعة",
-    "course_name": "لغة إنجليزية (1)",
-    "course_code": "ENGL 102",
-    "credit_hours": "2",
+    "department": "الرياضيات",
+    "course_name": "تفاضل وتكامل (1)",
+    "course_code": "MATH 101",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
     "level": "1",
     "type": "mandatory",
-    "department": "متطلب جامعة",
-    "course_name": "مدخل في الحاسب الآلي",
-    "course_code": "INCO 102",
-    "credit_hours": "1",
+    "department": "الفيزياء",
+    "course_name": "فيزياء عامة (1)",
+    "course_code": "PHYS 101",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
@@ -71,6 +71,24 @@ const List<Map<String, String>> _courses = [
     "department": "علم الحيوان",
     "course_name": "علم الحيوان (1)",
     "course_code": "ZOOL 101",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "1",
+    "type": "mandatory",
+    "department": "متطلب جامعة",
+    "course_name": "لغة إنجليزية (1)",
+    "course_code": "ENGL 102",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "1",
+    "type": "mandatory",
+    "department": "متطلب جامعة",
+    "course_name": "مدخل في الحاسب الآلي",
+    "course_code": "INCO 102",
     "credit_hours": "1",
     "prerequisites": "-"
   },
@@ -107,7 +125,7 @@ const List<Map<String, String>> _courses = [
     "department": "علم الحيوان",
     "course_name": "علم الحيوان (2)",
     "course_code": "ZOOL 102",
-    "credit_hours": "2",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
@@ -116,7 +134,7 @@ const List<Map<String, String>> _courses = [
     "department": "الميكروبيولوجيا",
     "course_name": "ميكروبيولوجي",
     "course_code": "MICR 102",
-    "credit_hours": "1",
+    "credit_hours": "2",
     "prerequisites": "-"
   },
   {
@@ -142,11 +160,29 @@ const List<Map<String, String>> _courses = [
   {
     "level": "2",
     "type": "mandatory",
-    "department": "الميكروبيولوجيا",
-    "course_name": "فيروسات وبكتيريا",
-    "course_code": "MICR 295",
+    "department": "علم الحشرات",
+    "course_name": "التشريح الخارجي",
+    "course_code": "ENTM 219",
+    "credit_hours": "2",
+    "prerequisites": "ENTM 102"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "تقسيم الحشرات (1)",
+    "course_code": "ENTM 221",
     "credit_hours": "3",
-    "prerequisites": "MICR 102"
+    "prerequisites": "ENTM 102"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "الحشرات النافعة ومنتجاتها",
+    "course_code": "ENTM 215",
+    "credit_hours": "2",
+    "prerequisites": "ENTM 102"
   },
   {
     "level": "2",
@@ -172,44 +208,71 @@ const List<Map<String, String>> _courses = [
     "department": "الكيمياء",
     "course_name": "أساسيات الكيمياء التحليلية",
     "course_code": "CHEM 281",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "الحشرات ودورها كمؤشرات حيوية",
+    "course_code": "ENTM 211",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "الحشرات في مصر (الفرعونية) القديمة",
+    "course_code": "ENTM 213",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "آليات الدفاع في الحشرات",
+    "course_code": "ENTM 217",
     "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "2",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات أيض الكربوهيدرات والدهون",
-    "course_code": "BIOC 210",
-    "credit_hours": "4",
-    "prerequisites": "-"
+    "department": "علم الحشرات",
+    "course_name": "تشريح الحشرات",
+    "course_code": "ENTM 254",
+    "credit_hours": "2",
+    "prerequisites": "ENTM 102"
   },
   {
     "level": "2",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية صناعية",
-    "course_code": "BIOC 204",
-    "credit_hours": "2",
-    "prerequisites": "-"
+    "department": "علم الحشرات",
+    "course_name": "التأقلم في الحشرات",
+    "course_code": "ENTM 224",
+    "credit_hours": "1",
+    "prerequisites": "ENTM 102"
   },
   {
     "level": "2",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية نباتية",
-    "course_code": "BIOC 206",
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "مكافحة الآفات الحشرية",
+    "course_code": "ENTM 230",
     "credit_hours": "2",
-    "prerequisites": "-"
+    "prerequisites": "ENTM 102"
   },
   {
     "level": "2",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات البيولوجيا الإشعاعية",
-    "course_code": "BIOC 208",
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "وراثة الخلية الحشرية",
+    "course_code": "ENTM 228",
     "credit_hours": "2",
-    "prerequisites": "-"
+    "prerequisites": "ENTM 102"
   },
   {
     "level": "2",
@@ -224,7 +287,7 @@ const List<Map<String, String>> _courses = [
     "level": "2",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [ديناميكا حرارية + كيمياء كهربية (1)]",
+    "course_name": "كيمياء فيزيائية (ديناميكا حرارية + كيمياء كهربية 1)",
     "course_code": "CHEM 290",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -232,28 +295,54 @@ const List<Map<String, String>> _courses = [
   {
     "level": "2",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name":
-        "كيمياء فيزيائية [النظرية الحركية للغازات + الخواص الفيزيائية والتركيب الجزيئي]",
-    "course_code": "CHEM 294",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "2",
-    "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [سترويدات]",
-    "course_code": "CHEM 264",
+    "department": "علم الحشرات",
+    "course_name": "نحل العسل",
+    "course_code": "ENTM 214",
     "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "2",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "الإحصاء في الكيمياء التحليلية",
-    "course_code": "CHEM 282",
+    "department": "علم الحشرات",
+    "course_name": "طرق الكتابة والعرض العلمي",
+    "course_code": "ENTM 216",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "تعدد الأشكال في الحشرات",
+    "course_code": "ENTM 218",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "إصدار الصوت والضوء في الحشرات",
+    "course_code": "ENTM 220",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "صحة المجتمع والحشرات",
+    "course_code": "ENTM 210",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "إدارة الجودة الشاملة والمعايير العالمية لاعتماد المعامل",
+    "course_code": "ENTM 262",
     "credit_hours": "1",
     "prerequisites": "-"
   },
@@ -271,62 +360,26 @@ const List<Map<String, String>> _courses = [
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في السوائل البيولوجية",
-    "course_code": "BIOC 309",
+    "department": "علم الحشرات",
+    "course_name": "حشرات طبية وبيطرية",
+    "course_code": "ENTM 305",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ENTM 221"
   },
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا جزيئية (1)",
-    "course_code": "BIOC 303",
+    "department": "علم الحشرات",
+    "course_name": "تقسيم الحشرات (2)",
+    "course_code": "ENTM 315",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "علم النبات",
-    "course_name": "زراعة أنسجة نباتية",
-    "course_code": "BOTA 333",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الإحصاء",
-    "course_name": "إحصاء حيوي",
-    "course_code": "STAT 321",
-    "credit_hours": "2",
-    "prerequisites": "STAT 209"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "علم النبات",
-    "course_name": "النباتات الطبية والأروماتية والاقتصادية",
-    "course_code": "BOTA 335",
-    "credit_hours": "2",
-    "prerequisites": "BOTA 101"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا الإشعاع",
-    "course_code": "BIOC 307",
-    "credit_hours": "2",
-    "prerequisites": "-"
+    "prerequisites": "ENTM 221"
   },
   {
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الكيمياء الفراغية والسكريات]",
+    "course_name": "كيمياء عضوية (الكيمياء الفراغية والسكريات)",
     "course_code": "CHEM 361",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -335,54 +388,53 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء غير عضوية [كيمياء تناسقية]",
+    "course_name": "كيمياء غير عضوية (كيمياء تناسقية)",
     "course_code": "CHEM 371",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "3",
-    "type": "mandatory",
-    "department": "الكيمياء",
-    "course_name":
-        "كيمياء فيزيائية [كيمياء السطوح والحفز والخواص الطبيعية للبلمرات 1]",
-    "course_code": "CHEM 391",
-    "credit_hours": "3",
-    "prerequisites": "-"
-  },
-  {
-    "level": "3",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء كهربية 2]",
-    "course_code": "CHEM 393",
+    "department": "علم الحشرات",
+    "course_name": "التواصل في الحشرات",
+    "course_code": "ENTM 307",
     "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "3",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الأحماض الأمينية والأنثوسيانيات]",
-    "course_code": "CHEM 363",
+    "department": "علم الحشرات",
+    "course_name": "تطور الحشرات والسلالات",
+    "course_code": "ENTM 327",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "آفات الحبوب المخزنة ومنتجاتها",
+    "course_code": "ENTM 309",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "3",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "الكيمياء غير العضوية التطبيقية",
-    "course_code": "CHEM 383",
+    "department": "علم الحشرات",
+    "course_name": "علم القراديات",
+    "course_code": "ENTM 311",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "3",
     "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "الكيمياء الخضراء",
-    "course_code": "CHEM 381",
+    "department": "علم الحشرات",
+    "course_name": "مزارع الخلايا الحشرية",
+    "course_code": "ENTM 313",
     "credit_hours": "1",
     "prerequisites": "-"
   },
@@ -398,62 +450,35 @@ const List<Map<String, String>> _courses = [
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات أيض الأحماض النووية",
-    "course_code": "BIOC 314",
+    "department": "علم الحشرات",
+    "course_name": "أسس بيئة الحشرات",
+    "course_code": "ENTM 316",
     "credit_hours": "2",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ENTM 224"
   },
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "علم المناعة",
-    "course_code": "BIOC 306",
+    "department": "علم الحشرات",
+    "course_name": "الحشرات النافعة والضارة",
+    "course_code": "ENTM 318",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ENTM 215"
   },
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "هرمونات",
-    "course_code": "BIOC 308",
+    "department": "علم الحشرات",
+    "course_name": "علم الوراثة وعلاقته بالحشرات",
+    "course_code": "ENTM 320",
     "credit_hours": "2",
-    "prerequisites": "BIOC 201 OR 202"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "الكيمياء الحيوية الميكروبية",
-    "course_code": "BIOC 304",
-    "credit_hours": "2",
-    "prerequisites": "MICR 102"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "علم النبات",
-    "course_name": "الإجهاد ومضادات الأكسدة في النبات",
-    "course_code": "BOTA 334",
-    "credit_hours": "2",
-    "prerequisites": "BOTA 102"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "التغذية",
-    "course_code": "BIOC 312",
-    "credit_hours": "2",
-    "prerequisites": "BIOC 202"
+    "prerequisites": "ENTM 228"
   },
   {
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الأصباغ والأطياف العضوية]",
+    "course_name": "كيمياء عضوية (الأصباغ والأطياف العضوية)",
     "course_code": "CHEM 360",
     "credit_hours": "3",
     "prerequisites": "-"
@@ -462,16 +487,61 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء تحليلية [التحليل بالأجهزة]",
+    "course_name": "كيمياء تحليلية (التحليل بالأجهزة)",
     "course_code": "CHEM 380",
     "credit_hours": "3",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "التنوع الحيوي والمحميات",
+    "course_code": "ENTM 314",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "أسس علم الأجنة للحشرات",
+    "course_code": "ENTM 326",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "تكنولوجيا مزارع الخلايا الحشرية",
+    "course_code": "ENTM 328",
+    "credit_hours": "1",
     "prerequisites": "-"
   },
 
   // ========== المستوى الرابع ==========
   {
     "level": "4",
-    "type": "mandatory",
+    "type": "elective",
+    "department": "متطلب جامعة",
+    "course_name": "مهارات العمل",
+    "course_code": "SKIL 401",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "متطلب جامعة",
+    "course_name": "ثقافة بيئية",
+    "course_code": "ENCU 401",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
     "department": "متطلب جامعة",
     "course_name": "نشأة وتاريخ وتطور العلوم",
     "course_code": "GHDS 401",
@@ -480,27 +550,27 @@ const List<Map<String, String>> _courses = [
   },
   {
     "level": "4",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في بيولوجيا الخلايا الجذعية",
-    "course_code": "BIOC 407",
-    "credit_hours": "1",
-    "prerequisites": "-"
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "البيولوجيا الجزيئية والهندسة الوراثية للحشرات",
+    "course_code": "ENTM 419",
+    "credit_hours": "3",
+    "prerequisites": "ENTM 320"
   },
   {
     "level": "4",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "إعتلالات وراثية",
-    "course_code": "BIOC 411",
-    "credit_hours": "1",
-    "prerequisites": "-"
+    "type": "mandatory",
+    "department": "علم الحشرات",
+    "course_name": "أساسيات علم وظائف أعضاء الحشرات",
+    "course_code": "ENTM 421",
+    "credit_hours": "5",
+    "prerequisites": "ENTM 254"
   },
   {
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [ميكانيكية تفاعلات + تربينات]",
+    "course_name": "كيمياء عضوية (ميكانيكية تفاعلات + تربينات)",
     "course_code": "CHEM 461",
     "credit_hours": "4",
     "prerequisites": "-"
@@ -518,8 +588,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name":
-        "كيمياء فيزيائية [الديناميكا الحرارية للمحاليل الإلكتروليتية]",
+    "course_name": "كيمياء فيزيائية (الديناميكا حرارية للمحاليل الإلكتروليتية)",
     "course_code": "CHEM 491",
     "credit_hours": "1",
     "prerequisites": "-"
@@ -527,8 +596,35 @@ const List<Map<String, String>> _courses = [
   {
     "level": "4",
     "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "سلوك الحشرات المتقدم",
+    "course_code": "ENTM 405",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "المناعة في الحشرات",
+    "course_code": "ENTM 411",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "وراثة العشائر",
+    "course_code": "ENTM 413",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [بيرول + نيوكلويدات]",
+    "course_name": "كيمياء عضوية (بيرول + نيوكلويدات)",
     "course_code": "CHEM 463",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -546,52 +642,43 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء الأسمنت (1) + قاعدة الصنف]",
+    "course_name": "كيمياء فيزيائية (كيمياء الأسمنت (1) + قاعدة الصنف)",
     "course_code": "CHEM 493",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "4",
-    "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا أورام وبيولوجيا بيئية",
-    "course_code": "BIOC 402",
-    "credit_hours": "4",
-    "prerequisites": "BIOC 303"
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "الغدد والإفرازات في الحشرات",
+    "course_code": "ENTM 416",
+    "credit_hours": "1",
+    "prerequisites": "-"
   },
   {
     "level": "4",
-    "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في البروتوم والجينوم",
-    "course_code": "BIOC 418",
+    "type": "elective",
+    "department": "علم الحشرات",
+    "course_name": "أسس التصنيف العددي",
+    "course_code": "ENTM 424",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية الأمراض",
-    "course_code": "BIOC 412",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "4",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في المعلوماتية الحيوية",
-    "course_code": "BIOC 416",
-    "credit_hours": "2",
+    "department": "علم الحشرات",
+    "course_name": "أسس البيوتكنولوجي",
+    "course_code": "ENTM 430",
+    "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [غير متجانسة + قلويدات]",
+    "course_name": "كيمياء عضوية (غير متجانسة + قلويدات)",
     "course_code": "CHEM 460",
     "credit_hours": "4",
     "prerequisites": "-"
@@ -600,7 +687,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء ضوئية]",
+    "course_name": "كيمياء فيزيائية (كيمياء ضوئية)",
     "course_code": "CHEM 490",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -609,49 +696,22 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء غير عضوية [سلاسل + المتراكبات العنقودية]",
+    "course_name": "كيمياء غير عضوية (سلاسل + المتراكبات العنقودية)",
     "course_code": "CHEM 470",
     "credit_hours": "1",
-    "prerequisites": "-"
-  },
-  {
-    "level": "4",
-    "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [ضوئية + ليبيدات]",
-    "course_code": "CHEM 462",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "4",
-    "type": "elective",
-    "department": "الكيمياء",
-    "course_name":
-        "كيمياء فيزيائية [كيمياء السطوح (2) + كيمياء الحفز التطبيقية]",
-    "course_code": "CHEM 492",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "4",
-    "type": "elective",
-    "department": "الكيمياء",
-    "course_name": "كيمياء تحليلية تطبيقية",
-    "course_code": "CHEM 480",
-    "credit_hours": "2",
     "prerequisites": "-"
   }
 ];
 
-class BiochemChemCoursesScreen extends StatefulWidget {
-  const BiochemChemCoursesScreen({super.key});
+class EntomologyChemCoursesScreen extends StatefulWidget {
+  const EntomologyChemCoursesScreen({super.key});
   @override
-  State<BiochemChemCoursesScreen> createState() =>
-      _BiochemChemCoursesScreenState();
+  State<EntomologyChemCoursesScreen> createState() =>
+      _EntomologyChemCoursesScreenState();
 }
 
-class _BiochemChemCoursesScreenState extends State<BiochemChemCoursesScreen>
+class _EntomologyChemCoursesScreenState
+    extends State<EntomologyChemCoursesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String _filterType = 'all';
@@ -691,7 +751,7 @@ class _BiochemChemCoursesScreenState extends State<BiochemChemCoursesScreen>
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
       appBar: AppBar(
-        title: const Text('كيمياء حيوية – كيمياء (مزدوج)',
+        title: const Text('علم الحشرات والكيمياء – مزدوج',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
         centerTitle: true,
         backgroundColor: const Color(0xFF1E3A5F),
@@ -851,24 +911,22 @@ class _CourseCard extends StatelessWidget {
 
   Color get _accentColor {
     final dept = course['department'] ?? '';
-    if (dept.contains('الكيمياء الحيوية') || dept.contains('BIOC')) {
-      return const Color(0xFF065F46);
-    }
-    if (dept.contains('الكيمياء') || dept.contains('CHEM')) {
-      return const Color(0xFF7C3AED);
-    }
     if (dept.contains('الحشرات') || dept.contains('ENTM')) {
       return const Color(0xFF1E3A5F);
     }
     if (dept.contains('الحيوان') || dept.contains('ZOOL')) {
       return const Color(0xFF059669);
     }
+    if (dept.contains('الكيمياء الحيوية') || dept.contains('BIOC')) {
+      return const Color(0xFF065F46);
+    }
+    if (dept.contains('الكيمياء') || dept.contains('CHEM')) {
+      return const Color(0xFF7C3AED);
+    }
     if (dept.contains('النبات') || dept.contains('BOTA')) {
       return const Color(0xFF16A34A);
     }
-    if (dept.contains('فيزياء') ||
-        dept.contains('PHYS') ||
-        dept.contains('BIOP')) {
+    if (dept.contains('فيزياء') || dept.contains('PHYS')) {
       return const Color(0xFFDC2626);
     }
     if (dept.contains('رياضيات') || dept.contains('MATH')) {
@@ -896,6 +954,7 @@ class _CourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        border: Border(right: BorderSide(color: _accentColor, width: 4)),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -903,122 +962,77 @@ class _CourseCard extends StatelessWidget {
               offset: const Offset(0, 2))
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(width: 6, color: _accentColor),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(course['course_code'] ?? '',
-                                style: TextStyle(
-                                    color: _accentColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                    letterSpacing: 0.5)),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: typeColor.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(typeLabel,
-                                style: TextStyle(
-                                    color: typeColor,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(course['course_name'] ?? '',
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E293B))),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          _InfoTag(
-                              icon: Icons.access_time_filled_rounded,
-                              label: '${course['credit_hours']} ساعة',
-                              color: Colors.blueGrey),
-                          const SizedBox(width: 12),
-                          _InfoTag(
-                              icon: Icons.account_balance_rounded,
-                              label: course['department'] ?? '',
-                              color: Colors.blueGrey),
-                        ],
-                      ),
-                      if (hasPrereq) ...[
-                        const SizedBox(height: 12),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.amber.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Colors.amber.withValues(alpha: 0.2))),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.info_outline,
-                                  size: 14, color: Colors.amber),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                    'المتطلبات: ${course['prerequisites']}',
-                                    style: const TextStyle(
-                                        fontSize: 11,
-                                        color: Color(0xFF92400E),
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: typeColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
               ),
-            ],
-          ),
-        ),
+              child: Text(typeLabel,
+                  style: TextStyle(
+                      color: typeColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold)),
+            ),
+            Text(course['course_code'] ?? '',
+                style: TextStyle(
+                    color: _accentColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5)),
+          ]),
+          const SizedBox(height: 10),
+          Text(course['course_name'] ?? '',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF111827))),
+          const SizedBox(height: 6),
+          Text(course['department'] ?? '',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
+          const SizedBox(height: 12),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            if (hasPrereq)
+              Flexible(
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                const Icon(Icons.link, size: 14, color: Color(0xFF9CA3AF)),
+                const SizedBox(width: 4),
+                Flexible(
+                    child: Text(course['prerequisites'] ?? '',
+                        style: const TextStyle(
+                            fontSize: 11, color: Color(0xFF9CA3AF)),
+                        overflow: TextOverflow.ellipsis)),
+              ]))
+            else
+              const SizedBox.shrink(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(children: [
+                const Icon(Icons.access_time,
+                    size: 13, color: Color(0xFF64748B)),
+                const SizedBox(width: 4),
+                Text('${course['credit_hours']} ساعة',
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF374151),
+                        fontWeight: FontWeight.w600)),
+              ]),
+            ),
+          ]),
+        ]),
       ),
-    );
-  }
-}
-
-class _InfoTag extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-  const _InfoTag(
-      {required this.icon, required this.label, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: color.withValues(alpha: 0.5)),
-        const SizedBox(width: 4),
-        Text(label,
-            style: TextStyle(
-                fontSize: 12,
-                color: color.withValues(alpha: 0.8),
-                fontWeight: FontWeight.w500)),
-      ],
     );
   }
 }
@@ -1040,16 +1054,17 @@ class _Chip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
         decoration: BoxDecoration(
-          color: selected ? color : Colors.white.withValues(alpha: 0.1),
+          color: selected ? color : Colors.white.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: selected ? color : Colors.white30),
         ),
         child: Text(label,
             style: TextStyle(
                 color: selected ? Colors.white : Colors.white70,
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.bold : FontWeight.normal)),
+                fontWeight: FontWeight.w600,
+                fontSize: 13)),
       ),
     );
   }

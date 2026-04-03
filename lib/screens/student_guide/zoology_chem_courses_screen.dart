@@ -23,19 +23,19 @@ const List<Map<String, String>> _courses = [
   {
     "level": "1",
     "type": "mandatory",
-    "department": "متطلب جامعة",
-    "course_name": "لغة إنجليزية (1)",
-    "course_code": "ENGL 102",
-    "credit_hours": "2",
+    "department": "الرياضيات",
+    "course_name": "تفاضل وتكامل (1)",
+    "course_code": "MATH 101",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
     "level": "1",
     "type": "mandatory",
-    "department": "متطلب جامعة",
-    "course_name": "مدخل في الحاسب الآلي",
-    "course_code": "INCO 102",
-    "credit_hours": "1",
+    "department": "الفيزياء",
+    "course_name": "فيزياء عامة (1)",
+    "course_code": "PHYS 101",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
@@ -71,6 +71,24 @@ const List<Map<String, String>> _courses = [
     "department": "علم الحيوان",
     "course_name": "علم الحيوان (1)",
     "course_code": "ZOOL 101",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "1",
+    "type": "mandatory",
+    "department": "متطلب جامعة",
+    "course_name": "لغة إنجليزية (1)",
+    "course_code": "ENGL 102",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "1",
+    "type": "mandatory",
+    "department": "متطلب جامعة",
+    "course_name": "مدخل في الحاسب الآلي",
+    "course_code": "INCO 102",
     "credit_hours": "1",
     "prerequisites": "-"
   },
@@ -107,7 +125,7 @@ const List<Map<String, String>> _courses = [
     "department": "علم الحيوان",
     "course_name": "علم الحيوان (2)",
     "course_code": "ZOOL 102",
-    "credit_hours": "2",
+    "credit_hours": "3",
     "prerequisites": "-"
   },
   {
@@ -116,7 +134,7 @@ const List<Map<String, String>> _courses = [
     "department": "الميكروبيولوجيا",
     "course_name": "ميكروبيولوجي",
     "course_code": "MICR 102",
-    "credit_hours": "1",
+    "credit_hours": "2",
     "prerequisites": "-"
   },
   {
@@ -142,11 +160,56 @@ const List<Map<String, String>> _courses = [
   {
     "level": "2",
     "type": "mandatory",
-    "department": "الميكروبيولوجيا",
-    "course_name": "فيروسات وبكتيريا",
-    "course_code": "MICR 295",
+    "department": "علم الحيوان",
+    "course_name": "مقدمة في علم اللافقاريات",
+    "course_code": "ZOOL 207",
     "credit_hours": "3",
-    "prerequisites": "MICR 102"
+    "prerequisites": "ZOOL 102"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "مقدمة في علم الوراثة",
+    "course_code": "ZOOL 209",
+    "credit_hours": "1",
+    "prerequisites": "ZOOL 102"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "فزيولوجيا الخلية",
+    "course_code": "ZOOL 205",
+    "credit_hours": "1",
+    "prerequisites": "ZOOL 101"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "الإحصاء",
+    "course_name": "مفاهيم إحصائية",
+    "course_code": "STAT 209",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "الفيزياء الحيوية",
+    "course_name": "أساسيات الفيزياء الحيوية",
+    "course_code": "BIOP 213",
+    "credit_hours": "2",
+    "prerequisites": "PHYS 101"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "الجيولوجيا",
+    "course_name": "مقدمة في الجيولوجيا",
+    "course_code": "GEOL 255",
+    "credit_hours": "2",
+    "prerequisites": "-"
   },
   {
     "level": "2",
@@ -172,42 +235,51 @@ const List<Map<String, String>> _courses = [
     "department": "الكيمياء",
     "course_name": "أساسيات الكيمياء التحليلية",
     "course_code": "CHEM 281",
-    "credit_hours": "1",
-    "prerequisites": "-"
-  },
-  {
-    "level": "2",
-    "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات أيض الكربوهيدرات والدهون",
-    "course_code": "BIOC 210",
-    "credit_hours": "4",
-    "prerequisites": "-"
-  },
-  {
-    "level": "2",
-    "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية صناعية",
-    "course_code": "BIOC 204",
     "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "2",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية نباتية",
-    "course_code": "BIOC 206",
-    "credit_hours": "2",
-    "prerequisites": "-"
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "مقدمة في الحبليات والتطور العضوي",
+    "course_code": "ZOOL 212",
+    "credit_hours": "3",
+    "prerequisites": "ZOOL 101"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "كيمياء الأنسجة والتقنية المجهرية",
+    "course_code": "ZOOL 208",
+    "credit_hours": "3",
+    "prerequisites": "ZOOL 102"
   },
   {
     "level": "2",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات البيولوجيا الإشعاعية",
-    "course_code": "BIOC 208",
+    "department": "علم الحيوان",
+    "course_name": "اللافقاريات الطبية",
+    "course_code": "ZOOL 216",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 102"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "الميكروبيولوجيا",
+    "course_name": "ميكروبيولوجيا طبية",
+    "course_code": "MICR 288",
+    "credit_hours": "2",
+    "prerequisites": "MICR 102"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "الجغرافيا الحيوية",
+    "course_code": "ZOOL 220",
     "credit_hours": "2",
     "prerequisites": "-"
   },
@@ -224,8 +296,26 @@ const List<Map<String, String>> _courses = [
     "level": "2",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [ديناميكا حرارية + كيمياء كهربية (1)]",
+    "course_name": "كيمياء فيزيائية (ديناميكا حرارية 1 + كيمياء كهربية)",
     "course_code": "CHEM 290",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "mandatory",
+    "department": "الكيمياء",
+    "course_name": "كيمياء فيزيائية (كيمياء حركية)",
+    "course_code": "CHEM 292",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "2",
+    "type": "elective",
+    "department": "الكيمياء",
+    "course_name": "كيمياء عضوية (البترول والكيمياء البيئية)",
+    "course_code": "CHEM 262",
     "credit_hours": "2",
     "prerequisites": "-"
   },
@@ -234,7 +324,7 @@ const List<Map<String, String>> _courses = [
     "type": "elective",
     "department": "الكيمياء",
     "course_name":
-        "كيمياء فيزيائية [النظرية الحركية للغازات + الخواص الفيزيائية والتركيب الجزيئي]",
+        "كيمياء فيزيائية (النظرية الحركية للغازات + الخواص الفيزيائية والتركيب الجزيئي)",
     "course_code": "CHEM 294",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -243,7 +333,7 @@ const List<Map<String, String>> _courses = [
     "level": "2",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [سترويدات]",
+    "course_name": "كيمياء عضوية (سترويدات)",
     "course_code": "CHEM 264",
     "credit_hours": "1",
     "prerequisites": "-"
@@ -271,29 +361,38 @@ const List<Map<String, String>> _courses = [
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في السوائل البيولوجية",
-    "course_code": "BIOC 309",
+    "department": "علم الحيوان",
+    "course_name": "الخلية والبيولوجيا الجزيئية",
+    "course_code": "ZOOL 305",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ZOOL 102"
   },
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا جزيئية (1)",
-    "course_code": "BIOC 303",
+    "department": "علم الحيوان",
+    "course_name": "علم البيئة الحيوانية",
+    "course_code": "ZOOL 303",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ZOOL 212"
   },
   {
     "level": "3",
     "type": "elective",
-    "department": "علم النبات",
-    "course_name": "زراعة أنسجة نباتية",
-    "course_code": "BOTA 333",
+    "department": "علم الحيوان",
+    "course_name": "بيولوجيا الحماية",
+    "course_code": "ZOOL 301",
     "credit_hours": "2",
     "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "وراثة السرطان",
+    "course_code": "ZOOL 307",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 204"
   },
   {
     "level": "3",
@@ -306,27 +405,9 @@ const List<Map<String, String>> _courses = [
   },
   {
     "level": "3",
-    "type": "elective",
-    "department": "علم النبات",
-    "course_name": "النباتات الطبية والأروماتية والاقتصادية",
-    "course_code": "BOTA 335",
-    "credit_hours": "2",
-    "prerequisites": "BOTA 101"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا الإشعاع",
-    "course_code": "BIOC 307",
-    "credit_hours": "2",
-    "prerequisites": "-"
-  },
-  {
-    "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الكيمياء الفراغية والسكريات]",
+    "course_name": "كيمياء عضوية (الكيمياء الفراغية والسكريات)",
     "course_code": "CHEM 361",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -335,7 +416,7 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء غير عضوية [كيمياء تناسقية]",
+    "course_name": "كيمياء غير عضوية (كيمياء تناسقية)",
     "course_code": "CHEM 371",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -345,7 +426,7 @@ const List<Map<String, String>> _courses = [
     "type": "mandatory",
     "department": "الكيمياء",
     "course_name":
-        "كيمياء فيزيائية [كيمياء السطوح والحفز والخواص الطبيعية للبلمرات 1]",
+        "كيمياء فيزيائية (كيمياء السطوح والحفز والخواص الطبيعية للبلمرات)",
     "course_code": "CHEM 391",
     "credit_hours": "3",
     "prerequisites": "-"
@@ -354,7 +435,7 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء كهربية 2]",
+    "course_name": "كيمياء فيزيائية (كيمياء كهربية 2)",
     "course_code": "CHEM 393",
     "credit_hours": "1",
     "prerequisites": "-"
@@ -363,7 +444,7 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الأحماض الأمينية والأنثوسيانيات]",
+    "course_name": "كيمياء عضوية (الأحماض الأمينية والأنثوسيانيات)",
     "course_code": "CHEM 363",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -389,7 +470,7 @@ const List<Map<String, String>> _courses = [
   {
     "level": "3",
     "type": "mandatory",
-    "department": "متطلب جامعة",
+    "department": "متطلب كلية",
     "course_name": "أخلاقيات البحث العلمي",
     "course_code": "ETHR 302",
     "credit_hours": "1",
@@ -398,62 +479,44 @@ const List<Map<String, String>> _courses = [
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "أساسيات أيض الأحماض النووية",
-    "course_code": "BIOC 314",
-    "credit_hours": "2",
-    "prerequisites": "BIOC 201"
+    "department": "علم الحيوان",
+    "course_name": "علم فزيولوجي (1)",
+    "course_code": "ZOOL 322",
+    "credit_hours": "4",
+    "prerequisites": "ZOOL 101"
   },
   {
     "level": "3",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "علم المناعة",
-    "course_code": "BIOC 306",
+    "department": "علم الحيوان",
+    "course_name": "لا فقاريات متقدم وعلم الطفيليات",
+    "course_code": "ZOOL 328",
     "credit_hours": "3",
-    "prerequisites": "BIOC 201"
+    "prerequisites": "ZOOL 201"
   },
   {
     "level": "3",
-    "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "هرمونات",
-    "course_code": "BIOC 308",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "الحيوان الاقتصادي",
+    "course_code": "ZOOL 310",
     "credit_hours": "2",
-    "prerequisites": "BIOC 201 OR 202"
+    "prerequisites": "ZOOL 207, ZOOL 212"
   },
   {
     "level": "3",
     "type": "elective",
     "department": "الكيمياء الحيوية",
-    "course_name": "الكيمياء الحيوية الميكروبية",
-    "course_code": "BIOC 304",
+    "course_name": "مقدمة في التكنولوجيا الحيوية",
+    "course_code": "BIOC 322",
     "credit_hours": "2",
-    "prerequisites": "MICR 102"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "علم النبات",
-    "course_name": "الإجهاد ومضادات الأكسدة في النبات",
-    "course_code": "BOTA 334",
-    "credit_hours": "2",
-    "prerequisites": "BOTA 102"
-  },
-  {
-    "level": "3",
-    "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "التغذية",
-    "course_code": "BIOC 312",
-    "credit_hours": "2",
-    "prerequisites": "BIOC 202"
+    "prerequisites": "-"
   },
   {
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [الأصباغ والأطياف العضوية]",
+    "course_name": "كيمياء عضوية (الأصباغ والأطياف العضوية)",
     "course_code": "CHEM 360",
     "credit_hours": "3",
     "prerequisites": "-"
@@ -462,45 +525,90 @@ const List<Map<String, String>> _courses = [
     "level": "3",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء تحليلية [التحليل بالأجهزة]",
+    "course_name": "كيمياء تحليلية (التحليل بالأجهزة)",
     "course_code": "CHEM 380",
     "credit_hours": "3",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "الكيمياء",
+    "course_name": "كيمياء عضوية (الفيتامينات والكيمياء العلاجية)",
+    "course_code": "CHEM 362",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "الكيمياء",
+    "course_name": "كيمياء غير عضوية (المركبات الفلزعضوية)",
+    "course_code": "CHEM 370",
+    "credit_hours": "2",
+    "prerequisites": "-"
+  },
+  {
+    "level": "3",
+    "type": "elective",
+    "department": "الكيمياء",
+    "course_name": "الكيمياء الحيوية الفيزيائية",
+    "course_code": "CHEM 390",
+    "credit_hours": "2",
     "prerequisites": "-"
   },
 
   // ========== المستوى الرابع ==========
   {
     "level": "4",
-    "type": "mandatory",
-    "department": "متطلب جامعة",
-    "course_name": "نشأة وتاريخ وتطور العلوم",
-    "course_code": "GHDS 401",
+    "type": "elective",
+    "department": "متطلب جامعة (اختياري)",
+    "course_name": "مهارات العمل",
+    "course_code": "SKIL 401",
     "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في بيولوجيا الخلايا الجذعية",
-    "course_code": "BIOC 407",
-    "credit_hours": "1",
+    "department": "علم الحيوان",
+    "course_name": "علم البيولوجيا الإشعاعية",
+    "course_code": "ZOOL 423",
+    "credit_hours": "2",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "إعتلالات وراثية",
-    "course_code": "BIOC 411",
-    "credit_hours": "1",
+    "department": "علم الحيوان",
+    "course_name": "بيولوجيا الأورام",
+    "course_code": "ZOOL 415",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 305"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "علم السموم والتلوث البيئي",
+    "course_code": "ZOOL 417",
+    "credit_hours": "2",
     "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "الجينوم والبروتيوم",
+    "course_code": "ZOOL 427",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 305"
   },
   {
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [ميكانيكية تفاعلات + تربينات]",
+    "course_name": "كيمياء عضوية (ميكانيكية تفاعلات + تربينات)",
     "course_code": "CHEM 461",
     "credit_hours": "4",
     "prerequisites": "-"
@@ -519,7 +627,7 @@ const List<Map<String, String>> _courses = [
     "type": "mandatory",
     "department": "الكيمياء",
     "course_name":
-        "كيمياء فيزيائية [الديناميكا الحرارية للمحاليل الإلكتروليتية]",
+        "كيمياء فيزيائية (الديناميكا الحرارية للمحاليل الإلكتروليتية)",
     "course_code": "CHEM 491",
     "credit_hours": "1",
     "prerequisites": "-"
@@ -528,7 +636,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [بيرول + نيوكلويدات]",
+    "course_name": "كيمياء عضوية (بيرول + نيوكلويدات)",
     "course_code": "CHEM 463",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -546,7 +654,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء الأسمنت (1) + قاعدة الصنف]",
+    "course_name": "كيمياء فيزيائية (كيمياء الأسمنت (1) + قاعدة الصنف)",
     "course_code": "CHEM 493",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -554,44 +662,89 @@ const List<Map<String, String>> _courses = [
   {
     "level": "4",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "بيولوجيا أورام وبيولوجيا بيئية",
-    "course_code": "BIOC 402",
-    "credit_hours": "4",
-    "prerequisites": "BIOC 303"
+    "department": "علم الحيوان",
+    "course_name": "علم الأنسجة",
+    "course_code": "ZOOL 406",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 208"
   },
   {
     "level": "4",
     "type": "mandatory",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في البروتوم والجينوم",
-    "course_code": "BIOC 418",
+    "department": "علم الحيوان",
+    "course_name": "أساسيات علم بيولوجيا التكوين",
+    "course_code": "ZOOL 410",
+    "credit_hours": "3",
+    "prerequisites": "ZOOL 212"
+  },
+  {
+    "level": "4",
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "سلوك الحيوان",
+    "course_code": "ZOOL 416",
+    "credit_hours": "1",
+    "prerequisites": "-"
+  },
+  {
+    "level": "4",
+    "type": "mandatory",
+    "department": "علم الحيوان",
+    "course_name": "مقدمة في علم الأوليات",
+    "course_code": "ZOOL 430",
     "credit_hours": "2",
+    "prerequisites": "ZOOL 102"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "الحساسية وأمراض المناعة الذاتية",
+    "course_code": "ZOOL 428",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 322"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "الهندسة الوراثية",
+    "course_code": "ZOOL 414",
+    "credit_hours": "2",
+    "prerequisites": "ZOOL 209"
+  },
+  {
+    "level": "4",
+    "type": "elective",
+    "department": "علم الحيوان",
+    "course_name": "توجهات حديثة في التصنيف",
+    "course_code": "ZOOL 422",
+    "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "كيمياء حيوية الأمراض",
-    "course_code": "BIOC 412",
+    "department": "علم الحيوان",
+    "course_name": "أساسيات علم التشريح المقارن",
+    "course_code": "ZOOL 424",
     "credit_hours": "2",
-    "prerequisites": "-"
+    "prerequisites": "ZOOL 212"
   },
   {
     "level": "4",
     "type": "elective",
-    "department": "الكيمياء الحيوية",
-    "course_name": "مقدمة في المعلوماتية الحيوية",
-    "course_code": "BIOC 416",
-    "credit_hours": "2",
+    "department": "علم الحيوان",
+    "course_name": "علم الأوبئة الطفيلية ومكافحتها",
+    "course_code": "ZOOL 418",
+    "credit_hours": "1",
     "prerequisites": "-"
   },
   {
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [غير متجانسة + قلويدات]",
+    "course_name": "كيمياء عضوية (غير متجانسة + قلويدات)",
     "course_code": "CHEM 460",
     "credit_hours": "4",
     "prerequisites": "-"
@@ -600,7 +753,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء فيزيائية [كيمياء ضوئية]",
+    "course_name": "كيمياء فيزيائية (كيمياء ضوئية)",
     "course_code": "CHEM 490",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -609,7 +762,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "mandatory",
     "department": "الكيمياء",
-    "course_name": "كيمياء غير عضوية [سلاسل + المتراكبات العنقودية]",
+    "course_name": "كيمياء غير عضوية (سلاسل + المتراكبات العنقودية)",
     "course_code": "CHEM 470",
     "credit_hours": "1",
     "prerequisites": "-"
@@ -618,7 +771,7 @@ const List<Map<String, String>> _courses = [
     "level": "4",
     "type": "elective",
     "department": "الكيمياء",
-    "course_name": "كيمياء عضوية [ضوئية + ليبيدات]",
+    "course_name": "كيمياء عضوية (ضوئية + ليبيدات)",
     "course_code": "CHEM 462",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -628,7 +781,7 @@ const List<Map<String, String>> _courses = [
     "type": "elective",
     "department": "الكيمياء",
     "course_name":
-        "كيمياء فيزيائية [كيمياء السطوح (2) + كيمياء الحفز التطبيقية]",
+        "كيمياء فيزيائية (كيمياء السطوح (2) + كيمياء الحفز التطبيقية)",
     "course_code": "CHEM 492",
     "credit_hours": "2",
     "prerequisites": "-"
@@ -641,17 +794,17 @@ const List<Map<String, String>> _courses = [
     "course_code": "CHEM 480",
     "credit_hours": "2",
     "prerequisites": "-"
-  }
+  },
 ];
 
-class BiochemChemCoursesScreen extends StatefulWidget {
-  const BiochemChemCoursesScreen({super.key});
+class ZoologyChemCoursesScreen extends StatefulWidget {
+  const ZoologyChemCoursesScreen({super.key});
   @override
-  State<BiochemChemCoursesScreen> createState() =>
-      _BiochemChemCoursesScreenState();
+  State<ZoologyChemCoursesScreen> createState() =>
+      _ZoologyChemCoursesScreenState();
 }
 
-class _BiochemChemCoursesScreenState extends State<BiochemChemCoursesScreen>
+class _ZoologyChemCoursesScreenState extends State<ZoologyChemCoursesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String _filterType = 'all';
@@ -691,7 +844,7 @@ class _BiochemChemCoursesScreenState extends State<BiochemChemCoursesScreen>
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
       appBar: AppBar(
-        title: const Text('كيمياء حيوية – كيمياء (مزدوج)',
+        title: const Text('علم الحيوان - كيمياء – مزدوج',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
         centerTitle: true,
         backgroundColor: const Color(0xFF1E3A5F),
@@ -851,24 +1004,22 @@ class _CourseCard extends StatelessWidget {
 
   Color get _accentColor {
     final dept = course['department'] ?? '';
+    if (dept.contains('الحيوان') || dept.contains('ZOOL')) {
+      return const Color(0xFF1E3A5F);
+    }
     if (dept.contains('الكيمياء الحيوية') || dept.contains('BIOC')) {
       return const Color(0xFF065F46);
     }
     if (dept.contains('الكيمياء') || dept.contains('CHEM')) {
       return const Color(0xFF7C3AED);
     }
-    if (dept.contains('الحشرات') || dept.contains('ENTM')) {
-      return const Color(0xFF1E3A5F);
-    }
-    if (dept.contains('الحيوان') || dept.contains('ZOOL')) {
+    if (dept.contains('النبات') || dept.contains('BOTA')) {
       return const Color(0xFF059669);
     }
-    if (dept.contains('النبات') || dept.contains('BOTA')) {
-      return const Color(0xFF16A34A);
+    if (dept.contains('الحشرات') || dept.contains('ENTM')) {
+      return const Color(0xFF92400E);
     }
-    if (dept.contains('فيزياء') ||
-        dept.contains('PHYS') ||
-        dept.contains('BIOP')) {
+    if (dept.contains('فيزياء') || dept.contains('PHYS')) {
       return const Color(0xFFDC2626);
     }
     if (dept.contains('رياضيات') || dept.contains('MATH')) {
@@ -876,6 +1027,9 @@ class _CourseCard extends StatelessWidget {
     }
     if (dept.contains('إحصاء') || dept.contains('STAT')) {
       return const Color(0xFF0284C7);
+    }
+    if (dept.contains('جيولوجيا') || dept.contains('GEOL')) {
+      return const Color(0xFF92400E);
     }
     if (dept.contains('ميكروبيولوجيا') || dept.contains('MICR')) {
       return const Color(0xFF6D28D9);
@@ -896,6 +1050,7 @@ class _CourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        border: Border(right: BorderSide(color: _accentColor, width: 4)),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -903,122 +1058,77 @@ class _CourseCard extends StatelessWidget {
               offset: const Offset(0, 2))
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(width: 6, color: _accentColor),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(course['course_code'] ?? '',
-                                style: TextStyle(
-                                    color: _accentColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                    letterSpacing: 0.5)),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: typeColor.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(typeLabel,
-                                style: TextStyle(
-                                    color: typeColor,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(course['course_name'] ?? '',
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E293B))),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          _InfoTag(
-                              icon: Icons.access_time_filled_rounded,
-                              label: '${course['credit_hours']} ساعة',
-                              color: Colors.blueGrey),
-                          const SizedBox(width: 12),
-                          _InfoTag(
-                              icon: Icons.account_balance_rounded,
-                              label: course['department'] ?? '',
-                              color: Colors.blueGrey),
-                        ],
-                      ),
-                      if (hasPrereq) ...[
-                        const SizedBox(height: 12),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.amber.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Colors.amber.withValues(alpha: 0.2))),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.info_outline,
-                                  size: 14, color: Colors.amber),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                    'المتطلبات: ${course['prerequisites']}',
-                                    style: const TextStyle(
-                                        fontSize: 11,
-                                        color: Color(0xFF92400E),
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: typeColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
               ),
-            ],
-          ),
-        ),
+              child: Text(typeLabel,
+                  style: TextStyle(
+                      color: typeColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold)),
+            ),
+            Text(course['course_code'] ?? '',
+                style: TextStyle(
+                    color: _accentColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5)),
+          ]),
+          const SizedBox(height: 10),
+          Text(course['course_name'] ?? '',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF111827))),
+          const SizedBox(height: 6),
+          Text(course['department'] ?? '',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
+          const SizedBox(height: 12),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            if (hasPrereq)
+              Flexible(
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                const Icon(Icons.link, size: 14, color: Color(0xFF9CA3AF)),
+                const SizedBox(width: 4),
+                Flexible(
+                    child: Text(course['prerequisites'] ?? '',
+                        style: const TextStyle(
+                            fontSize: 11, color: Color(0xFF9CA3AF)),
+                        overflow: TextOverflow.ellipsis)),
+              ]))
+            else
+              const SizedBox.shrink(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(children: [
+                const Icon(Icons.access_time,
+                    size: 13, color: Color(0xFF64748B)),
+                const SizedBox(width: 4),
+                Text('${course['credit_hours']} ساعة',
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF374151),
+                        fontWeight: FontWeight.w600)),
+              ]),
+            ),
+          ]),
+        ]),
       ),
-    );
-  }
-}
-
-class _InfoTag extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-  const _InfoTag(
-      {required this.icon, required this.label, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: color.withValues(alpha: 0.5)),
-        const SizedBox(width: 4),
-        Text(label,
-            style: TextStyle(
-                fontSize: 12,
-                color: color.withValues(alpha: 0.8),
-                fontWeight: FontWeight.w500)),
-      ],
     );
   }
 }
@@ -1040,16 +1150,17 @@ class _Chip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
         decoration: BoxDecoration(
-          color: selected ? color : Colors.white.withValues(alpha: 0.1),
+          color: selected ? color : Colors.white.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: selected ? color : Colors.white30),
         ),
         child: Text(label,
             style: TextStyle(
                 color: selected ? Colors.white : Colors.white70,
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.bold : FontWeight.normal)),
+                fontWeight: FontWeight.w600,
+                fontSize: 13)),
       ),
     );
   }

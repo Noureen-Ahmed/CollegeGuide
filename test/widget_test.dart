@@ -15,7 +15,8 @@ import 'package:student_dashboard_flutter/widgets/custom_status_bar.dart';
 
 void main() {
   group('Dashboard Shell Widget Tests', () {
-    testWidgets('Dashboard shell renders custom components', (WidgetTester tester) async {
+    testWidgets('Dashboard shell renders custom components',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -28,19 +29,21 @@ void main() {
 
       // Verify custom status bar is present
       expect(find.byType(CustomStatusBar), findsOneWidget);
-      
+
       // Verify custom header is present
       expect(find.byType(CustomHeader), findsOneWidget);
-      
+
       // Verify custom bottom navigation is present
       expect(find.byType(CustomBottomNavigation), findsOneWidget);
     });
 
-    testWidgets('Professor FAB shows in professor mode', (WidgetTester tester) async {
+    testWidgets('Professor FAB shows in professor mode',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            appModeControllerProvider.overrideWith((ref) => MockAppModeController(AppMode.professor)),
+            appModeControllerProvider.overrideWith(
+                (ref) => MockAppModeController(AppMode.professor)),
           ],
           child: const MaterialApp(
             home: DashboardShell(
@@ -54,11 +57,13 @@ void main() {
       expect(find.byIcon(Icons.add), findsOneWidget);
     });
 
-    testWidgets('Professor FAB does not show in student mode', (WidgetTester tester) async {
+    testWidgets('Professor FAB does not show in student mode',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            appModeControllerProvider.overrideWith((ref) => MockAppModeController(AppMode.student)),
+            appModeControllerProvider
+                .overrideWith((ref) => MockAppModeController(AppMode.student)),
           ],
           child: const MaterialApp(
             home: DashboardShell(
@@ -74,7 +79,8 @@ void main() {
   });
 
   group('Custom Bottom Navigation Tests', () {
-    testWidgets('Bottom navigation shows all tabs', (WidgetTester tester) async {
+    testWidgets('Bottom navigation shows all tabs',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -91,7 +97,8 @@ void main() {
       expect(find.text('Profile'), findsOneWidget);
     });
 
-    testWidgets('Home tab is highlighted when on home route', (WidgetTester tester) async {
+    testWidgets('Home tab is highlighted when on home route',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -103,16 +110,17 @@ void main() {
       // Find the home tab icon and text
       final homeIcon = find.byIcon(Icons.home);
       final homeText = find.text('Home');
-      
+
       expect(homeIcon, findsOneWidget);
       expect(homeText, findsOneWidget);
-      
+
       // Verify the icon is the filled version (active)
       final iconWidget = tester.widget<Icon>(homeIcon);
       expect(iconWidget.icon, equals(Icons.home));
     });
 
-    testWidgets('Tasks tab is highlighted when on tasks route', (WidgetTester tester) async {
+    testWidgets('Tasks tab is highlighted when on tasks route',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -124,10 +132,10 @@ void main() {
       // Find the tasks tab icon and text
       final tasksIcon = find.byIcon(Icons.task);
       final tasksText = find.text('Tasks');
-      
+
       expect(tasksIcon, findsOneWidget);
       expect(tasksText, findsOneWidget);
-      
+
       // Verify the icon is the filled version (active)
       final iconWidget = tester.widget<Icon>(tasksIcon);
       expect(iconWidget.icon, equals(Icons.task));
@@ -154,7 +162,7 @@ void main() {
       expect(find.byIcon(Icons.notifications_outlined), findsOneWidget);
     });
 
-    testWidgets('Notification badge shows when there are unread notifications', 
+    testWidgets('Notification badge shows when there are unread notifications',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
@@ -175,7 +183,8 @@ void main() {
   });
 
   group('Custom Status Bar Tests', () {
-    testWidgets('Status bar shows time and system icons', (WidgetTester tester) async {
+    testWidgets('Status bar shows time and system icons',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -186,7 +195,7 @@ void main() {
 
       // Verify time is displayed
       expect(find.text('9:41'), findsOneWidget);
-      
+
       // Verify system icons are present
       expect(find.byIcon(Icons.signal_cellular_alt_outlined), findsOneWidget);
       expect(find.text('📶'), findsOneWidget);
@@ -194,7 +203,8 @@ void main() {
   });
 
   group('Home Screen Tests', () {
-    testWidgets('Home screen renders announcement banner', (WidgetTester tester) async {
+    testWidgets('Home screen renders announcement banner',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -212,7 +222,8 @@ void main() {
       expect(find.byType(Container), findsWidgets);
     });
 
-    testWidgets('Home screen renders quick actions', (WidgetTester tester) async {
+    testWidgets('Home screen renders quick actions',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -254,7 +265,8 @@ void main() {
   });
 
   group('Notifications Screen Tests', () {
-    testWidgets('Notifications screen renders header', (WidgetTester tester) async {
+    testWidgets('Notifications screen renders header',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -269,7 +281,8 @@ void main() {
       expect(find.byIcon(Icons.arrow_back), findsOneWidget);
     });
 
-    testWidgets('Notifications screen shows unread count', (WidgetTester tester) async {
+    testWidgets('Notifications screen shows unread count',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           overrides: [
@@ -288,7 +301,7 @@ void main() {
       expect(find.textContaining('new'), findsOneWidget);
     });
 
-    testWidgets('Notifications screen shows empty state when no notifications', 
+    testWidgets('Notifications screen shows empty state when no notifications',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
@@ -306,14 +319,16 @@ void main() {
 
       // Verify empty state is shown
       expect(find.text('All caught up!'), findsOneWidget);
-      expect(find.text("You don't have any notifications right now"), findsOneWidget);
+      expect(find.text("You don't have any notifications right now"),
+          findsOneWidget);
     });
   });
 
   group('Tab Navigation Tests', () {
-    testWidgets('Tapping home tab navigates to home', (WidgetTester tester) async {
+    testWidgets('Tapping home tab navigates to home',
+        (WidgetTester tester) async {
       bool navigatedToHome = false;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           onGenerateRoute: (settings) {
@@ -331,7 +346,7 @@ void main() {
       // Find and tap the home tab
       final homeTab = find.text('Home');
       expect(homeTab, findsOneWidget);
-      
+
       await tester.tap(homeTab);
       await tester.pumpAndSettle();
 
@@ -339,7 +354,8 @@ void main() {
       expect(homeTab, findsOneWidget);
     });
 
-    testWidgets('Tapping tasks tab navigates to tasks', (WidgetTester tester) async {
+    testWidgets('Tapping tasks tab navigates to tasks',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -351,7 +367,7 @@ void main() {
       // Find and tap the tasks tab
       final tasksTab = find.text('Tasks');
       expect(tasksTab, findsOneWidget);
-      
+
       await tester.tap(tasksTab);
       await tester.pumpAndSettle();
 
@@ -364,8 +380,9 @@ void main() {
 // Mock AppModeController for testing
 class MockAppModeController extends AppModeController {
   final AppMode _initialMode;
-  
-  MockAppModeController(this._initialMode) : super(MockAuthRepository()) {
+
+  MockAppModeController(this._initialMode)
+      : super(MockAuthRepository() as Ref<Object?>) {
     state = _initialMode;
   }
 }
@@ -379,23 +396,29 @@ class MockAuthRepository implements AuthRepository {
   Future<Result<User>> updateUser(User user) async => Result.success(user);
 
   @override
-  Future<Result<User>> login(String email, String password, {bool rememberMe = false}) async {
+  Future<Result<User>> login(String email, String password,
+      {bool rememberMe = false}) async {
     return Result.failure(const AuthException('Mock login not implemented'));
   }
 
   @override
-  Future<Result<User>> register(String name, String email, String password, {bool rememberMe = false}) async {
-    return Result.failure(const AuthException('Mock registration not implemented'));
+  Future<Result<User>> register(String name, String email, String password,
+      {bool rememberMe = false}) async {
+    return Result.failure(
+        const AuthException('Mock registration not implemented'));
   }
 
   @override
-  Future<Result<void>> forgotPassword(String email) async => Result.success(null);
+  Future<Result<void>> forgotPassword(String email) async =>
+      Result.success(null);
 
   @override
   Future<Result<void>> logout() async => Result.success(null);
 
   @override
-  Future<Result<void>> changePassword(String currentPassword, String newPassword) async => Result.success(null);
+  Future<Result<void>> changePassword(
+          String currentPassword, String newPassword) async =>
+      Result.success(null);
 
   @override
   Stream<User?> watchUser() => Stream.value(null);
